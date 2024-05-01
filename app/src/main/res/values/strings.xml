@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">VitalityPro</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="login_welcome_text">Welcome! Let\'s customize \nVitalityPro for your goals.</string>
+    <string name="login_goals_start">Let\'s start with goals.</string>
+    <string name="login_goals_instruction">Select one that is most important to you.</string>
+    <string name="login_goals_activity_level_title">What is your baseline activity level?</string>
+    <string name="login_goals_activity_level_hint">Not inclduing workouts - we count that separately.</string>
+
+    <!--BUTTONS LOGIN-->
+    <string name="btnNext">Next</string>
+
+    <string name="btnLoseWeight">Lose weight</string>
+    <string name="btnMaintainWeight">Maintain Weight</string>
+    <string name="btnGainWeight">Gain Weight</string>
+    <!-- BUTTONS LOGIN -->
+
+    <!-- Activity Levels -->
+    <string-array name="activity_levels">
+        <item>Not Very Active</item>
+        <item>Lightly Active</item>
+        <item>Active</item>
+        <item>Very Active</item>
+    </string-array>
+
+    <string-array name="activity_descriptions">
+        <item>Spend most of the day sitting (e.g. bank teller, desk job)</item>
+        <item>Spend a good part of the day on your feet (e.g. teacher, salesman)</item>
+        <item>Spend a good part of the day doing some physical activity (e.g. waitress, mailman)</item>
+        <item>Spend most of the day doing heavy physical activity (e.g. bike messenger, carpenter)</item>
+    </string-array>
+    <!-- /Activity Levels -->
+
+
+</resources>
