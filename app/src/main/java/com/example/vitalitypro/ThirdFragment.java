@@ -127,14 +127,14 @@ public class ThirdFragment extends Fragment {
     }
 
     private void openFourthFragment() {
-        // Create an instance of the SecondFragment
+        // Create an instance of the FourthFragment
         FourthFragment fourthFragment = new FourthFragment();
 
         // Get the FragmentManager and start a FragmentTransaction
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        // Replace the current fragment with the SecondFragment
+        // Replace the current fragment with the FourthFragment
         fragmentTransaction.replace(R.id.frameLayout, fourthFragment);
 
         // Add the transaction to the back stack (optional)
