@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- custom_edit_text_background.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <!-- Define the border color and width when pressed -->
+            <stroke android:width="1dp" android:color="@color/btnPressed" />
+        </shape>
+    </item>
+    <item android:state_focused="true">
+        <shape>
+            <!-- Define the border color and width when focused -->
+            <stroke android:width="1dp" android:color="@color/btnPressed" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <!-- Default state without focus or press -->
+            <stroke android:width="1dp" android:color="@color/black" />
+        </shape>
+    </item>
+</selector>

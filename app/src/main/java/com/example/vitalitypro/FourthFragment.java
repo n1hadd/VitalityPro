@@ -138,7 +138,7 @@ public class FourthFragment extends Fragment {
 
                 //
                 Log.d(TAG, "btnNext clicked: Selected values: Gender: "+gender+" Age: "+age+" Country: "+country);
-                openFourthFragment();
+                openFifthFragment();
             }
         });
 
@@ -146,7 +146,7 @@ public class FourthFragment extends Fragment {
 
     }
 
-    private void openFourthFragment() {
+    private void openFifthFragment() {
         // Create an instance of the FifthFragment
         FifthFragment fifthFragment = new FifthFragment();
 
@@ -191,9 +191,14 @@ public class FourthFragment extends Fragment {
                     if (age < 18) {
                         // If the age is less than 18, show a specific error message
                         textInputLayoutAge.setError(getString(R.string.login_goals_edit_text_error1));
-                    } else {
-                        // If the age is valid, clear any error message
-                        textInputLayoutAge.setError(null);
+                    }
+                    else{
+                        if(age > 120){
+                            textInputLayoutAge.setError(getString(R.string.login_goals_edit_text_valid_value));
+                        }
+                        else{
+                            textInputLayoutAge.setError(null);
+                        }
                     }
                 }
             }

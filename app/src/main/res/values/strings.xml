@@ -17,6 +17,12 @@
     <string name="login_goals_edit_text_error1">You must be 18 or older to use VitalityPro.</string>
     <string name="login_goals_edit_text_valid_value">Please enter a valid value.</string>
     <string name="age_empty">Please enter your age.</string>
+    <string name="txtHeight">How tall are you?</string>
+    <string name="txtHeightHint">Your height in cm.</string>
+    <string name="txtWeight">How much do you weigh?</string>
+    <string name="edtTextWeightHint">Your weight in kg.</string>
+    <string name="txtGoalWeight">What\'s your goal weight?</string>
+    <string name="edtTextGoalWeightHint">Your goal weight in kg.</string>
 
     <!--BUTTONS LOGIN-->
     <string name="btnNext">Next</string>

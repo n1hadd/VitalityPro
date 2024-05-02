@@ -91,7 +91,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/custom_text_input_layout"
             android:inputType="number"
-            android:maxLength="2"/>
+            android:maxLength="3"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
