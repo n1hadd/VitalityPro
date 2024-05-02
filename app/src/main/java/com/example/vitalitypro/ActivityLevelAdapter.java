@@ -1,11 +1,14 @@
 package com.example.vitalitypro;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -14,11 +17,16 @@ public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdap
 
     private List<ActivityLevel> activityLevels;
     private int selectedItemPosition = RecyclerView.NO_POSITION;
-
-    private int selectedItem = -1; // Track the currently selected item
-
+    private OnItemClickListener listener;
     public ActivityLevelAdapter(List<ActivityLevel> activityLevels) {
         this.activityLevels = activityLevels;
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public int getSelectedItemPosition() {
+        return selectedItemPosition;
     }
 
     @NonNull
@@ -34,8 +42,36 @@ public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdap
         holder.txtTitle.setText(activityLevel.getTitle());
         holder.txtDescription.setText(activityLevel.getDescription());
 
-        // Set the item as selected if it matches the selected position
-        holder.itemView.setSelected(selectedItemPosition == position);
+        // Set the appearance based on the selection state
+        if (position == selectedItemPosition) {
+            // Selected state
+            holder.txtTitle.setTypeface(holder.txtTitle.getTypeface(), Typeface.BOLD);
+            holder.relativeLayout.setBackgroundResource(R.drawable.activity_level_selected_item);
+            holder.txtTitle.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.btnPressed));
+        } else {
+            // Default state
+            holder.txtTitle.setTypeface(null, Typeface.NORMAL);
+            holder.relativeLayout.setBackgroundResource(R.drawable.activity_level_cardview_border);
+            holder.txtTitle.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.black));
+        }
+
+        // Set click listener
+        holder.itemView.setOnClickListener(v -> {
+            // Toggle the selection state
+            if (selectedItemPosition == position) {
+                // Deselect the item
+                selectedItemPosition = RecyclerView.NO_POSITION;
+            } else {
+                // Select the item
+                selectedItemPosition = position;
+            }
+            // Notify the listener
+            if (listener != null) {
+                listener.onItemClick(selectedItemPosition);
+            }
+            // Refresh the view to reflect the selection change
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -50,14 +86,20 @@ public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView txtTitle;
-        TextView txtDescription;
+        private TextView txtTitle;
+        private TextView txtDescription;
+        private RelativeLayout relativeLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTitle = itemView.findViewById(R.id.txtTitle);
             txtDescription = itemView.findViewById(R.id.txtDescription);
+            relativeLayout = itemView.findViewById(R.id.relativeLayoutAL);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
 
