@@ -154,6 +154,8 @@ public class FourthFragment extends Fragment {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+
         // Replace the current fragment with the FifthFragment
         fragmentTransaction.replace(R.id.frameLayout, fifthFragment);
 
@@ -227,9 +229,6 @@ public class FourthFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Retrieve the selected country name
                 String selectedCountry = parent.getItemAtPosition(position).toString();
-
-                // Do something with the selected country
-                Toast.makeText(getContext(), "Selected country: " + selectedCountry, Toast.LENGTH_SHORT).show();
             }
 
             @Override

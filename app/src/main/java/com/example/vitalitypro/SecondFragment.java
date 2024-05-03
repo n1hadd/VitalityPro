@@ -132,7 +132,7 @@ public class SecondFragment extends Fragment {
         // Get the FragmentManager and start a FragmentTransaction
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
         // Replace the current fragment with the SecondFragment
         fragmentTransaction.replace(R.id.frameLayout, thirdFragment);
 

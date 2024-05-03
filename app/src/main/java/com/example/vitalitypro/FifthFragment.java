@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -88,10 +91,50 @@ public class FifthFragment extends Fragment {
             textInputLayoutGoalWeight.setVisibility(View.VISIBLE);
             textInputEditTextGoalWeight.setVisibility(View.VISIBLE);
         }
+        else{
+            txtGoalWeight.setVisibility(View.GONE);
+            textInputLayoutGoalWeight.setVisibility(View.GONE);
+            textInputEditTextGoalWeight.setVisibility(View.GONE);
+        }
         initEditTextHeight();
         initEditTextWeight();
         initEditTextGoalWeight();
 
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String height = textInputEditTextHeight.getText().toString();
+                if(height.isEmpty()){
+                    Toast.makeText(getContext(), "Please enter your height", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String weight = textInputEditTextWeight.getText().toString();
+                if(weight.isEmpty()){
+                    Toast.makeText(getContext(), "Please enter your weight", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(textInputEditTextGoalWeight.getVisibility() == View.VISIBLE){
+                    String goalWeight = textInputEditTextGoalWeight.getText().toString();
+                    if(goalWeight.isEmpty()){
+                        Toast.makeText(getContext(), "Please enter your goal weight", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+            }
+        });
+
+        if(SecondFragment.option1.equals("Lose weight")){
+            openLoseWeightWeeklyGoal();
+        }
+        else if(SecondFragment.option1.equals("Gain weight")){
+            openGainWeightWeeklyGoal();
+        }
+        else{
+            openRegistrationFragment();
+        }
 
         return rootView;
     }
@@ -106,14 +149,36 @@ public class FifthFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String goalWeightText = s.toString().trim();
-                int goalWeight = Integer.parseInt(goalWeightText);
+
 
                 if(SecondFragment.option1.equals("Lose weight")){
-                    if(goalWeight>weight){
-                        textInputLayoutGoalWeight.setError("Your goal is Lose Weight: Goal weight must be lower than current weight.");
+                    if(TextUtils.isEmpty(goalWeightText)){
+                        textInputLayoutGoalWeight.setError(getString(R.string.login_goals_edit_text_valid_value));
+                    }
+                    else{
+                        int goalWeight = Integer.parseInt(goalWeightText);
+                        if(goalWeight>=weight){
+                            textInputLayoutGoalWeight.setError(getString(R.string.goalLoseWeightMessage));
+                        }
+                        else{
+                            textInputLayoutGoalWeight.setError(null);
+                        }
                     }
                 }
-
+                if(SecondFragment.option1.equals("Gain weight")){
+                    if(TextUtils.isEmpty(goalWeightText)){
+                        textInputLayoutGoalWeight.setError(getString(R.string.login_goals_edit_text_valid_value));
+                    }
+                    else{
+                        int goalWeight = Integer.parseInt(goalWeightText);
+                        if(goalWeight<=weight){
+                            textInputLayoutGoalWeight.setError(getString(R.string.goalGainWeightMessage));
+                        }
+                        else{
+                            textInputLayoutGoalWeight.setError(null);
+                        }
+                    }
+                }
 
             }
 
@@ -221,4 +286,69 @@ public class FifthFragment extends Fragment {
             }
         }
     }
+
+    private void openLoseWeightWeeklyGoal() {
+        // Create an instance of the SixthFragment
+        LoseWeightWeeklyGoal loseWeightWeeklyGoal = new LoseWeightWeeklyGoal();
+
+        // Get the FragmentManager and start a FragmentTransaction
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Specify the enter and exit animations for the fragment transaction
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+
+        // Replace the current fragment with the SixthFragment
+        fragmentTransaction.replace(R.id.frameLayout, loseWeightWeeklyGoal);
+
+        // Add the transaction to the back stack (optional)
+        fragmentTransaction.addToBackStack(null);
+
+        // Commit the transaction
+        fragmentTransaction.commit();
+    }
+
+    private void openGainWeightWeeklyGoal() {
+        // Create an instance of the SixthFragment
+        GainWeightWeeklyGoal gainWeightWeeklyGoal = new GainWeightWeeklyGoal();
+
+        // Get the FragmentManager and start a FragmentTransaction
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Specify the enter and exit animations for the fragment transaction
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+
+        // Replace the current fragment with the SixthFragment
+        fragmentTransaction.replace(R.id.frameLayout, gainWeightWeeklyGoal);
+
+        // Add the transaction to the back stack (optional)
+        fragmentTransaction.addToBackStack(null);
+
+        // Commit the transaction
+        fragmentTransaction.commit();
+    }
+
+
+    private void openRegistrationFragment() {
+        // Create an instance of the SixthFragment
+        RegistrationFragment registrationFragment = new RegistrationFragment();
+
+        // Get the FragmentManager and start a FragmentTransaction
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Specify the enter and exit animations for the fragment transaction
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+
+        // Replace the current fragment with the SixthFragment
+        fragmentTransaction.replace(R.id.frameLayout, registrationFragment);
+
+        // Add the transaction to the back stack (optional)
+        fragmentTransaction.addToBackStack(null);
+
+        // Commit the transaction
+        fragmentTransaction.commit();
+    }
+
 }

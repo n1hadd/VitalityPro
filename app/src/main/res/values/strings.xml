@@ -2,7 +2,7 @@
     <string name="app_name">VitalityPro</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="plsSelectOneOption">Please select at least one option</string>
     <string name="login_welcome_text">Welcome! Let\'s customize \nVitalityPro for your goals.</string>
     <string name="login_goals_start">Let\'s start with goals.</string>
     <string name="login_goals_instruction">Select one that is most important to you.</string>
@@ -23,6 +23,9 @@
     <string name="edtTextWeightHint">Your weight in kg.</string>
     <string name="txtGoalWeight">What\'s your goal weight?</string>
     <string name="edtTextGoalWeightHint">Your goal weight in kg.</string>
+    <string name="goalLoseWeightMessage">Your goal is Lose Weight: Goal weight must be lower than current weight.</string>
+    <string name="goalGainWeightMessage">Your goal is Gain Weight: Goal weight must be higher than current weight.</string>
+
 
     <!--BUTTONS LOGIN-->
     <string name="btnNext">Next</string>
@@ -33,6 +36,15 @@
 
     <string name="btnMale">Male</string>
     <string name="btnFemale">Female</string>
+
+    <string name="btnLose02">Lose 0,2 kilograms per week</string>
+    <string name="btnLose05">Lose 0,5 kilograms per week</string>
+    <string name="btnLose08">Lose 0,8 kilograms per week</string>
+    <string name="btnLose1">Lose 1 kilogram per week</string>
+
+    <string name="btnGain02">Gain 0,2 kilograms per week</string>
+    <string name="btnGain05">Gain 0,5 kilograms per week</string>
+
     <!-- BUTTONS LOGIN -->
 
     <!-- Activity Levels -->
@@ -50,8 +62,6 @@
         <item>Spend most of the day doing heavy physical activity (e.g. bike messenger, carpenter)</item>
     </string-array>
     <!-- /Activity Levels -->
-
-
 
 
     <!-- COUNTRIES STRING ARRAY-->
