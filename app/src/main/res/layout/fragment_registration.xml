@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationFragment">
+    tools:context=".RegistrationFragment"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/createAcount"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"/>
 
-</FrameLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:errorTextColor="@color/red"
+        app:helperText="Enter your username"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+        tools:layout_editor_absoluteX="16dp"
+        android:layout_marginTop="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
+            android:maxLength="20"
+           />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:errorTextColor="@color/red"
+        app:helperText="Enter your password"
+        app:layout_constraintTop_toBottomOf="@+id/usernameInputLayout"
+        tools:layout_editor_absoluteX="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:maxLength="20"
+            android:layout_marginTop="10dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

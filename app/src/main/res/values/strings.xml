@@ -25,8 +25,8 @@
     <string name="edtTextGoalWeightHint">Your goal weight in kg.</string>
     <string name="goalLoseWeightMessage">Your goal is Lose Weight: Goal weight must be lower than current weight.</string>
     <string name="goalGainWeightMessage">Your goal is Gain Weight: Goal weight must be higher than current weight.</string>
-
-
+    <string name="weeklyGoal">What is your weekly goal?</string>
+    <string name="createAcount">Almost done! Create your account</string>
     <!--BUTTONS LOGIN-->
     <string name="btnNext">Next</string>
 
