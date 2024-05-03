@@ -1,5 +1,7 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -10,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +80,7 @@ public class FifthFragment extends Fragment {
 
     private ProgressBar progressBar;
     private int currentProgress = 80;
+    private String userGoal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +90,10 @@ public class FifthFragment extends Fragment {
         initViews(rootView);
         initProgressBar();
 
-        if(!SecondFragment.option1.equals("Maintain weight")){
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+
+        userGoal = sharedPreferences.getString("user_goal","");
+        if(!userGoal.equals("Maintain weight")){
             txtGoalWeight.setVisibility(View.VISIBLE);
             textInputLayoutGoalWeight.setVisibility(View.VISIBLE);
             textInputEditTextGoalWeight.setVisibility(View.VISIBLE);
@@ -123,18 +130,20 @@ public class FifthFragment extends Fragment {
                     }
                 }
 
+                if(userGoal.equals("Lose weight")){
+                    openLoseWeightWeeklyGoal();
+                }
+                else if(userGoal.equals("Gain weight")){
+                    openGainWeightWeeklyGoal();
+                }
+                else{
+                    openRegistrationFragment();
+                }
+
             }
         });
 
-        if(SecondFragment.option1.equals("Lose weight")){
-            openLoseWeightWeeklyGoal();
-        }
-        else if(SecondFragment.option1.equals("Gain weight")){
-            openGainWeightWeeklyGoal();
-        }
-        else{
-            openRegistrationFragment();
-        }
+
 
         return rootView;
     }
@@ -151,7 +160,7 @@ public class FifthFragment extends Fragment {
                 String goalWeightText = s.toString().trim();
 
 
-                if(SecondFragment.option1.equals("Lose weight")){
+                if(userGoal.equals("Lose weight")){
                     if(TextUtils.isEmpty(goalWeightText)){
                         textInputLayoutGoalWeight.setError(getString(R.string.login_goals_edit_text_valid_value));
                     }
@@ -165,7 +174,7 @@ public class FifthFragment extends Fragment {
                         }
                     }
                 }
-                if(SecondFragment.option1.equals("Gain weight")){
+                if(userGoal.equals("Gain weight")){
                     if(TextUtils.isEmpty(goalWeightText)){
                         textInputLayoutGoalWeight.setError(getString(R.string.login_goals_edit_text_valid_value));
                     }

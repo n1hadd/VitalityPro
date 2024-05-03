@@ -1,5 +1,7 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -68,7 +70,8 @@ public class SecondFragment extends Fragment {
     private MaterialButton btnNext;
     private MaterialButton btnLoseWeight, btnMaintainWeight, btnGainWeight;
 
-    public static String option1;
+    private String goal;
+    private static final String USER_GOAL = "user_goal";
     private int buttonsChecked = 0;
 
 
@@ -81,6 +84,12 @@ public class SecondFragment extends Fragment {
         initViews(rootView);
         initProgressBar();
 
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+
+        // Get SharedPreferences editor to make changes
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
         toggleGroupTop.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup materialButtonToggleGroup, int checkedId, boolean isChecked) {
@@ -88,19 +97,25 @@ public class SecondFragment extends Fragment {
                     String selectedButtonId = getResources().getResourceEntryName(checkedId);
                     switch(selectedButtonId){
                         case "btnLoseWeight":
-                            option1 = "Lose weight";
+                            goal = "Lose weight";
+                            editor.putString(USER_GOAL, goal);
+                            editor.apply();
                             buttonsChecked = 1;
-                            Log.d(TAG, "toggleGroupTop started: Chosen "+option1);
+                            Log.d(TAG, "toggleGroupTop started: Chosen "+sharedPreferences.getString("user_goal", ""));
                             break;
                         case "btnMaintainWeight":
-                            option1 = "Maintain weight";
+                            goal = "Maintain weight";
+                            editor.putString(USER_GOAL, goal);
+                            editor.apply();
                             buttonsChecked = 1;
-                            Log.d(TAG, "toggleGroupTop started: Chosen "+option1);
+                            Log.d(TAG, "toggleGroupTop started: Chosen "+sharedPreferences.getString("user_goal", ""));
                             break;
                         case "btnGainWeight":
-                            option1 = "Gain weight";
+                            goal = "Gain weight";
+                            editor.putString(USER_GOAL, goal);
+                            editor.apply();
                             buttonsChecked = 1;
-                            Log.d(TAG, "toggleGroupTop started: Chosen "+option1);
+                            Log.d(TAG, "toggleGroupTop started: Chosen "+sharedPreferences.getString("user_goal", ""));
                             break;
                     }
                 }

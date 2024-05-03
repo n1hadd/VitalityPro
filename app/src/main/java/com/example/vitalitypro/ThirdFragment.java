@@ -1,5 +1,7 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -77,12 +79,20 @@ public class ThirdFragment extends Fragment {
     private ActivityLevelAdapter adapter;
 
     private MaterialButton btnNext;
-    public static String selectedValue;
+    private String selectedValue;
+    private static final String ACTIVITY_LEVEL = "user_activity_level";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_third, container, false);
         initProgressBar();
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+
+        // Get SharedPreferences editor to make changes
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
@@ -107,14 +117,16 @@ public class ThirdFragment extends Fragment {
                 int selectedItemPosition = adapter.getSelectedItemPosition();
                 if (selectedItemPosition == RecyclerView.NO_POSITION) {
                     // No item selected, show a toast message
-                    Toast.makeText(getContext(), "Please select at least one option", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.plsSelectOneOption), Toast.LENGTH_SHORT).show();
                 } else {
                     // Item selected, store the selected value
                     String selectedActivityLevel = activityLevels.get(selectedItemPosition).getTitle();
+                    editor.putString(ACTIVITY_LEVEL, selectedActivityLevel);
+                    editor.apply();
+
 
                     // Store the selected value in a static variable in ThirdFragment
-                    ThirdFragment.selectedValue = selectedActivityLevel;
-                    Log.d(TAG,selectedValue+": selected.");
+                    Log.d(TAG,"Selected: "+sharedPreferences.getString(ACTIVITY_LEVEL, ""));
 
                     // Perform any other actions
                     openFourthFragment();

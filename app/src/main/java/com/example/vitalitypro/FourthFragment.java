@@ -1,5 +1,7 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -84,10 +86,13 @@ public class FourthFragment extends Fragment {
     private ProgressBar progressBar;
     private int currentProgress = 60;
 
-    public static String gender;
-    public static int age;
-    public static String country;
+    private String gender;
+    private int age;
+    private String country;
 
+    private static final String GENDER_PREF_KEY = "gender_pref_key";
+    private static final String AGE_PREF_KEY = "age_pref_key";
+    private static final String COUNTRY_PREF_KEY = "country_pref_key";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +103,11 @@ public class FourthFragment extends Fragment {
         initProgressBar();
         initEditText();
         initSpinner();
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+
+        // Store gender
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +121,7 @@ public class FourthFragment extends Fragment {
 
                 // Get the selected gender
                 String gender = btnMale.isChecked() ? "Male" : "Female";
-
+                editor.putString(GENDER_PREF_KEY, gender);
                 // Get the entered age
                 String ageStr = textInputEditTextAge.getText().toString();
                 // Check if age is empty
@@ -124,6 +134,7 @@ public class FourthFragment extends Fragment {
                 int age;
                 try {
                     age = Integer.parseInt(ageStr);
+                    editor.putInt(AGE_PREF_KEY, age);
                 } catch (NumberFormatException e) {
                     // Age is not a valid number
                     return; // Exit the onClick method
@@ -135,9 +146,10 @@ public class FourthFragment extends Fragment {
                 }
                 // Get the selected country
                 String country = countrySpinner.getSelectedItem().toString();
-
+                editor.putString(COUNTRY_PREF_KEY, country);
                 //
-                Log.d(TAG, "btnNext clicked: Selected values: Gender: "+gender+" Age: "+age+" Country: "+country);
+                Log.d(TAG, "btnNext clicked: Selected values: Gender: "+sharedPreferences.getString("gender_pref_key", "")+" Age: "+age+" Country: "+country);
+                editor.apply();
                 openFifthFragment();
             }
         });
