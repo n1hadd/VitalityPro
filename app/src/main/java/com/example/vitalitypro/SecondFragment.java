@@ -66,6 +66,7 @@ public class SecondFragment extends Fragment {
     }
     public final static String TAG = "Second Fragment";
     private ProgressBar progressBar;
+    private int currentProgress = 20;
     private MaterialButtonToggleGroup toggleGroupTop;
     private MaterialButton btnNext;
     private MaterialButton btnLoseWeight, btnMaintainWeight, btnGainWeight;
@@ -165,6 +166,7 @@ public class SecondFragment extends Fragment {
             progressBar = loginActivity.getProgressBar();
             if(progressBar!=null){
                 progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(currentProgress);
             }
         }
     }

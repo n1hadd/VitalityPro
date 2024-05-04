@@ -51,13 +51,10 @@ public class LoginActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.frameLayout);
 
-        // Check if the current fragment is SecondFragment
         if (currentFragment instanceof SecondFragment) {
             progressBar.setVisibility(View.GONE); // Set the visibility of progressBar to GONE
         }
-        if(currentFragment instanceof  ThirdFragment){
-            progressBar.setProgress(20);
-        }
+
 
         super.onBackPressed();
     }

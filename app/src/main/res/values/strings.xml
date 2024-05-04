@@ -17,6 +17,7 @@
     <string name="login_goals_edit_text_error1">You must be 18 or older to use VitalityPro.</string>
     <string name="login_goals_edit_text_valid_value">Please enter a valid value.</string>
     <string name="age_empty">Please enter your age.</string>
+    <string name="invalidAge">Please enter a valid age.</string>
     <string name="txtHeight">How tall are you?</string>
     <string name="txtHeightHint">Your height in cm.</string>
     <string name="txtWeight">How much do you weigh?</string>
@@ -27,6 +28,9 @@
     <string name="goalGainWeightMessage">Your goal is Gain Weight: Goal weight must be higher than current weight.</string>
     <string name="weeklyGoal">What is your weekly goal?</string>
     <string name="createAcount">Almost done! Create your account</string>
+    <string name="invalidUsernameLength"></string>
+    <string name="weakPassword">Please enter strong password.</string>
+    <string name="weakPasswordToast">Your password must be at least 8 characters long and should include a combination of letters (both uppercase and lowercase), numbers, and special characters (!, @, #, $, etc.)</string>
     <!--BUTTONS LOGIN-->
     <string name="btnNext">Next</string>
 

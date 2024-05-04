@@ -130,6 +130,12 @@ public class FourthFragment extends Fragment {
                     Toast.makeText(getContext(), getString(R.string.age_empty), Toast.LENGTH_SHORT).show();
                     return; // Exit the onClick method
                 }
+                else{
+                    if(textInputLayoutAge.getError() != null){
+                        Toast.makeText(getContext(), getString(R.string.invalidAge), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 // Check if age is a valid number
                 int age;
                 try {

@@ -1,5 +1,7 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +18,21 @@ import java.util.List;
 public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdapter.ViewHolder> {
 
     private List<ActivityLevel> activityLevels;
-    private int selectedItemPosition = RecyclerView.NO_POSITION;
+    private SharedPreferences sharedPreferences;
+    private Context context;
     private OnItemClickListener listener;
-    public ActivityLevelAdapter(List<ActivityLevel> activityLevels) {
+
+    public ActivityLevelAdapter(Context context, List<ActivityLevel> activityLevels) {
+        this.context = context;
         this.activityLevels = activityLevels;
-    }
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
+        this.sharedPreferences = context.getSharedPreferences("activity_level_prefs", Context.MODE_PRIVATE);
     }
 
     public int getSelectedItemPosition() {
-        return selectedItemPosition;
+        return sharedPreferences.getInt("selected_activity_level_position", RecyclerView.NO_POSITION);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -42,8 +48,11 @@ public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdap
         holder.txtTitle.setText(activityLevel.getTitle());
         holder.txtDescription.setText(activityLevel.getDescription());
 
+        // Read the stored position from SharedPreferences
+        int selectedPosition = sharedPreferences.getInt("selected_activity_level_position", RecyclerView.NO_POSITION);
+
         // Set the appearance based on the selection state
-        if (position == selectedItemPosition) {
+        if (position == selectedPosition) {
             // Selected state
             holder.txtTitle.setTypeface(holder.txtTitle.getTypeface(), Typeface.BOLD);
             holder.relativeLayout.setBackgroundResource(R.drawable.activity_level_selected_item);
@@ -57,18 +66,14 @@ public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdap
 
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
-            // Toggle the selection state
-            if (selectedItemPosition == position) {
-                // Deselect the item
-                selectedItemPosition = RecyclerView.NO_POSITION;
-            } else {
-                // Select the item
-                selectedItemPosition = position;
-            }
+            // Save the selected position in SharedPreferences
+            sharedPreferences.edit().putInt("selected_activity_level_position", position).apply();
+
             // Notify the listener
             if (listener != null) {
-                listener.onItemClick(selectedItemPosition);
+                listener.onItemClick(position);
             }
+
             // Refresh the view to reflect the selection change
             notifyDataSetChanged();
         });
@@ -84,8 +89,7 @@ public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdap
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
         private TextView txtDescription;
         private RelativeLayout relativeLayout;
@@ -101,8 +105,6 @@ public class ActivityLevelAdapter extends RecyclerView.Adapter<ActivityLevelAdap
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
-
-
-
 }
+
 

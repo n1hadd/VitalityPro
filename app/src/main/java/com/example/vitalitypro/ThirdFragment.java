@@ -105,7 +105,7 @@ public class ThirdFragment extends Fragment {
             activityLevels.add(new ActivityLevel(levels[i], descriptions[i]));
         }
 
-        adapter = new ActivityLevelAdapter(activityLevels);
+        adapter = new ActivityLevelAdapter(getContext(), activityLevels);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.setActivityLevels(activityLevels);

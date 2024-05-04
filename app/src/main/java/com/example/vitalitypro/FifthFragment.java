@@ -82,6 +82,10 @@ public class FifthFragment extends Fragment {
     private int currentProgress = 80;
     private String userGoal;
 
+    private static final String HEIGHT_PREF_KEY = "height_pref_key";
+    private static final String WEIGHT_PREF_KEY = "weight_pref_key";
+    private static final String GOAL_WEIGHT_PREF_KEY = "goal_weight_pref_key";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,6 +95,8 @@ public class FifthFragment extends Fragment {
         initProgressBar();
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
         userGoal = sharedPreferences.getString("user_goal","");
         if(!userGoal.equals("Maintain weight")){
@@ -116,10 +122,24 @@ public class FifthFragment extends Fragment {
                     Toast.makeText(getContext(), "Please enter your height", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                else{
+                    if(textInputLayoutHeight.getError() != null){
+                        Toast.makeText(getContext(), "Please enter a valid height.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    editor.putInt(HEIGHT_PREF_KEY, Integer.parseInt(height));
+                }
                 String weight = textInputEditTextWeight.getText().toString();
                 if(weight.isEmpty()){
                     Toast.makeText(getContext(), "Please enter your weight", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                else{
+                    if(textInputLayoutWeight.getError() != null){
+                        Toast.makeText(getContext(), "Please enter a valid weight.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    editor.putInt(WEIGHT_PREF_KEY, Integer.parseInt(weight));
                 }
 
                 if(textInputEditTextGoalWeight.getVisibility() == View.VISIBLE){
@@ -128,7 +148,18 @@ public class FifthFragment extends Fragment {
                         Toast.makeText(getContext(), "Please enter your goal weight", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    else{
+                        if(textInputLayoutGoalWeight.getError() !=null){
+                            Toast.makeText(getContext(), "Please enter a valid goal weight.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        editor.putInt(GOAL_WEIGHT_PREF_KEY, Integer.parseInt(goalWeight));
+                    }
                 }
+                editor.apply();
+                Log.d(TAG, "Height: " + sharedPreferences.getInt(HEIGHT_PREF_KEY, -1) + "; Weight: " +
+                        sharedPreferences.getInt(WEIGHT_PREF_KEY, -1) + "; Goal Weight: " +
+                        sharedPreferences.getInt(GOAL_WEIGHT_PREF_KEY, -1));
 
                 if(userGoal.equals("Lose weight")){
                     openLoseWeightWeeklyGoal();
@@ -170,6 +201,12 @@ public class FifthFragment extends Fragment {
                             textInputLayoutGoalWeight.setError(getString(R.string.goalLoseWeightMessage));
                         }
                         else{
+                            if((weight-goalWeight) >= 12 ){
+                                textInputLayoutGoalWeight.setHelperText("Based on your other answers, we recommend you a goal of "+(weight-12)+" kg or higher.");
+                            }
+                            else{
+                                textInputLayoutGoalWeight.setHelperText(null);
+                            }
                             textInputLayoutGoalWeight.setError(null);
                         }
                     }
