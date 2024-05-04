@@ -86,7 +86,6 @@ public class ThirdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_third, container, false);
-        initProgressBar();
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
 
@@ -158,14 +157,5 @@ public class ThirdFragment extends Fragment {
     }
 
 
-    private void initProgressBar() {
-        LoginActivity loginActivity = (LoginActivity) getActivity();
-        if(loginActivity != null){
-            progressBar = loginActivity.getProgressBar();
-            if(progressBar!=null){
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setProgress(currentProgress);
-            }
-        }
-    }
+
 }

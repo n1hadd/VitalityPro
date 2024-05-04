@@ -100,7 +100,6 @@ public class FourthFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_fourth, container, false);
         initViews(rootView);
-        initProgressBar();
         initEditText();
         initSpinner();
 
@@ -279,7 +278,7 @@ public class FourthFragment extends Fragment {
     }
 
 
-    private void initProgressBar() {
+    /*private void initProgressBar() {
         LoginActivity loginActivity = (LoginActivity) getActivity();
         if(loginActivity != null){
             progressBar = loginActivity.getProgressBar();
@@ -288,6 +287,6 @@ public class FourthFragment extends Fragment {
                 progressBar.setProgress(currentProgress);
             }
         }
-    }
+    }*/
 
 }

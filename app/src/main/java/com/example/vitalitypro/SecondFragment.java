@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -65,8 +68,6 @@ public class SecondFragment extends Fragment {
         }
     }
     public final static String TAG = "Second Fragment";
-    private ProgressBar progressBar;
-    private int currentProgress = 20;
     private MaterialButtonToggleGroup toggleGroupTop;
     private MaterialButton btnNext;
     private MaterialButton btnLoseWeight, btnMaintainWeight, btnGainWeight;
@@ -76,6 +77,7 @@ public class SecondFragment extends Fragment {
     private int buttonsChecked = 0;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +85,6 @@ public class SecondFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_second, container, false);
 
         initViews(rootView);
-        initProgressBar();
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
 
@@ -141,6 +142,7 @@ public class SecondFragment extends Fragment {
         return rootView;
     }
 
+
     private void openThirdFragment() {
         // Create an instance of the SecondFragment
         ThirdFragment thirdFragment = new ThirdFragment();
@@ -160,16 +162,7 @@ public class SecondFragment extends Fragment {
 
     }
 
-    private void initProgressBar() {
-        LoginActivity loginActivity = (LoginActivity) getActivity();
-        if(loginActivity != null){
-            progressBar = loginActivity.getProgressBar();
-            if(progressBar!=null){
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setProgress(currentProgress);
-            }
-        }
-    }
+
 
     private void initViews(View rootView) {
         toggleGroupTop = rootView.findViewById(R.id.toggleGroupTop);
@@ -177,6 +170,7 @@ public class SecondFragment extends Fragment {
         btnLoseWeight = rootView.findViewById(R.id.btnLoseWeight);
         btnMaintainWeight = rootView.findViewById(R.id.btnMaintainWeight);
     }
+
 
 
 

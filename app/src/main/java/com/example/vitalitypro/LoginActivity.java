@@ -1,14 +1,20 @@
 package com.example.vitalitypro;
 
+import android.media.Image;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.window.OnBackInvokedDispatcher;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,30 +26,42 @@ import com.google.android.material.button.MaterialButton;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ProgressBar progressBar;
-    private int currentProgress = 20;
+
     private MaterialButton btnContinue;
     private FrameLayout frameLayout;
+
+    private Toolbar toolbar;
+    private ImageView imgBack;
+    private TextView txtToolbarTitle;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
-        progressBar.setProgress(currentProgress);
-        progressBar.setMax(100);
-
         frameLayout = findViewById(R.id.frameLayout);
+        toolbar = findViewById(R.id.toolbar);
+        imgBack = findViewById(R.id.imgBack);
+        txtToolbarTitle = findViewById(R.id.txtToolbarTitle);
+
+
         Fragment fragment = new FirstFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
     }
 
-    public ProgressBar getProgressBar(){
-        return progressBar;
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public ImageView getImgBack() {
+        return imgBack;
+    }
+
+    public TextView getTxtToolbarTitle() {
+        return txtToolbarTitle;
     }
 
     @Override
@@ -51,12 +69,9 @@ public class LoginActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.frameLayout);
 
-        if (currentFragment instanceof SecondFragment) {
-            progressBar.setVisibility(View.GONE); // Set the visibility of progressBar to GONE
-        }
-
 
         super.onBackPressed();
     }
+
 
 }

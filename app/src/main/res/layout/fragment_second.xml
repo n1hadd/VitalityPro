@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     tools:context=".SecondFragment">
-
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"

@@ -1,9 +1,11 @@
 package com.example.vitalitypro;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,7 +13,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -64,12 +69,14 @@ public class FirstFragment extends Fragment {
 
 
     private MaterialButton btnContinue;
+    private Toolbar toolbar;
+    private ImageView imgBack;
+    private TextView txtToolbarTitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_first, container, false);
-
         btnContinue = rootView.findViewById(R.id.btnContinue);
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +86,16 @@ public class FirstFragment extends Fragment {
         });
         return rootView;
     }
+
+    /*private void initToolBar() {
+        LoginActivity loginActivity = (LoginActivity) getActivity();
+        if(loginActivity != null){
+            toolbar = loginActivity.getToolbar();
+            if(toolbar!=null){
+                toolbar.setVisibility(View.VISIBLE);
+            }
+        }
+    }*/
 
     private void openSecondFragment() {
         // Create an instance of the SecondFragment
@@ -97,4 +114,6 @@ public class FirstFragment extends Fragment {
         // Commit the transaction
         fragmentTransaction.commit();
     }
+
+
 }

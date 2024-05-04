@@ -86,7 +86,6 @@ public class LoseWeightWeeklyGoal extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_lose_weight_weekly_goal, container, false);
         initViews(rootView);
-        initProgressBar();
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
 
@@ -167,7 +166,7 @@ public class LoseWeightWeeklyGoal extends Fragment {
 
     }
 
-    private void initProgressBar() {
+    /*private void initProgressBar() {
         LoginActivity loginActivity = (LoginActivity) getActivity();
         if(loginActivity != null){
             progressBar = loginActivity.getProgressBar();
@@ -176,7 +175,7 @@ public class LoseWeightWeeklyGoal extends Fragment {
                 progressBar.setProgress(currentProgress);
             }
         }
-    }
+    }*/
 
     private void openRegistrationFragment() {
         // Create an instance of the FifthFragment
