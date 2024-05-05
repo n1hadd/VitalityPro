@@ -117,4 +117,32 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
         return exists;
     }
 
+    public boolean isUsernameAndPasswordExists(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define the columns you want to retrieve from the database
+        String[] columns = {KEY_USERNAME};
+
+        // Define the selection criteria
+        String selection = KEY_USERNAME + "=? AND " + KEY_PASSWORD + "=?";
+
+        // Define the selection arguments
+        String[] selectionArgs = {username, password};
+
+        // Query the database
+        Cursor cursor = db.query(TABLE_USERS, columns, selection, selectionArgs, null, null, null);
+
+        // Check if the cursor is not null and has at least one entry
+        boolean exists = (cursor != null && cursor.getCount() > 0);
+
+        // Close the cursor to free up resources
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        // Return whether the username and password combination exists in the database
+        return exists;
+    }
+
+
 }

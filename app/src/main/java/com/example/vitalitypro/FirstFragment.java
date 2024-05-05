@@ -130,6 +130,7 @@ public class FirstFragment extends Fragment {
                 if (!(requireActivity().getSupportFragmentManager().findFragmentById(R.id.frameLayout) instanceof SignUpLoginFragment)) {
                     // Navigate back to SignUpLoginFragment
                     requireActivity().getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
                             .replace(R.id.frameLayout, new SignUpLoginFragment())
                             .commit();
                 } else {

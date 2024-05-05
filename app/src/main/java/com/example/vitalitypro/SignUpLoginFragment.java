@@ -75,8 +75,8 @@ public class SignUpLoginFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new FirstFragment();
                 requireActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                         .replace(R.id.frameLayout, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
             }
         });
@@ -86,8 +86,8 @@ public class SignUpLoginFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new LoginFragment();
                 requireActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                         .replace(R.id.frameLayout, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
             }
         });
