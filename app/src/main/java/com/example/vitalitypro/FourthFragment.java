@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -102,6 +104,7 @@ public class FourthFragment extends Fragment {
         initViews(rootView);
         initEditText();
         initSpinner();
+        initToolBar(rootView);
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
 
@@ -288,5 +291,45 @@ public class FourthFragment extends Fragment {
             }
         }
     }*/
+
+    private void initToolBar(View rootView) {
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+
+        // Find the nested layout within the Toolbar
+        View nestedLayout = toolbar.findViewById(R.id.nestedLayout);
+
+        // Find the txtTitle TextView within the nested layout
+        TextView txtToolbarTitle = nestedLayout.findViewById(R.id.txtToolbarTitle);
+        // Set the new text for txtTitle
+        txtToolbarTitle.setText("You");
+
+        ImageView imgBack = nestedLayout.findViewById(R.id.imgBack);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openThirdFragment();
+            }
+        });
+
+    }
+
+    private void openThirdFragment() {
+        // Create an instance of the SecondFragment
+        ThirdFragment thirdFragment = new ThirdFragment();
+
+        // Get the FragmentManager and start a FragmentTransaction
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left);
+        // Replace the current fragment with the SecondFragment
+        fragmentTransaction.replace(R.id.frameLayout, thirdFragment);
+
+        // Add the transaction to the back stack (optional)
+        fragmentTransaction.addToBackStack(null);
+
+        // Commit the transaction
+        fragmentTransaction.commit();
+    }
 
 }

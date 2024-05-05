@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +89,8 @@ public class RegistrationFragment extends Fragment {
     private ProgressBar progressBar;
     private int currentProgress = 95;
 
+    private SharedPreferences sharedPreferences;
+
     private static final int MIN_LENGTH = 3;
     private static final int MAX_LENGTH = 20;
     private static final String ALLOWED_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
@@ -96,9 +102,9 @@ public class RegistrationFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_registration, container, false);
         initViews(rootView);
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
+        initToolBar(rootView);
         initGetUserName();
         initGetPassword();
 
@@ -300,4 +306,77 @@ public class RegistrationFragment extends Fragment {
             }
         }
     }*/
+
+    private void initToolBar(View rootView) {
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+
+        // Find the nested layout within the Toolbar
+        View nestedLayout = toolbar.findViewById(R.id.nestedLayout);
+
+        // Find the txtTitle TextView within the nested layout
+        TextView txtToolbarTitle = nestedLayout.findViewById(R.id.txtToolbarTitle);
+
+        // Set the new text for txtTitle
+        txtToolbarTitle.setText("Registration");
+
+        ImageView imgBack = nestedLayout.findViewById(R.id.imgBack);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPreviusFragment();
+            }
+        });
+    }
+
+    private void openPreviusFragment() {
+        if(sharedPreferences.getString("user_goal", "").equals("Lose weight")){
+            // Create an instance of the SecondFragment
+            LoseWeightWeeklyGoal loseWeightWeeklyGoal = new LoseWeightWeeklyGoal();
+
+            // Get the FragmentManager and start a FragmentTransaction
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left);
+            // Replace the current fragment with the SecondFragment
+            fragmentTransaction.replace(R.id.frameLayout, loseWeightWeeklyGoal);
+
+            // Add the transaction to the back stack (optional)
+            fragmentTransaction.addToBackStack(null);
+
+            // Commit the transaction
+            fragmentTransaction.commit();
+        }
+        else if(sharedPreferences.getString("user_goal", "").equals("Gain weight")){
+            GainWeightWeeklyGoal gainWeightWeeklyGoal = new GainWeightWeeklyGoal();
+
+            // Get the FragmentManager and start a FragmentTransaction
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left);
+            // Replace the current fragment with the SecondFragment
+            fragmentTransaction.replace(R.id.frameLayout, gainWeightWeeklyGoal);
+
+            // Add the transaction to the back stack (optional)
+            fragmentTransaction.addToBackStack(null);
+
+            // Commit the transaction
+            fragmentTransaction.commit();
+        }
+        else{
+            FifthFragment fifthFragment = new FifthFragment();
+
+            // Get the FragmentManager and start a FragmentTransaction
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left);
+            // Replace the current fragment with the SecondFragment
+            fragmentTransaction.replace(R.id.frameLayout, fifthFragment);
+
+            // Add the transaction to the back stack (optional)
+            fragmentTransaction.addToBackStack(null);
+
+            // Commit the transaction
+            fragmentTransaction.commit();
+        }
+    }
 }

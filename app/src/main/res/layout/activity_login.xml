@@ -8,14 +8,6 @@
     tools:context=".LoginActivity"
     >
 
-    <include
-        android:id="@+id/include"
-        android:visibility="gone"
-        layout="@layout/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"

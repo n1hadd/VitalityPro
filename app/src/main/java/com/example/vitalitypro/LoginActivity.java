@@ -21,6 +21,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
+
 
 import com.google.android.material.button.MaterialButton;
 
@@ -30,9 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialButton btnContinue;
     private FrameLayout frameLayout;
 
-    private Toolbar toolbar;
-    private ImageView imgBack;
-    private TextView txtToolbarTitle;
+
 
 
     @Override
@@ -40,9 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         frameLayout = findViewById(R.id.frameLayout);
-        toolbar = findViewById(R.id.toolbar);
-        imgBack = findViewById(R.id.imgBack);
-        txtToolbarTitle = findViewById(R.id.txtToolbarTitle);
+
 
 
         Fragment fragment = new FirstFragment();
@@ -52,17 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
 
-    public ImageView getImgBack() {
-        return imgBack;
-    }
-
-    public TextView getTxtToolbarTitle() {
-        return txtToolbarTitle;
-    }
 
     @Override
     public void onBackPressed() {
