@@ -2,6 +2,8 @@ package com.example.vitalitypro;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -158,6 +160,7 @@ public class FifthFragment extends Fragment {
                         editor.putInt(GOAL_WEIGHT_PREF_KEY, Integer.parseInt(goalWeight));
                     }
                 }
+
                 editor.apply();
                 Log.d(TAG, "Height: " + sharedPreferences.getInt(HEIGHT_PREF_KEY, -1) + "; Weight: " +
                         sharedPreferences.getInt(WEIGHT_PREF_KEY, -1) + "; Goal Weight: " +
@@ -204,12 +207,12 @@ public class FifthFragment extends Fragment {
                         }
                         else{
                             if((weight-goalWeight) >= 12 ){
-                                textInputLayoutGoalWeight.setHelperText("Based on your other answers, we recommend you a goal of "+(weight-12)+" kg or higher.");
+                                textInputLayoutGoalWeight.setErrorTextColor(ColorStateList.valueOf(Color.parseColor("#808080")));
+                                textInputLayoutGoalWeight.setError("Based on your other answers, we recommend you a goal of "+(weight-12)+" kg or higher.");
                             }
                             else{
-                                textInputLayoutGoalWeight.setHelperText(null);
+                                textInputLayoutGoalWeight.setError(null);
                             }
-                            textInputLayoutGoalWeight.setError(null);
                         }
                     }
                 }

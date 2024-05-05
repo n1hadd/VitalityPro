@@ -101,34 +101,21 @@ public class SecondFragment extends Fragment {
         toggleGroupTop.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup materialButtonToggleGroup, int checkedId, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     String selectedButtonId = getResources().getResourceEntryName(checkedId);
-                    switch(selectedButtonId){
+                    switch (selectedButtonId) {
                         case "btnLoseWeight":
                             goal = "Lose weight";
-                            editor.putString(USER_GOAL, goal);
-                            editor.apply();
-                            buttonsChecked = 1;
-                            Log.d(TAG, "toggleGroupTop started: Chosen "+sharedPreferences.getString("user_goal", ""));
                             break;
                         case "btnMaintainWeight":
                             goal = "Maintain weight";
-                            editor.putString(USER_GOAL, goal);
-                            editor.apply();
-                            buttonsChecked = 1;
-                            Log.d(TAG, "toggleGroupTop started: Chosen "+sharedPreferences.getString("user_goal", ""));
                             break;
                         case "btnGainWeight":
                             goal = "Gain weight";
-                            editor.putString(USER_GOAL, goal);
-                            editor.apply();
-                            buttonsChecked = 1;
-                            Log.d(TAG, "toggleGroupTop started: Chosen "+sharedPreferences.getString("user_goal", ""));
                             break;
                     }
-                }
-                else{
-                    buttonsChecked = 0;
+                    editor.putString(USER_GOAL, goal).apply();
+                    Log.d(TAG, "Selected goal: " + goal);
                 }
             }
         });
@@ -136,15 +123,16 @@ public class SecondFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(buttonsChecked == 0){
+                String selectedGoal = sharedPreferences.getString(USER_GOAL, "");
+                if (selectedGoal.isEmpty()) {
                     Toast.makeText(requireActivity(), "Please select at least one option", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     openThirdFragment();
                 }
             }
         });
-        
+
+
         return rootView;
     }
 

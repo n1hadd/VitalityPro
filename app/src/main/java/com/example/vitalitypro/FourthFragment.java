@@ -156,7 +156,6 @@ public class FourthFragment extends Fragment {
                 String country = countrySpinner.getSelectedItem().toString();
                 editor.putString(COUNTRY_PREF_KEY, country);
                 //
-                Log.d(TAG, "btnNext clicked: Selected values: Gender: "+sharedPreferences.getString("gender_pref_key", "")+" Age: "+age+" Country: "+country);
                 editor.apply();
                 openFifthFragment();
             }

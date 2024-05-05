@@ -109,19 +109,19 @@ public class LoseWeightWeeklyGoal extends Fragment {
                 if(isChecked) {
                     switch (selectedButtonId) {
                         case "btnLose02":
-                            editor.putString(WEEKLY_LOSE_GOAL, "Lose 0,2kg");
+                            editor.putString(WEEKLY_LOSE_GOAL, "-0.2");
                             buttonsChecked = 1;
                             break;
                         case "btnLose05":
-                            editor.putString(WEEKLY_LOSE_GOAL, "Lose 0,5kg");
+                            editor.putString(WEEKLY_LOSE_GOAL, "-0,5");
                             buttonsChecked = 1;
                             break;
                         case "btnLose08":
-                            editor.putString(WEEKLY_LOSE_GOAL, "Lose 0,8kg");
+                            editor.putString(WEEKLY_LOSE_GOAL, "-0.8");
                             buttonsChecked = 1;
                             break;
                         case "btnLose1":
-                            editor.putString(WEEKLY_LOSE_GOAL, "Lose 1kg");
+                            editor.putString(WEEKLY_LOSE_GOAL, "-1");
                             buttonsChecked = 1;
                             break;
                     }

@@ -1,6 +1,7 @@
 package com.example.vitalitypro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -95,6 +96,14 @@ public class RegistrationFragment extends Fragment {
     private static final int MAX_LENGTH = 20;
     private static final String ALLOWED_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
 
+    private int weight;
+    private int height;
+    private int age;
+    private String gender;
+    private String activityLevel;
+    private double weightChangeGoalLose;
+    private double weightChangeGoalGain;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,44 +113,216 @@ public class RegistrationFragment extends Fragment {
         initViews(rootView);
         sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
         initToolBar(rootView);
         initGetUserName();
         initGetPassword();
-
+        getUserData();
         initOnClickBtnNext();
 
         return rootView;
+    }
+
+    private void addUserToDatabase(User user) {
+        UserDatabaseHandler dbHandler = new UserDatabaseHandler(requireContext());
+        long result = dbHandler.addUser(user);
+
+        if (result != -1) {
+            // User added successfully
+            Toast.makeText(requireContext(), "User added successfully!", Toast.LENGTH_SHORT).show();
+        } else {
+            // Failed to add user
+            Toast.makeText(requireContext(), "Failed to add user!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+    private void getUserData() {
+        weight = sharedPreferences.getInt("weight_pref_key", -1);
+        height = sharedPreferences.getInt("height_pref_key", -1);
+        age = sharedPreferences.getInt("age_pref_key",-1);
+        gender = sharedPreferences.getString("gender_pref_key", "");
+        activityLevel = sharedPreferences.getString("user_activity_level", "");
+        weightChangeGoalLose = Double.parseDouble(sharedPreferences.getString("users_weekly_lose_goal",""));
+        weightChangeGoalGain = Double.parseDouble(sharedPreferences.getString("users_weekly_gain_goal",""));
+
     }
 
     private void initOnClickBtnNext() {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(usernameEditText.getText().toString().isEmpty()){
+                // Check if username is empty
+                if (usernameEditText.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Please enter your username.", Toast.LENGTH_SHORT).show();
+                    return; // Exit method early if username is empty
+                } else if (usernameInputLayout.getError() != null) {
+                    Toast.makeText(getContext(), "Your username is not valid.", Toast.LENGTH_SHORT).show();
+                    return; // Exit method early if username is invalid
                 }
-                else{
-                    if(usernameInputLayout.getError() != null) {
-                        Toast.makeText(getContext(), "Your username is not valid.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                if(passwordEditText.getText().toString().isEmpty()){
+
+                // Check if password is empty
+                if (passwordEditText.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Please enter your password.", Toast.LENGTH_SHORT).show();
+                    return; // Exit method early if password is empty
+                } else if (passwordInputLayout.getError() != null) {
+                    Toast.makeText(getContext(), "Your password is not valid.", Toast.LENGTH_SHORT).show();
+                    return; // Exit method early if password is invalid
                 }
-                else{
-                    if(passwordInputLayout.getError() != null){
-                        Toast.makeText(getContext(), "Your password is not valid.", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        saveCredentials(usernameEditText.getText().toString(), passwordEditText.getText().toString());
-                        Log.d(TAG, "Username: "+usernameEditText.getText().toString()+", Password: "+passwordEditText.getText().toString());
-                    }
+
+                // Save credentials
+                saveCredentials(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+
+                // Log user information
+                Log.d(TAG, "User goal: " + sharedPreferences.getString("user_goal", ""));
+                Log.d(TAG, "User Activity level: " + sharedPreferences.getString("user_activity_level", ""));
+                Log.d(TAG, "Gender: " + sharedPreferences.getString("gender_pref_key", "") + " Age: " + sharedPreferences.getInt("age_pref_key", -1) + " Country: " + sharedPreferences.getString("country_pref_key", ""));
+                Log.d(TAG, "Height: " + sharedPreferences.getInt("height_pref_key", -1) + "; Weight: " +
+                        sharedPreferences.getInt("weight_pref_key", -1) + "; Goal Weight: " +
+                        sharedPreferences.getInt("goal_weight_pref_key", -1));
+                Log.d(TAG, "Selected: " + sharedPreferences.getString("users_weekly_lose_goal", ""));
+                Log.d(TAG, "Selected: " + sharedPreferences.getString("users_weekly_gain_goal", ""));
+                Log.d(TAG, "Username: " + sharedPreferences.getString("username_pref_key", "") + ", Password: " + sharedPreferences.getString("password_pref_key", ""));
+
+                // Calculate daily calorie intake based on user's goal
+                int dailyCalorieIntake;
+                String goal = sharedPreferences.getString("user_goal", "");
+                switch (goal.toLowerCase()) {
+                    case "lose weight":
+                        dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, age, gender, activityLevel, weightChangeGoalLose);
+                        break;
+                    case "gain weight":
+                        dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, age, gender, activityLevel, weightChangeGoalGain);
+                        break;
+                    default:
+                        dailyCalorieIntake = calculateDailyCalorieIntakeForMaintenance(weight, height, age, gender, activityLevel);
+                        break;
                 }
+
+                // Log daily calorie intake
+                Log.d(TAG, "Daily calorie intake: " + dailyCalorieIntake + " kcal");
+
+                // Create user object based on the calculated calorie intake
+                User user;
+                if (goal.equalsIgnoreCase("lose weight") || goal.equalsIgnoreCase("gain weight")) {
+                    user = new User(
+                            sharedPreferences.getString(USERNAME_PREF_KEY, ""),
+                            sharedPreferences.getString(PASSWORD_PREF_KEY, ""),
+                            goal,
+                            sharedPreferences.getString("user_activity_level", ""),
+                            sharedPreferences.getInt("weight_pref_key", -1),
+                            sharedPreferences.getInt("goal_weight_pref_key", -1),
+                            sharedPreferences.getInt("height_pref_key", -1),
+                            sharedPreferences.getInt("age_pref_key", -1),
+                            sharedPreferences.getString("gender_pref_key", ""),
+                            goal.equalsIgnoreCase("lose weight") ? weightChangeGoalLose : weightChangeGoalGain,
+                            dailyCalorieIntake
+                    );
+                } else {
+                    user = new User(
+                            sharedPreferences.getString(USERNAME_PREF_KEY, ""),
+                            sharedPreferences.getString(PASSWORD_PREF_KEY, ""),
+                            goal,
+                            sharedPreferences.getString("user_activity_level", ""),
+                            sharedPreferences.getInt("weight_pref_key", -1),
+                            sharedPreferences.getInt("height_pref_key", -1),
+                            sharedPreferences.getInt("age_pref_key", -1),
+                            sharedPreferences.getString("gender_pref_key", ""),
+                            dailyCalorieIntake
+                    );
+                }
+
+                // Add user to the database
+                addUserToDatabase(user);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
 
             }
         });
-
     }
+
+
+
+
+
+
+    private int calculateDailyCalorieIntake(int weight, int height, int age, String gender, String activityLevel, double weightChangeGoal) {
+        // Calculate Basal Metabolic Rate (BMR)
+        double bmr;
+        if (gender.equalsIgnoreCase("male")) {
+            bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+        } else {
+            bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+        }
+
+        // Adjust BMR based on activity level
+        double activityMultiplier;
+        switch (activityLevel.toLowerCase()) {
+            case "not very active":
+                activityMultiplier = 1.2;
+                break;
+            case "lightly active":
+                activityMultiplier = 1.375;
+                break;
+            case "active":
+                activityMultiplier = 1.55;
+                break;
+            case "very active":
+                activityMultiplier = 1.725;
+                break;
+            default:
+                activityMultiplier = 1.2; // Default to Not Very Active if activity level is not recognized
+                break;
+        }
+
+        // Calculate daily calorie intake
+        int dailyCalorieIntake = (int) (bmr * activityMultiplier);
+
+        // Adjust daily calorie intake based on user's weight change goal
+        // For example, to lose weight, subtract calories, to gain weight, add calories
+        int adjustedCalorieIntake = (int) (dailyCalorieIntake + (weightChangeGoal * 1000)); // 1 kg = 1000 calories
+
+        return adjustedCalorieIntake;
+    }
+
+    public static int calculateDailyCalorieIntakeForMaintenance(int weight, int height, int age, String gender, String activityLevel) {
+        // Calculate Basal Metabolic Rate (BMR)
+        double bmr;
+        if (gender.equalsIgnoreCase("male")) {
+            bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+        } else {
+            bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+        }
+
+        // Adjust BMR based on activity level
+        double activityMultiplier;
+        switch (activityLevel.toLowerCase()) {
+            case "not very active":
+                activityMultiplier = 1.2;
+                break;
+            case "lightly active":
+                activityMultiplier = 1.375;
+                break;
+            case "active":
+                activityMultiplier = 1.55;
+                break;
+            case "very active":
+                activityMultiplier = 1.725;
+                break;
+            default:
+                activityMultiplier = 1.2; // Default to Not Very Active if activity level is not recognized
+                break;
+        }
+
+        // Calculate daily calorie intake for weight maintenance
+        int dailyCalorieIntake = (int) (bmr * activityMultiplier);
+
+        return dailyCalorieIntake;
+    }
+
+
 
 
     private void initGetUserName() {
@@ -277,7 +458,7 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void saveCredentials(String username, String password) {
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USERNAME_PREF_KEY, username);
         editor.putString(PASSWORD_PREF_KEY, password);

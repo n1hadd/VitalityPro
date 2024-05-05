@@ -104,11 +104,11 @@ public class GainWeightWeeklyGoal extends Fragment {
                 if(isChecked) {
                     switch (selectedButtonId) {
                         case "btnGain02":
-                            editor.putString(WEEKLY_GAIN_GOAL, "Gain 0,2kg");
+                            editor.putString(WEEKLY_GAIN_GOAL, "0.2");
                             buttonsChecked = 1;
                             break;
                         case "btnGain05":
-                            editor.putString(WEEKLY_GAIN_GOAL, "Gain 0,5kg");
+                            editor.putString(WEEKLY_GAIN_GOAL, "0.5");
                             buttonsChecked = 1;
                             break;
                     }
