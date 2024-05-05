@@ -145,8 +145,6 @@ public class RegistrationFragment extends Fragment {
         age = sharedPreferences.getInt("age_pref_key",-1);
         gender = sharedPreferences.getString("gender_pref_key", "");
         activityLevel = sharedPreferences.getString("user_activity_level", "");
-        weightChangeGoalLose = Double.parseDouble(sharedPreferences.getString("users_weekly_lose_goal",""));
-        weightChangeGoalGain = Double.parseDouble(sharedPreferences.getString("users_weekly_gain_goal",""));
 
     }
 
@@ -191,9 +189,11 @@ public class RegistrationFragment extends Fragment {
                 String goal = sharedPreferences.getString("user_goal", "");
                 switch (goal.toLowerCase()) {
                     case "lose weight":
+                        weightChangeGoalLose = Double.parseDouble(sharedPreferences.getString("users_weekly_lose_goal",""));
                         dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, age, gender, activityLevel, weightChangeGoalLose);
                         break;
                     case "gain weight":
+                        weightChangeGoalGain = Double.parseDouble(sharedPreferences.getString("users_weekly_gain_goal",""));
                         dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, age, gender, activityLevel, weightChangeGoalGain);
                         break;
                     default:
@@ -352,7 +352,15 @@ public class RegistrationFragment extends Fragment {
                         if (containsInvalidChars) {
                             usernameInputLayout.setError("Username contains invalid characters.");
                         } else {
-                            usernameInputLayout.setError(null);
+                            UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
+                            boolean usernameExists = userDatabaseHandler.isUsernameExists(username);
+                            if(usernameExists){
+                                usernameInputLayout.setError("Username already exists.");
+                            }
+                            else{
+                                usernameInputLayout.setError(null);
+                            }
+
                         }
                     }
                 }
@@ -498,7 +506,7 @@ public class RegistrationFragment extends Fragment {
         TextView txtToolbarTitle = nestedLayout.findViewById(R.id.txtToolbarTitle);
 
         // Set the new text for txtTitle
-        txtToolbarTitle.setText("Registration");
+        txtToolbarTitle.setText("Sign up");
 
         ImageView imgBack = nestedLayout.findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -560,4 +568,6 @@ public class RegistrationFragment extends Fragment {
             fragmentTransaction.commit();
         }
     }
+
+
 }

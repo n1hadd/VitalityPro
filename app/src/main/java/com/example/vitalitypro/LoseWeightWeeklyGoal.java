@@ -124,6 +124,9 @@ public class LoseWeightWeeklyGoal extends Fragment {
                             editor.putString(WEEKLY_LOSE_GOAL, "-1");
                             buttonsChecked = 1;
                             break;
+                        default:
+                            editor.putString(WEEKLY_LOSE_GOAL, "");
+                            break;
                     }
                 }
                 else{

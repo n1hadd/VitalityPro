@@ -106,16 +106,25 @@ public class SecondFragment extends Fragment {
                     switch (selectedButtonId) {
                         case "btnLoseWeight":
                             goal = "Lose weight";
+                            buttonsChecked = 1;
+                            editor.putString(USER_GOAL, goal);
                             break;
                         case "btnMaintainWeight":
                             goal = "Maintain weight";
+                            buttonsChecked = 1;
+                            editor.putString(USER_GOAL, goal);
                             break;
                         case "btnGainWeight":
                             goal = "Gain weight";
+                            buttonsChecked = 1;
+                            editor.putString(USER_GOAL, goal);
                             break;
                     }
-                    editor.putString(USER_GOAL, goal).apply();
+                    editor.apply();
                     Log.d(TAG, "Selected goal: " + goal);
+                }
+                else{
+                    buttonsChecked = 0;
                 }
             }
         });
@@ -124,7 +133,7 @@ public class SecondFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String selectedGoal = sharedPreferences.getString(USER_GOAL, "");
-                if (selectedGoal.isEmpty()) {
+                if (buttonsChecked == 0) {
                     Toast.makeText(requireActivity(), "Please select at least one option", Toast.LENGTH_SHORT).show();
                 } else {
                     openThirdFragment();

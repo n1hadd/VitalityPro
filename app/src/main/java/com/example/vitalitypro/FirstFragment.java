@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -114,6 +115,40 @@ public class FirstFragment extends Fragment {
         // Commit the transaction
         fragmentTransaction.commit();
     }
+
+    private OnBackPressedCallback onBackPressedCallback;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        // Register onBackPressedCallback
+        onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle back press
+                // Check if you are in FirstFragment, if not, navigate back to SignUpLoginFragment
+                if (!(requireActivity().getSupportFragmentManager().findFragmentById(R.id.frameLayout) instanceof SignUpLoginFragment)) {
+                    // Navigate back to SignUpLoginFragment
+                    requireActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameLayout, new SignUpLoginFragment())
+                            .commit();
+                } else {
+                    // If already in SignUpLoginFragment, handle back press as normal
+                    requireActivity().onBackPressed();
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Unregister onBackPressedCallback by disabling it
+        onBackPressedCallback.setEnabled(false);
+    }
+
+
 
 
 }

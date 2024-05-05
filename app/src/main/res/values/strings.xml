@@ -28,6 +28,7 @@
     <string name="goalGainWeightMessage">Your goal is Gain Weight: Goal weight must be higher than current weight.</string>
     <string name="weeklyGoal">What is your weekly goal?</string>
     <string name="createAcount">Almost done! Create your account</string>
+    <string name="login">Welcome Back! Sign In to Your Account</string>
     <string name="invalidUsernameLength"></string>
     <string name="weakPassword">Please enter strong password.</string>
     <string name="weakPasswordToast">Your password must be at least 8 characters long and should include a combination of letters (both uppercase and lowercase), numbers, and special characters (!, @, #, $, etc.)</string>

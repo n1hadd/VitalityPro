@@ -206,7 +206,7 @@ public class FifthFragment extends Fragment {
                             textInputLayoutGoalWeight.setError(getString(R.string.goalLoseWeightMessage));
                         }
                         else{
-                            if((weight-goalWeight) >= 12 ){
+                            if((weight-goalWeight) > 12 ){
                                 textInputLayoutGoalWeight.setErrorTextColor(ColorStateList.valueOf(Color.parseColor("#808080")));
                                 textInputLayoutGoalWeight.setError("Based on your other answers, we recommend you a goal of "+(weight-12)+" kg or higher.");
                             }
