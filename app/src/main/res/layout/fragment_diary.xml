@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -124,4 +124,98 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-</ScrollView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/macronutrients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="15dp"
+        android:elevation="15dp">
+
+        <RelativeLayout
+            android:id="@+id/macronutrientsRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+
+        <TextView
+            android:id="@+id/txtNutrients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Macronutrients"
+            android:fontFamily="@font/acme"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+            <ImageView
+                android:id="@+id/imgOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_more"
+                android:layout_alignParentEnd="true"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtNutrients"
+                android:layout_marginTop="15dp"
+                android:layout_centerHorizontal="true">
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/carbsPieChart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/proteinPieChart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/carbsPieChart"
+                    android:layout_marginLeft="20dp"
+                   />
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/fatPieChart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/proteinPieChart"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/txtCarbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/carbsPieChart"
+                    android:text="Carbs"
+                    android:layout_marginLeft="5dp"/>
+                <TextView
+                    android:id="@+id/txtProteins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Proteins"
+                    android:layout_below="@id/proteinPieChart"
+                    android:layout_toRightOf="@id/txtCarbs"
+                    android:layout_marginLeft="30dp"/>
+
+                <TextView
+                    android:id="@+id/txtFats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fats"
+                    android:layout_below="@id/fatPieChart"
+                    android:layout_toRightOf="@id/txtProteins"
+                    android:layout_marginLeft="30dp"
+                    />
+            </RelativeLayout>
+
+
+
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

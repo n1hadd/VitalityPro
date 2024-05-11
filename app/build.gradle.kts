@@ -43,5 +43,7 @@ dependencies {
     implementation ("com.opencsv:opencsv:5.5.2")
     implementation("androidx.fragment:fragment:1.6.2")
     implementation ("nl.bryanderidder:themed-toggle-button-group:1.4.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 
 }

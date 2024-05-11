@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DiaryFragment#newInstance} factory method to
@@ -64,14 +66,16 @@ public class DiaryFragment extends Fragment {
     }
 
 
-    private ScrollView scrollView;
-    private CardView cardView;
-    private RelativeLayout cardRelativeLayout;
-    private TextView txtEaten, txtRemaining, txtCaloriesCount, txtKcal, txtCaloriesRemainingCount;
+    private ConstraintLayout constraintLayout;
+    private CardView cardView, macronutrients;
+    private RelativeLayout cardRelativeLayout, macronutrientsRelativeLayout;
+    private TextView txtEaten, txtRemaining, txtCaloriesCount, txtKcal, txtCaloriesRemainingCount,txtNutrients ;
     private ProgressBar progressBar, dailyGoalProgressBar;
     private TextView dailyGoal, dailyGoalCalories;
-    private int currentProgress = 10;
+    private int currentProgress = 0;
     private SharedPreferences sharedPreferences;
+
+    private PieChart carbsPieChart, proteinPieChart, fatPieChart;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,7 +89,13 @@ public class DiaryFragment extends Fragment {
         int dailyCalorieIntake = userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""));
         txtCaloriesRemainingCount.setText(String.valueOf(dailyCalorieIntake));
         dailyGoalCalories.setText(String.valueOf(dailyCalorieIntake));
+        
+        initPieChart();
         return rootView;
+    }
+
+    private void initPieChart() {
+
     }
 
     private void updateProgressBar(int currentProgress) {
@@ -93,7 +103,7 @@ public class DiaryFragment extends Fragment {
     }
 
     private void initViews(View rootView) {
-        scrollView = rootView.findViewById(R.id.scrollView);
+        constraintLayout = rootView.findViewById(R.id.constraintLayout);
         cardView = rootView.findViewById(R.id.cardView);
         cardRelativeLayout = rootView.findViewById(R.id.cardRelativeLayout);
         txtEaten = rootView.findViewById(R.id.txtEaten);
@@ -105,6 +115,9 @@ public class DiaryFragment extends Fragment {
         dailyGoalProgressBar = rootView.findViewById(R.id.dailyGoalProgressBar);
         dailyGoal = rootView.findViewById(R.id.dailyGoal);
         dailyGoalCalories = rootView.findViewById(R.id.dailyGoalCalories);
+        macronutrients = rootView.findViewById(R.id.macronutrients);
+        macronutrientsRelativeLayout = rootView.findViewById(R.id.macronutrientsRelativeLayout);
+        txtNutrients = rootView.findViewById(R.id.txtNutrients);
 
     }
 }

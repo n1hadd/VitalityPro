@@ -22,12 +22,16 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
         boolean isSignedUp = sharedPreferences.getBoolean("isSignedUp", false);
         if(isSignedUp){
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
         else{
+            editor.clear();
+            editor.apply();
             Fragment fragment = new SignUpLoginFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
