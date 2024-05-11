@@ -26,6 +26,7 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_AGE = "age";
     private static final String KEY_GENDER = "gender";
     private static final String KEY_WEIGHT_CHANGE_GOAL = "weight_change_goal";
+    private static final String KEY_CALORIES_EATEN = "calories_eaten";
     private static final String KEY_DAILY_CALORIE_INTAKE = "daily_calorie_intake";
 
     public UserDatabaseHandler(Context context) {
@@ -47,6 +48,8 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
                 KEY_AGE + " INTEGER," +
                 KEY_GENDER + " TEXT," +
                 KEY_WEIGHT_CHANGE_GOAL + " REAL," +
+                KEY_CALORIES_EATEN + " INTEGER," +
+                // Add the new column
                 KEY_DAILY_CALORIE_INTAKE + " INTEGER" +
                 ")";
         db.execSQL(createUserTableQuery);
@@ -72,6 +75,7 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_AGE, user.getAge());
         values.put(KEY_GENDER, user.getGender());
         values.put(KEY_WEIGHT_CHANGE_GOAL, user.getWeightChangeGoal());
+        values.put(KEY_CALORIES_EATEN, user.getCaloriesEaten());
         values.put(KEY_DAILY_CALORIE_INTAKE, user.getDailyCalorieIntake());
 
         return db.insert(TABLE_USERS, null, values);
@@ -96,6 +100,7 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndex(KEY_AGE)),
                     cursor.getString(cursor.getColumnIndex(KEY_GENDER)),
                     cursor.getDouble(cursor.getColumnIndex(KEY_WEIGHT_CHANGE_GOAL)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_CALORIES_EATEN)),
                     cursor.getInt(cursor.getColumnIndex(KEY_DAILY_CALORIE_INTAKE))
             );
             cursor.close();
@@ -144,5 +149,19 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
         return exists;
     }
 
+    public int getDailyCalorieIntake(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_DAILY_CALORIE_INTAKE}, KEY_USERNAME + "=?", new String[]{username}, null, null, null);
+
+        int dailyCalorieIntake = -1; // Default value indicating failure
+
+        if (cursor != null && cursor.moveToFirst()) {
+            dailyCalorieIntake = cursor.getInt(cursor.getColumnIndex(KEY_DAILY_CALORIE_INTAKE));
+            cursor.close();
+        }
+
+        return dailyCalorieIntake;
+    }
 
 }

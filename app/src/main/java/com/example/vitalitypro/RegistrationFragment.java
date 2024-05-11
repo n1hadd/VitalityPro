@@ -145,7 +145,6 @@ public class RegistrationFragment extends Fragment {
         age = sharedPreferences.getInt("age_pref_key",-1);
         gender = sharedPreferences.getString("gender_pref_key", "");
         activityLevel = sharedPreferences.getString("user_activity_level", "");
-
     }
 
     private void initOnClickBtnNext() {
@@ -218,6 +217,7 @@ public class RegistrationFragment extends Fragment {
                             sharedPreferences.getInt("age_pref_key", -1),
                             sharedPreferences.getString("gender_pref_key", ""),
                             goal.equalsIgnoreCase("lose weight") ? weightChangeGoalLose : weightChangeGoalGain,
+                            0,
                             dailyCalorieIntake
                     );
                 } else {
@@ -230,12 +230,16 @@ public class RegistrationFragment extends Fragment {
                             sharedPreferences.getInt("height_pref_key", -1),
                             sharedPreferences.getInt("age_pref_key", -1),
                             sharedPreferences.getString("gender_pref_key", ""),
+                            0,
                             dailyCalorieIntake
                     );
                 }
 
                 // Add user to the database
                 addUserToDatabase(user);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isSignedUp", true);
+                editor.apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
 

@@ -1,22 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".DiaryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Diary Fragment"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/cardRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#05d3bc"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txtEaten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Eaten"
+                android:textColor="#F8F8F8"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtRemaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/acme"
+                android:text="Remaining"
+                android:textColor="#008c82"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCaloriesCount"
+                style="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtEaten"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/acme"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/txtKcal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtCaloriesCount"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/txtCaloriesCount"
+                android:fontFamily="@font/acme"
+                android:text="kcal"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/txtCaloriesRemainingCount"
+                style="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtRemaining"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/acme"
+                android:text="2350"
+                android:textColor="#008c82"
+                android:textSize="30sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtCaloriesCount"
+                android:layout_marginTop="10dp"
+                android:progress="20"
+                android:progressDrawable="@drawable/calories_progress_bar" />
+
+            <TextView
+                android:id="@+id/dailyGoal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/progressBar"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/acme"
+                android:text="Daily goal"
+                android:textColor="#008c82" />
+
+            <TextView
+                android:id="@+id/dailyGoalCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/dailyGoal"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/acme"
+                android:text="2350"
+                android:textColor="#008c82" />
+
+            <ProgressBar
+                android:id="@+id/dailyGoalProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dailyGoal"
+                android:layout_marginTop="5dp"/>
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</ScrollView>

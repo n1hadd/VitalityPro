@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ConstraintLayout logLayout;
     private boolean isLogLayoutVisible = false;
+    private MenuItem lastClickedItem = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,37 +52,65 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        initViews();
+        initBottomNavigationBar();
+        initFloatingActionButton();
         openDiaryFragment();
-        binding.bottomNavView.setBackground(null);
-        binding.bottomNavView.setOnNavigationItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.diary){
-                openDiaryFragment();
-            }
-            else if(item.getItemId() == R.id.profile){
-                openProfileFragment();
-            }
-            return false;
-        });
 
 
-        logButton = findViewById(R.id.logButton);
-        logLayout = findViewById(R.id.logLayout);
 
+
+
+
+
+
+    }
+
+    private void initFloatingActionButton() {
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLogLayoutVisible) {
+                if (isLogLayoutVisible == false) {
                     isLogLayoutVisible = true;
-                    logLayout.setVisibility(View.VISIBLE); // Make the layout visible
                     animateLogLayout(true); // Animate the layout to show from bottom to top
-                } else {
+                } else if(isLogLayoutVisible == true) {
                     isLogLayoutVisible = false;
                     animateLogLayout(false); // Animate the layout to hide from top to bottom
                 }
             }
         });
-
     }
+
+    private void initBottomNavigationBar() {
+        binding.bottomNavView.setBackground(null);
+        binding.bottomNavView.setOnNavigationItemSelectedListener(item -> {
+            // Disable the last clicked item
+            if (lastClickedItem != null) {
+                lastClickedItem.setEnabled(true);
+            }
+
+            // Enable the clicked item
+            item.setEnabled(false);
+
+            // Store the clicked item as the last clicked item
+            lastClickedItem = item;
+
+            // Perform the desired action based on the clicked item
+            if (item.getItemId() == R.id.diary) {
+                openDiaryFragment();
+            } else if (item.getItemId() == R.id.profile) {
+                openProfileFragment();
+            }
+
+            return true; // Return true to indicate that the event has been consumed
+        });
+    }
+
+    private void initViews() {
+        logButton = findViewById(R.id.logButton);
+        logLayout = findViewById(R.id.logLayout);
+    }
+
     private void animateLogLayout(final boolean isVisible) {
         TranslateAnimation animate;
         if (!isVisible) {
@@ -97,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if (!isVisible) {
-                    logLayout.setVisibility(View.GONE);
-                } else {
                     logLayout.setVisibility(View.VISIBLE);
+                } else {
+                    logLayout.setVisibility(View.GONE);
                 }
             }
 
@@ -115,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
     public void openDiaryFragment(){
         Fragment fragment = new DiaryFragment();
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
                 .replace(R.id.frameLayout, fragment)
                 .commit();
     }
@@ -122,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
     public void openProfileFragment(){
         Fragment fragment = new ProfileFragment();
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(R.id.frameLayout, fragment)
                 .commit();
     }

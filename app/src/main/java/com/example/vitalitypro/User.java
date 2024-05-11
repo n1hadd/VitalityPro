@@ -11,10 +11,11 @@ public class User {
     private int age;
     private String gender;
     private double weightChangeGoal; // For both losing and gaining weight
+    private int caloriesEaten;
     private int dailyCalorieIntake;
 
     public User(String username, String password, String goal, String activityLevel,
-                int weight, int goalWeight, int height, int age, String gender, double weightChangeGoal, int dailyCalorieIntake) {
+                int weight, int goalWeight, int height, int age, String gender, double weightChangeGoal, int caloriesEaten, int dailyCalorieIntake) {
         this.username = username;
         this.password = password;
         this.goal = goal;
@@ -25,11 +26,12 @@ public class User {
         this.age = age;
         this.gender = gender;
         this.weightChangeGoal = weightChangeGoal;
+        this.caloriesEaten = caloriesEaten;
         this.dailyCalorieIntake = dailyCalorieIntake;
     }
 
     public User(String username, String password, String goal, String activityLevel,
-                int weight, int height, int age, String gender, int dailyCalorieIntake) {
+                int weight, int height, int age, String gender, int caloriesEaten, int dailyCalorieIntake) {
         this.username = username;
         this.password = password;
         this.goal = goal;
@@ -38,6 +40,7 @@ public class User {
         this.height = height;
         this.age = age;
         this.gender = gender;
+        this.caloriesEaten = caloriesEaten;
         this.dailyCalorieIntake = dailyCalorieIntake;
     }
 
@@ -127,5 +130,13 @@ public class User {
 
     public void setDailyCalorieIntake(int dailyCalorieIntake) {
         this.dailyCalorieIntake = dailyCalorieIntake;
+    }
+
+    public int getCaloriesEaten() {
+        return caloriesEaten;
+    }
+
+    public void setCaloriesEaten(int caloriesEaten) {
+        this.caloriesEaten = caloriesEaten;
     }
 }

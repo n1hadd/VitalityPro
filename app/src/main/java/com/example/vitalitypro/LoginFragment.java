@@ -2,6 +2,7 @@ package com.example.vitalitypro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +77,10 @@ public class LoginFragment extends Fragment {
     private TextInputLayout usernameInputLayout, passwordInputLayout;
     private TextInputEditText usernameEditText, passwordEditText;
     private MaterialButton btnNext;
+    private SharedPreferences sharedPreferences;
 
+    private static final String USERNAME_PREF_KEY = "username_pref_key";
+    private static final String PASSWORD_PREF_KEY = "password_pref_key";
 
 
     @Override
@@ -83,6 +88,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_login, container, false);
+
         initViews(rootView);
         initToolBar(rootView);
         initUsernameEditText();
@@ -170,6 +176,12 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Invalid username or password.", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(USERNAME_PREF_KEY, username);
+                    editor.putString(PASSWORD_PREF_KEY, password);
+                    editor.apply();
+                    Log.d("LOGINFRAGMENT", sharedPreferences.getString(USERNAME_PREF_KEY,"")+" "+sharedPreferences.getString(PASSWORD_PREF_KEY,""));
                     Toast.makeText(getContext(), "Login successful!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);

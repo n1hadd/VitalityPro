@@ -1,6 +1,7 @@
 package com.example.vitalitypro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -21,17 +22,18 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        if (sharedPreferences.getAll().size() > 0) {
-            // Clear SharedPreferences
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
+        boolean isSignedUp = sharedPreferences.getBoolean("isSignedUp", false);
+        if(isSignedUp){
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        else{
+            Fragment fragment = new SignUpLoginFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit();
         }
 
-        Fragment fragment = new SignUpLoginFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit();
     }
 
     @Override
