@@ -2,16 +2,8 @@ package com.example.vitalitypro;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -26,11 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -82,7 +78,7 @@ public class DiaryFragment extends Fragment {
     }
 
     private static final String TAG = "Diary Fragment";
-    private ConstraintLayout constraintLayout;
+    private ScrollView scrollView;
     private CardView cardView, macronutrients;
     private RelativeLayout cardRelativeLayout;
     private ConstraintLayout macronutrientsConsLayout;
@@ -98,6 +94,9 @@ public class DiaryFragment extends Fragment {
     private RelativeLayout relativeLayout2,relativeLayout3, relativeLayout4;
     private ProgressBar progressCarbs, progressProteins, progressFats;
     private TextView txtCarbs, txtProteins, txtFats;
+    private RecyclerView mealsRecylcerView;
+    private MealRecyclerViewAdapter mealRecyclerViewAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -108,7 +107,7 @@ public class DiaryFragment extends Fragment {
         initViews(rootView);
         updateProgressBar(currentProgress);
         initProgressBarsNutrients();
-
+        initMealsRecylcerView();
 
 
         UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
@@ -117,6 +116,22 @@ public class DiaryFragment extends Fragment {
         dailyGoalCalories.setText(String.valueOf(dailyCalorieIntake));
 
         return rootView;
+    }
+
+    private void initMealsRecylcerView() {
+        ArrayList<Meal> meals = new ArrayList<>();
+        meals.add(new Meal("Breakfast", "https://i.postimg.cc/j5MD919B/english-breakfast.png"));
+        meals.add(new Meal("Lunch", "https://imgur.com/ZJZLqV6"));
+        meals.add(new Meal("Snack", "https://imgur.com/a88mGDd"));
+        meals.add(new Meal("Dinner", "https://imgur.com/iaRmtGv"));
+
+
+        mealRecyclerViewAdapter = new MealRecyclerViewAdapter(requireContext());
+        mealsRecylcerView.setAdapter(mealRecyclerViewAdapter);
+        mealsRecylcerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        mealRecyclerViewAdapter.setMeals(meals);
+
     }
 
     private void initProgressBarsNutrients() {
@@ -199,7 +214,7 @@ public class DiaryFragment extends Fragment {
     }
 
     private void initViews(View rootView) {
-        constraintLayout = rootView.findViewById(R.id.constraintLayout);
+        scrollView = rootView.findViewById(R.id.scrollView);
         cardView = rootView.findViewById(R.id.cardView);
         cardRelativeLayout = rootView.findViewById(R.id.cardRelativeLayout);
         txtEaten = rootView.findViewById(R.id.txtEaten);
@@ -223,5 +238,6 @@ public class DiaryFragment extends Fragment {
         relativeLayout4 = rootView.findViewById(R.id.relativeLayout4);
         progressFats = rootView.findViewById(R.id.progressFats);
         txtFats = rootView.findViewById(R.id.txtFats);
+        mealsRecylcerView = rootView.findViewById(R.id.mealsRecylcerView);
     }
 }
