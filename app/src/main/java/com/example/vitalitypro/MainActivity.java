@@ -57,13 +57,6 @@ public class MainActivity extends AppCompatActivity {
         initFloatingActionButton();
         openDiaryFragment();
 
-
-
-
-
-
-
-
     }
 
     private void initFloatingActionButton() {
