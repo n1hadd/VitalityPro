@@ -120,13 +120,13 @@ public class DiaryFragment extends Fragment {
 
     private void initMealsRecylcerView() {
         ArrayList<Meal> meals = new ArrayList<>();
-        meals.add(new Meal("Breakfast", "https://i.postimg.cc/j5MD919B/english-breakfast.png"));
-        meals.add(new Meal("Lunch", "https://imgur.com/ZJZLqV6"));
-        meals.add(new Meal("Snack", "https://imgur.com/a88mGDd"));
-        meals.add(new Meal("Dinner", "https://imgur.com/iaRmtGv"));
+        meals.add(new Meal("Breakfast", R.drawable.breakfast));
+        meals.add(new Meal("Lunch", R.drawable.lunch));
+        meals.add(new Meal("Snack", R.drawable.snack));
+        meals.add(new Meal("Dinner", R.drawable.dinner));
 
 
-        mealRecyclerViewAdapter = new MealRecyclerViewAdapter(requireContext());
+        mealRecyclerViewAdapter = new MealRecyclerViewAdapter(requireContext(), getChildFragmentManager());
         mealsRecylcerView.setAdapter(mealRecyclerViewAdapter);
         mealsRecylcerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 

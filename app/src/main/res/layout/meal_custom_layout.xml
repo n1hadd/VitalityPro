@@ -4,7 +4,7 @@
     android:id="@+id/parent"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="7dp"
+    app:cardCornerRadius="15dp"
     app:cardElevation="5dp"
     android:layout_margin="3dp">
 
@@ -12,7 +12,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <RelativeLayout
             android:id="@+id/collapsedRelativeLayout"
             android:layout_width="match_parent"
@@ -39,7 +38,9 @@
                 android:layout_toRightOf="@id/mealCaloriesProgress"
                 android:text="Meal"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/acme"/>
 
             <TextView
                 android:id="@+id/txtCalories"
@@ -57,13 +58,15 @@
                 android:layout_below="@id/txtMealTitle"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
+
                 android:text="You haven't logged anything yet." />
 
             <ImageView
                 android:id="@+id/imgMeal"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="20dp"
                 android:src="@mipmap/ic_launcher"
                 android:layout_below="@+id/emptyLog"
                 />
@@ -80,7 +83,8 @@
                 app:icon="@drawable/ic_add"
                 app:cornerRadius="10dp"
                 android:textColor="@color/main"
-                app:iconTint="@color/main"/>
+                app:iconTint="@color/main"
+                android:textAllCaps="false"/>
 
         </RelativeLayout>
 

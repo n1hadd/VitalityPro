@@ -164,4 +164,30 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
         return dailyCalorieIntake;
     }
 
+    public int getTotalCaloriesEatenByUsername(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int totalCaloriesEaten = 0;
+
+        // Define the SQL query
+        String query = "SELECT SUM(" + KEY_CALORIES_EATEN + ") AS " + KEY_CALORIES_EATEN + " FROM " + TABLE_USERS +
+                " WHERE " + KEY_USERNAME + " = ?";
+
+        // Execute the query
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+
+        // Retrieve the total calories eaten from the cursor
+        if (cursor != null && cursor.moveToFirst()) {
+            totalCaloriesEaten = cursor.getInt(cursor.getColumnIndex(KEY_CALORIES_EATEN));
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        // Return the total calories eaten by the specified user
+        return totalCaloriesEaten;
+    }
+
+
+
 }

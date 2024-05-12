@@ -12,7 +12,7 @@
         >
 
         <solid
-            android:color="@color/black"
+            android:color="@color/main"
             />
 
 

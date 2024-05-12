@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton logButton;
 
     private ConstraintLayout logLayout;
-    private boolean isLogLayoutVisible = false;
     private MenuItem lastClickedItem = null;
 
 
@@ -40,28 +39,11 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigationBar();
         initFloatingActionButton();
         openDiaryFragment();
-        initMealsRecylcerView();
     }
 
-    private void initMealsRecylcerView() {
 
 
-    }
 
-    private void initFloatingActionButton() {
-        logButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isLogLayoutVisible == false) {
-                    isLogLayoutVisible = true;
-                    animateLogLayout(true); // Animate the layout to show from bottom to top
-                } else if(isLogLayoutVisible == true) {
-                    isLogLayoutVisible = false;
-                    animateLogLayout(false); // Animate the layout to hide from top to bottom
-                }
-            }
-        });
-    }
 
     private void initBottomNavigationBar() {
         binding.bottomNavView.setBackground(null);
@@ -93,6 +75,24 @@ public class MainActivity extends AppCompatActivity {
         logLayout = findViewById(R.id.logLayout);
     }
 
+
+    private boolean isLogLayoutVisible = false;
+
+    private void initFloatingActionButton() {
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isLogLayoutVisible) {
+                    isLogLayoutVisible = true;
+                    animateLogLayout(isLogLayoutVisible); // Animate the layout to show from bottom to top
+                } else {
+                    isLogLayoutVisible = false;
+                    animateLogLayout(isLogLayoutVisible); // Animate the layout to hide from top to bottom
+                }
+            }
+        });
+    }
+
     private void animateLogLayout(final boolean isVisible) {
         TranslateAnimation animate;
         if (!isVisible) {
@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if (!isVisible) {
-                    logLayout.setVisibility(View.VISIBLE);
+                    logLayout.setVisibility(View.INVISIBLE);
                 } else {
-                    logLayout.setVisibility(View.GONE);
+                    logLayout.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         logLayout.startAnimation(animate);
     }
+
 
 
 

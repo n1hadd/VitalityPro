@@ -20,7 +20,25 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Ingredient"
-            android:textSize="15sp" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+        <ImageView
+            android:id="@+id/imgAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_black"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            />
+            <TextView
+                android:id="@+id/txtGrams"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtIngredientName"
+                android:text="0 grams"
+                android:layout_margin="10dp"/>
 
         <TextView
             android:id="@+id/txtIngredientCalories"
@@ -28,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
-            android:text="kcal" />
+            android:text="0 kcal"
+            android:layout_alignBaseline="@id/txtGrams"/>
 
 
     </RelativeLayout>

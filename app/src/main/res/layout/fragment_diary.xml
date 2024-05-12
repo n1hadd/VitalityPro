@@ -143,14 +143,15 @@
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline5"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
-            tools:layout_editor_absoluteX="16dp">
+            tools:layout_editor_absoluteX="16dp"
+            android:elevation="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/macronutrientsConsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp"
-                android:background="#F4F4F4">
+                >
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline33"
@@ -334,10 +335,93 @@
             android:layout_marginTop="10dp"
             />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/activityCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/mealsRecylcerView"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="15dp"
+            android:elevation="5dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/activityRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/collapsedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txtActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Activity"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/acme"/>
+
+                    <TextView
+                        android:id="@+id/activityCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="0 kcal"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtActivity"
+                        android:text="You haven't done any physical activity yet."
+                        android:layout_marginTop="10dp"/>
+
+                    <ImageView
+                        android:id="@+id/imgView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/dumbbell"
+                        android:layout_below="@id/txtActivity"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginLeft="20dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddMeal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add activity"
+                        android:layout_below="@+id/activityCalories"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="50dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:icon="@drawable/ic_add"
+                        app:cornerRadius="10dp"
+                        android:textColor="@color/main"
+                        app:iconTint="@color/main"
+                        android:textAllCaps="false"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/expandedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/collapsedRelativeLayout"
+                    android:visibility="gone">
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            app:layout_constraintTop_toBottomOf="@id/mealsRecylcerView"/>
+            android:layout_height="80dp"
+            app:layout_constraintTop_toBottomOf="@id/activityCardView"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

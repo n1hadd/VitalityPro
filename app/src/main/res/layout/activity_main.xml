@@ -26,7 +26,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@id/guidelineLogLayout"
-        android:background="#DFDFDF"
+        android:background="@color/white"
         android:visibility="gone"
         android:padding="16dp">
 
@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintStart_toStartOf="@id/guideline"
-                app:layout_constraintEnd_toStartOf="@id/guideline2"/>
+                app:layout_constraintEnd_toStartOf="@id/guideline2"
+                />
             <ImageButton
                 android:id="@+id/imgBtnWater"
                 android:layout_width="0dp"

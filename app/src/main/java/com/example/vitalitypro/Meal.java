@@ -2,20 +2,14 @@ package com.example.vitalitypro;
 
 public class Meal {
     private String title;
-    private String imgUrl;
+    private int imageResourceId;
 
-    public Meal(String title, String imgUrl) {
+    public Meal(String title, int imageResourceId) {
         this.title = title;
-        this.imgUrl = imgUrl;
+        this.imageResourceId = imageResourceId;
     }
 
-    @Override
-    public String toString() {
-        return "Meal{" +
-                "title='" + title + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                '}';
-    }
+
 
     public String getTitle() {
         return title;
@@ -25,11 +19,11 @@ public class Meal {
         this.title = title;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public int getImageResourceId() {
+        return imageResourceId;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImageResourceId(int imageResourceId) {
+        this.imageResourceId = imageResourceId;
     }
 }
