@@ -14,6 +14,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "FOOD_DATA_API_KEY", "\"sRPk5sopXGK9QYdQ3rGlBX2uZmAm9jIWMFnYbboq\"")
+
+
+
     }
 
     buildTypes {
@@ -28,6 +32,7 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        android.buildFeatures.buildConfig = true
     }
 }
 
@@ -44,6 +49,7 @@ dependencies {
     implementation("androidx.fragment:fragment:1.6.2")
     implementation ("nl.bryanderidder:themed-toggle-button-group:1.4.1")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
 }
