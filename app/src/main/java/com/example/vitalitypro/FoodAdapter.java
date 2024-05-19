@@ -20,6 +20,8 @@ import java.util.List;
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
     private List<Food> foodList;
+    private List<Food> loggedItems;
+
 
     public FoodAdapter(List<Food> foodList) {
         this.foodList = foodList;
@@ -78,9 +80,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
                 editor.putString("selected_foods", updatedFoodsJson);
                 editor.apply();
                 Toast.makeText(v.getContext(), "Selected food logged.", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
+
+
 
 
     @Override
@@ -110,4 +115,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+
+
 }

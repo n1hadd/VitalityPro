@@ -50,4 +50,6 @@ public class LoggedFoodAdapter extends RecyclerView.Adapter<LoggedFoodAdapter.Lo
             imgRemove = itemView.findViewById(R.id.imgRemove);
         }
     }
+
+
 }

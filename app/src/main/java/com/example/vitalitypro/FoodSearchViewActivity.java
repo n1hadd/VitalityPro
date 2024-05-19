@@ -1,17 +1,19 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalitypro.Food.FoodNutrient;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,8 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
     private RecyclerView recyclerView;
     private FoodAdapter foodAdapter;
     private List<Food> foodList = new ArrayList<>();
-
+    private LoggedFoodAdapter loggedFoodAdapter;
+    private List<Food> loggedFoodList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,13 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
                 return false;
             }
         });
+
+        String mealType = getIntent().getStringExtra("meal_type");
+        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+
 
     }
 
@@ -108,13 +118,18 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
         startActivity(intent);
     }
 
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        finish();
+    private void loadLoggedItemsFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        String existingFoodsJson = sharedPreferences.getString("selected_foods", "[]");
+        Gson gson = new Gson();
+        List<Food> selectedFoods = gson.fromJson(existingFoodsJson, new TypeToken<List<Food>>() {}.getType());
+
+        // Update the loggedFoodList with the retrieved list of selected foods
+        loggedFoodList.clear();
+        loggedFoodList.addAll(selectedFoods);
+
+        // Notify the adapter that the data set has changed
+        loggedFoodAdapter.notifyDataSetChanged();
     }
-
-
-
 
 }

@@ -35,7 +35,7 @@ import com.google.android.material.button.MaterialButton;
  * Use the {@link DiaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DiaryFragment extends Fragment {
+public class DiaryFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -132,6 +132,7 @@ public class DiaryFragment extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -146,6 +147,7 @@ public class DiaryFragment extends Fragment {
         initButtonsClicked();
         initDailyCaloriesSplit();
 
+
         UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
         int dailyCalorieIntake = userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""));
         txtCaloriesRemainingCount.setText(String.valueOf(dailyCalorieIntake));
@@ -155,6 +157,9 @@ public class DiaryFragment extends Fragment {
 
         return rootView;
     }
+
+
+
 
     private void initDailyCaloriesSplit() {
         sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
@@ -179,28 +184,28 @@ public class DiaryFragment extends Fragment {
         btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity();
+                startFoodSearchViewActivity("breakfast");
             }
         });
 
         btnAddLunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity();
+                startFoodSearchViewActivity("lunch");
             }
         });
 
         btnAddSnack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity();
+                startFoodSearchViewActivity("snack");
             }
         });
 
         btnAddDinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity();
+                startFoodSearchViewActivity("dinner");
             }
         });
     }
@@ -374,8 +379,9 @@ public class DiaryFragment extends Fragment {
 
 
     // start FoodSearchViewActivity
-    private void startFoodSearchViewActivity() {
+    private void startFoodSearchViewActivity(String mealType) {
         Intent intent = new Intent(getActivity(), FoodSearchViewActivity.class);
+        intent.putExtra("meal_type", mealType);
         startActivity(intent);
     }
 
