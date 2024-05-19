@@ -1,5 +1,6 @@
 package com.example.vitalitypro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -8,7 +9,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
+import com.example.vitalitypro.Food.FoodNutrient;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,7 @@ import retrofit2.Response;
 
 
 
-public class FoodSearchViewActivity extends AppCompatActivity {
+public class FoodSearchViewActivity extends AppCompatActivity implements FoodAdapter.OnItemClickListener{
     private static final String TAG = "FoodSearchViewActivity";
     private SearchView searchView;
     private RecyclerView recyclerView;
@@ -37,6 +40,7 @@ public class FoodSearchViewActivity extends AppCompatActivity {
         foodAdapter = new FoodAdapter(foodList);
         recyclerView.setAdapter(foodAdapter);
 
+        foodAdapter.setOnItemClickListener(this);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -57,22 +61,34 @@ public class FoodSearchViewActivity extends AppCompatActivity {
         FoodDataService service = ApiClient.getApiClient().create(FoodDataService.class);
         Call<FoodSearchResponse> call = service.searchFoods(query, "sRPk5sopXGK9QYdQ3rGlBX2uZmAm9jIWMFnYbboq");
 
-        Log.d(TAG, "Request URL: " + call.request().url());
-
         call.enqueue(new Callback<FoodSearchResponse>() {
             @Override
             public void onResponse(Call<FoodSearchResponse> call, Response<FoodSearchResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "Response: " + response.body());
+                    // Log the raw response
+                    Log.d(TAG, "Raw response: " + response.raw().toString());
+                    Log.d(TAG, "Raw response: " + new Gson().toJson(response.body()));
+
                     foodList.clear();
-                    foodList.addAll(response.body().getFoods());
+
+                    // Filter out items without Energy value
+                    for (Food food : response.body().getFoods()) {
+                        boolean hasEnergy = false;
+                        for (FoodNutrient nutrient : food.getFoodNutrients()) {
+                            if ("Energy".equals(nutrient.getNutrientName()) && nutrient.getValue() > 0) {
+                                hasEnergy = true;
+                                food.setCalories(nutrient.getValue());
+                                break;
+                            }
+                        }
+                        if (hasEnergy) {
+                            foodList.add(food);
+                        }
+                    }
+
                     foodAdapter.notifyDataSetChanged();
                 } else {
-                    try {
-                        Log.d(TAG, "Response failed: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d(TAG, "Response not successful: " + response.raw().toString());
                 }
             }
 
@@ -82,6 +98,15 @@ public class FoodSearchViewActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onItemClick(Food food) {
+        // Start a new activity or fragment to display detailed nutritive values
+        Intent intent = new Intent(this, FoodDetailActivity.class);
+        intent.putExtra("food", food);
+        startActivity(intent);
+    }
+
 
 
 

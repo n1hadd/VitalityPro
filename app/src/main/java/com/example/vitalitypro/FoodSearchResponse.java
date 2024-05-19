@@ -9,7 +9,6 @@ public class FoodSearchResponse {
     private List<Food> foods;
 
     // Getters and Setters
-
     public List<Food> getFoods() {
         return foods;
     }
