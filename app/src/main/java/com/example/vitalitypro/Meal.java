@@ -1,8 +1,11 @@
 package com.example.vitalitypro;
 
+import java.util.List;
+
 public class Meal {
     private String title;
     private int imageResourceId;
+    private List<Food> selectedFoods;
 
     public Meal(String title, int imageResourceId) {
         this.title = title;
@@ -25,5 +28,12 @@ public class Meal {
 
     public void setImageResourceId(int imageResourceId) {
         this.imageResourceId = imageResourceId;
+    }
+    public List<Food> getSelectedFoods() {
+        return selectedFoods;
+    }
+
+    public void setSelectedFoods(List<Food> selectedFoods) {
+        this.selectedFoods = selectedFoods;
     }
 }

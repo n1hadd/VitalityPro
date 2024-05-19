@@ -327,19 +327,440 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="365dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mealsRecylcerView"
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cwBreakfast"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
             app:layout_constraintTop_toBottomOf="@id/macronutrients"
-            android:layout_marginTop="10dp"
-            />
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <RelativeLayout
+                    android:id="@+id/breakfastcollapsedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/breakfastCaloriesProgress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/circle_shape_meal_progress"
+                        android:indeterminate="false"
+                        android:padding="10dp"
+                        android:progress="30"
+                        android:progressDrawable="@drawable/custom_circle_progress_bar" />
+
+                    <TextView
+                        android:id="@+id/txtBreakfastTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/breakfastCaloriesProgress"
+                        android:text="Breakfast"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/acme"/>
+
+                    <TextView
+                        android:id="@+id/txtCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/txtBreakfastTitle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:text="0 / 567 kcal" />
+
+                    <TextView
+                        android:id="@+id/emptyLog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtBreakfastTitle"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="You haven't logged anything yet." />
+
+                    <ImageView
+                        android:id="@+id/imgMealBreakfast"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/emptyLog"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/breakfast" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddBreakfast"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/emptyLog"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="30dp"
+                        android:text="Add meal"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/ic_add"
+                        app:iconTint="@color/main" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/breakfastexpandedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/breakfastcollapsedRelativeLayout"
+                    android:visibility="gone"
+                    android:padding="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loggedBreakfastRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cwLunch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cwBreakfast"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <RelativeLayout
+                    android:id="@+id/lunchcollapsedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/lunchCaloriesProgress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/circle_shape_meal_progress"
+                        android:indeterminate="false"
+                        android:padding="10dp"
+                        android:progress="30"
+                        android:progressDrawable="@drawable/custom_circle_progress_bar" />
+
+                    <TextView
+                        android:id="@+id/txtLunchTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/lunchCaloriesProgress"
+                        android:text="Lunch"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/acme"/>
+
+                    <TextView
+                        android:id="@+id/txtCaloriesLunch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/txtLunchTitle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:text="0 / 567 kcal" />
+
+                    <TextView
+                        android:id="@+id/emptyLogLunch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtLunchTitle"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="You haven't logged anything yet." />
+
+                    <ImageView
+                        android:id="@+id/imgMealLunch"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/emptyLogLunch"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/lunch" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddLunch"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/emptyLogLunch"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="30dp"
+                        android:text="Add meal"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/ic_add"
+                        app:iconTint="@color/main" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/lunchexpandedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lunchcollapsedRelativeLayout"
+                    android:visibility="gone"
+                    android:padding="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loggedLunchRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cwSnack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cwLunch"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <RelativeLayout
+                    android:id="@+id/snackcollapsedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/snackCaloriesProgress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/circle_shape_meal_progress"
+                        android:indeterminate="false"
+                        android:padding="10dp"
+                        android:progress="30"
+                        android:progressDrawable="@drawable/custom_circle_progress_bar" />
+
+                    <TextView
+                        android:id="@+id/txtSnackTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/snackCaloriesProgress"
+                        android:text="Snack"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/acme"/>
+
+                    <TextView
+                        android:id="@+id/txtCaloriesSnack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/txtSnackTitle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:text="0 / 567 kcal" />
+
+                    <TextView
+                        android:id="@+id/emptyLogSnack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtSnackTitle"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="You haven't logged anything yet." />
+
+                    <ImageView
+                        android:id="@+id/imgMealSnack"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/emptyLogSnack"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/snack" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddSnack"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/emptyLogSnack"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="30dp"
+                        android:text="Add meal"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/ic_add"
+                        app:iconTint="@color/main" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/snackexpandedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/snackcollapsedRelativeLayout"
+                    android:visibility="gone"
+                    android:padding="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loggedSnackRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cwDinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cwSnack"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <RelativeLayout
+                    android:id="@+id/dinnercollapsedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/dinnerCaloriesProgress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/circle_shape_meal_progress"
+                        android:indeterminate="false"
+                        android:padding="10dp"
+                        android:progress="30"
+                        android:progressDrawable="@drawable/custom_circle_progress_bar" />
+
+                    <TextView
+                        android:id="@+id/txtDinnerTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/dinnerCaloriesProgress"
+                        android:text="Snack"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/acme"/>
+
+                    <TextView
+                        android:id="@+id/txtCaloriesDinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/txtDinnerTitle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:text="0 / 567 kcal" />
+
+                    <TextView
+                        android:id="@+id/emptyLogDinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtDinnerTitle"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="You haven't logged anything yet." />
+
+                    <ImageView
+                        android:id="@+id/imgMealDinner"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/emptyLogDinner"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/dinner" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddDinner"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/emptyLogDinner"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="30dp"
+                        android:text="Add meal"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/ic_add"
+                        app:iconTint="@color/main" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/dinnerexpandedRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dinnercollapsedRelativeLayout"
+                    android:visibility="gone"
+                    android:padding="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loggedDinnerRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/activityCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/mealsRecylcerView"
+            app:layout_constraintTop_toBottomOf="@id/cwDinner"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="15dp"
             android:elevation="5dp"
@@ -419,8 +840,8 @@
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             app:layout_constraintTop_toBottomOf="@id/activityCardView"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

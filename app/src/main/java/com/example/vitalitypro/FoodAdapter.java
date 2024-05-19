@@ -1,13 +1,19 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
@@ -48,6 +54,30 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
                 if(listener != null){
                     listener.onItemClick(food);
                 }
+            }
+        });
+
+        holder.imgAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                Gson gson = new Gson();
+                String foodJson = gson.toJson(food);
+
+                // Retrieve the current list of selected foods
+                String existingFoodsJson = sharedPreferences.getString("selected_foods", "[]");
+                List<Food> selectedFoods = gson.fromJson(existingFoodsJson, new TypeToken<List<Food>>() {}.getType());
+
+                // Add the new food item
+                selectedFoods.add(food);
+
+                // Save the updated list back to SharedPreferences
+                String updatedFoodsJson = gson.toJson(selectedFoods);
+                editor.putString("selected_foods", updatedFoodsJson);
+                editor.apply();
+                Toast.makeText(v.getContext(), "Selected food logged.", Toast.LENGTH_SHORT).show();
             }
         });
     }

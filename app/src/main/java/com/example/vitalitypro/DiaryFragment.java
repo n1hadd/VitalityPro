@@ -1,6 +1,7 @@
 package com.example.vitalitypro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -23,12 +24,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.google.android.material.button.MaterialButton;
 
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,8 +94,43 @@ public class DiaryFragment extends Fragment {
     private RelativeLayout relativeLayout2,relativeLayout3, relativeLayout4;
     private ProgressBar progressCarbs, progressProteins, progressFats;
     private TextView txtCarbs, txtProteins, txtFats;
-    private RecyclerView mealsRecylcerView;
-    private MealRecyclerViewAdapter mealRecyclerViewAdapter;
+
+    private CardView cwBreakFast, cwLunch, cwSnack, cwDinner;
+
+    /* BREAKFAST CARD VIEW */
+    private RelativeLayout breakfastcollapsedRelativeLayout, breakfastexpandedRelativeLayout;
+    private ProgressBar breakfastCaloriesProgress;
+    private TextView txtBreakfastTitle, txtCalories, emptyLog;
+    private ImageView imgMealBreakfast;
+    private MaterialButton btnAddBreakfast;
+    private RecyclerView loggedBreakfastRecyclerView;
+
+    /* Lunch CARD VIEW */
+    private RelativeLayout lunchcollapsedRelativeLayout, lunchexpandedRelativeLayout;
+    private ProgressBar lunchCaloriesProgress;
+    private TextView txtLunchTitle, txtCaloriesLunch, emptyLogLunch;
+    private ImageView imgMealLunch;
+    private MaterialButton btnAddLunch;
+    private RecyclerView loggedLunchRecyclerView;
+
+    /* SNACK CARD VIEW */
+    private RelativeLayout snackcollapsedRelativeLayout, snackexpandedRelativeLayout;
+    private ProgressBar snackCaloriesProgress;
+    private TextView txtSnackTitle, txtCaloriesSnack, emptyLogSnack;
+    private ImageView imgMealSnack;
+    private MaterialButton btnAddSnack;
+    private RecyclerView loggedSnackRecyclerView;
+
+    /* DINNER CARD VIEW */
+    private RelativeLayout dinnercollapsedRelativeLayout, dinnerexpandedRelativeLayout;
+    private ProgressBar dinnerCaloriesProgress;
+    private TextView txtDinnerTitle, txtCaloriesDinner, emptyLogDinner;
+    private ImageView imgMealDinner;
+    private MaterialButton btnAddDinner;
+    private RecyclerView loggedDinnerRecyclerView;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,18 +142,70 @@ public class DiaryFragment extends Fragment {
         initViews(rootView);
         updateProgressBar(currentProgress);
         initProgressBarsNutrients();
-        initMealsRecylcerView();
-
+        //initMealsRecylcerView();
+        initButtonsClicked();
+        initDailyCaloriesSplit();
 
         UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
         int dailyCalorieIntake = userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""));
         txtCaloriesRemainingCount.setText(String.valueOf(dailyCalorieIntake));
         dailyGoalCalories.setText(String.valueOf(dailyCalorieIntake));
 
+
+
         return rootView;
     }
 
-    private void initMealsRecylcerView() {
+    private void initDailyCaloriesSplit() {
+        sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
+        int dailyCalorieIntake = userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""));
+        int breakfastCalories = (int)(dailyCalorieIntake *0.2);
+        int lunchCalories = (int)(dailyCalorieIntake *0.4);
+        int snackCalories = (int)(dailyCalorieIntake *0.1);
+        int dinnerCalories = (int)(dailyCalorieIntake *0.3);
+        int caloriesEaten = userDatabaseHandler.getTotalCaloriesEatenByUsername(sharedPreferences.getString("username_pref_key",""));
+
+
+        txtCalories.setText(caloriesEaten+" / "+String.valueOf(breakfastCalories)+" kcal");
+        txtCaloriesLunch.setText(caloriesEaten+" / "+String.valueOf(lunchCalories)+" kcal");
+        txtCaloriesSnack.setText(caloriesEaten+" / "+String.valueOf(snackCalories)+" kcal");
+        txtCaloriesDinner.setText(caloriesEaten+" / "+String.valueOf(dinnerCalories)+" kcal");
+    }
+
+    private void initButtonsClicked() {
+        btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFoodSearchViewActivity();
+            }
+        });
+
+        btnAddLunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFoodSearchViewActivity();
+            }
+        });
+
+        btnAddSnack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFoodSearchViewActivity();
+            }
+        });
+
+        btnAddDinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFoodSearchViewActivity();
+            }
+        });
+    }
+
+    /*private void initMealsRecylcerView() {
         ArrayList<Meal> meals = new ArrayList<>();
         meals.add(new Meal("Breakfast", R.drawable.breakfast));
         meals.add(new Meal("Lunch", R.drawable.lunch));
@@ -132,7 +219,7 @@ public class DiaryFragment extends Fragment {
 
         mealRecyclerViewAdapter.setMeals(meals);
 
-    }
+    }*/
 
     private void initProgressBarsNutrients() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -238,6 +325,58 @@ public class DiaryFragment extends Fragment {
         relativeLayout4 = rootView.findViewById(R.id.relativeLayout4);
         progressFats = rootView.findViewById(R.id.progressFats);
         txtFats = rootView.findViewById(R.id.txtFats);
-        mealsRecylcerView = rootView.findViewById(R.id.mealsRecylcerView);
+
+
+        // MEAL CARDVIEWS
+        breakfastcollapsedRelativeLayout = rootView.findViewById(R.id.breakfastcollapsedRelativeLayout);
+        breakfastexpandedRelativeLayout = rootView.findViewById(R.id.breakfastexpandedRelativeLayout);
+        breakfastCaloriesProgress = rootView.findViewById(R.id.breakfastCaloriesProgress);
+        txtBreakfastTitle = rootView.findViewById(R.id.txtBreakfastTitle);
+        txtCalories = rootView.findViewById(R.id.txtCalories);
+        emptyLog = rootView.findViewById(R.id.emptyLog);
+        imgMealBreakfast = rootView.findViewById(R.id.imgMealBreakfast);
+        btnAddBreakfast = rootView.findViewById(R.id.btnAddBreakfast);
+        loggedBreakfastRecyclerView = rootView.findViewById(R.id.loggedBreakfastRecyclerView);
+
+
+        lunchcollapsedRelativeLayout = rootView.findViewById(R.id.lunchcollapsedRelativeLayout);
+        lunchexpandedRelativeLayout = rootView.findViewById(R.id.lunchexpandedRelativeLayout);
+        lunchCaloriesProgress = rootView.findViewById(R.id.lunchCaloriesProgress);
+        txtLunchTitle = rootView.findViewById(R.id.txtLunchTitle);
+        txtCaloriesLunch = rootView.findViewById(R.id.txtCaloriesLunch);
+        emptyLogLunch = rootView.findViewById(R.id.emptyLogLunch);
+        imgMealLunch = rootView.findViewById(R.id.imgMealLunch);
+        btnAddLunch = rootView.findViewById(R.id.btnAddLunch);
+        loggedLunchRecyclerView = rootView.findViewById(R.id.loggedLunchRecyclerView);
+
+        snackcollapsedRelativeLayout = rootView.findViewById(R.id.snackcollapsedRelativeLayout);
+        snackexpandedRelativeLayout = rootView.findViewById(R.id.snackexpandedRelativeLayout);
+        snackCaloriesProgress = rootView.findViewById(R.id.snackCaloriesProgress);
+        txtSnackTitle = rootView.findViewById(R.id.txtSnackTitle);
+        txtCaloriesSnack = rootView.findViewById(R.id.txtCaloriesSnack);
+        emptyLogSnack = rootView.findViewById(R.id.emptyLogSnack);
+        imgMealSnack = rootView.findViewById(R.id.imgMealSnack);
+        btnAddSnack = rootView.findViewById(R.id.btnAddSnack);
+        loggedSnackRecyclerView = rootView.findViewById(R.id.loggedSnackRecyclerView);
+
+        dinnercollapsedRelativeLayout = rootView.findViewById(R.id.dinnercollapsedRelativeLayout);
+        dinnerexpandedRelativeLayout = rootView.findViewById(R.id.dinnerexpandedRelativeLayout);
+        dinnerCaloriesProgress = rootView.findViewById(R.id.dinnerCaloriesProgress);
+        txtDinnerTitle = rootView.findViewById(R.id.txtDinnerTitle);
+        txtCaloriesDinner = rootView.findViewById(R.id.txtCaloriesDinner);
+        emptyLogDinner = rootView.findViewById(R.id.emptyLogDinner);
+        imgMealDinner = rootView.findViewById(R.id.imgMealDinner);
+        btnAddDinner = rootView.findViewById(R.id.btnAddDinner);
+        loggedDinnerRecyclerView = rootView.findViewById(R.id.loggedDinnerRecyclerView);
+
+
     }
+
+
+    // start FoodSearchViewActivity
+    private void startFoodSearchViewActivity() {
+        Intent intent = new Intent(getActivity(), FoodSearchViewActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -105,6 +106,12 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
         Intent intent = new Intent(this, FoodDetailActivity.class);
         intent.putExtra("food", food);
         startActivity(intent);
+    }
+
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 
