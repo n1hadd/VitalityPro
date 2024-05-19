@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,641 +7,659 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FoodDetailActivity"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:scrollbars="none">
 
-    <TextView
-        android:id="@+id/foodTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Banana"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/acme"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
-        android:elevation="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/foodTitle"
-        android:layout_marginTop="20dp"
-        >
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/foodTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Banana"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/acme"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            app:cardCornerRadius="15dp"
+            android:elevation="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/foodTitle"
+            android:layout_marginTop="20dp"
             >
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline25"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.25"/>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.50"/>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline75"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.75"/>
-
-            <TextView
-                android:id="@+id/txtKcal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline25"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="20dp"/>
-
-            <TextView
-                android:id="@+id/txtCarb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="100"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline50"
-                app:layout_constraintHorizontal_bias="0.508"
-                app:layout_constraintStart_toStartOf="@+id/guideline25"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txtProtein"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="100"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline75"
-                app:layout_constraintStart_toStartOf="@+id/guideline50"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txtFats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="100"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline75"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="kcal"
-                app:layout_constraintEnd_toStartOf="@+id/guideline25"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtKcal"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="Carbs"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline50"
-                app:layout_constraintStart_toStartOf="@+id/guideline25"
-                app:layout_constraintTop_toBottomOf="@+id/txtCarb" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="Protein"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline75"
-                app:layout_constraintStart_toStartOf="@+id/guideline50"
-                app:layout_constraintTop_toBottomOf="@+id/txtProtein" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fats"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline75"
-                app:layout_constraintTop_toBottomOf="@+id/txtFats" />
-
-
-
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/nutritionalInfoCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="15dp"
-        android:elevation="15dp">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.03"/>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideLineRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.87"/>
-
-            <TextView
-                android:id="@+id/nutritionalInfoTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="Nutritional info"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/carbs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/nutritionalInfoTitle"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/carbsVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/nutritionalInfoTitle"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/fibers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fibers"
-                app:layout_constraintTop_toBottomOf="@id/carbs"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/fibersVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/carbsVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                />
-
-            <TextView
-                android:id="@+id/sugars"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sugars"
-                app:layout_constraintTop_toBottomOf="@id/fibers"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/sugarsVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/fibersVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                />
-
-            <TextView
-                android:id="@+id/protein"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Protein"
-                app:layout_constraintTop_toBottomOf="@id/sugars"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/proteinVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/sugarsVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/fats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fats"
-                app:layout_constraintTop_toBottomOf="@id/protein"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/fatsVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/proteinVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-
-            <TextView
-                android:id="@+id/sat_fats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saturated fats"
-                app:layout_constraintTop_toBottomOf="@id/fats"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/sat_fatsVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/fatsVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                />
-
-            <TextView
-                android:id="@+id/polyunsat_fats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Polyunsaturated fats"
-                app:layout_constraintTop_toBottomOf="@id/sat_fats"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/polyunsat_fatsVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/sat_fatsVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                />
-
-            <TextView
-                android:id="@+id/monounsat_fats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Monounsaturated fats"
-                app:layout_constraintTop_toBottomOf="@id/polyunsat_fats"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
-
-
-            <TextView
-                android:id="@+id/monounsat_fatsVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/polyunsat_fatsVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                />
-
-            <TextView
-                android:id="@+id/trans_fats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Trans fats"
-                app:layout_constraintTop_toBottomOf="@id/monounsat_fats"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/trans_fatsVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/monounsat_fatsVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                />
-
-
-            <TextView
-                android:id="@+id/cholesterol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cholesterol"
-                app:layout_constraintTop_toBottomOf="@id/trans_fats"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/cholesterolVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/trans_fatsVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/sodium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sodium"
-                app:layout_constraintTop_toBottomOf="@id/cholesterol"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/sodiumVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                app:layout_constraintTop_toBottomOf="@id/cholesterolVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/potassium"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:text="Potassium"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/guideLine"
-                app:layout_constraintTop_toBottomOf="@id/sodium"
-                android:layout_marginBottom="10dp"/>
-
-            <TextView
-                android:id="@+id/potassiumVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:text="Carbs"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight"
-                app:layout_constraintTop_toBottomOf="@id/sodiumVal"
-                android:layout_marginBottom="10dp"/>
-
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/vitaminsCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/nutritionalInfoCardView"
-        android:layout_marginTop="10dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideLine1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.03"/>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideLineRight2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.87"/>
-
-            <TextView
-                android:id="@+id/otherNutrients"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="Other Nutrients"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/guideLine1"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/vitamin_a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vitamin A"
-                app:layout_constraintTop_toBottomOf="@id/otherNutrients"
-                app:layout_constraintLeft_toRightOf="@id/guideLine1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/vitamin_aVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100"
-                app:layout_constraintTop_toBottomOf="@id/otherNutrients"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/vitamin_c"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vitamin C"
-                app:layout_constraintTop_toBottomOf="@id/vitamin_a"
-                app:layout_constraintLeft_toRightOf="@id/guideLine1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/vitamin_cVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100"
-                app:layout_constraintTop_toBottomOf="@id/vitamin_aVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/calcium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calcium"
-                app:layout_constraintTop_toBottomOf="@id/vitamin_c"
-                app:layout_constraintLeft_toRightOf="@id/guideLine1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/calciumVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100"
-                app:layout_constraintTop_toBottomOf="@id/vitamin_cVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/iron"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calcium"
-                app:layout_constraintTop_toBottomOf="@id/calcium"
-                app:layout_constraintLeft_toRightOf="@id/guideLine1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"
                 android:layout_marginBottom="10dp"
-                />
+                android:layout_marginRight="10dp"
+                >
 
-            <TextView
-                android:id="@+id/ironVal"
-                android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.25"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.50"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline75"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.75"/>
+
+                <TextView
+                    android:id="@+id/txtKcal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="100"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtCarb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="100"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline50"
+                    app:layout_constraintHorizontal_bias="0.508"
+                    app:layout_constraintStart_toStartOf="@+id/guideline25"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtProtein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="100"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline75"
+                    app:layout_constraintStart_toStartOf="@+id/guideline50"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtFats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="100"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline75"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kcal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtKcal"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="Carbs"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline50"
+                    app:layout_constraintStart_toStartOf="@+id/guideline25"
+                    app:layout_constraintTop_toBottomOf="@+id/txtCarb" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="Protein"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline75"
+                    app:layout_constraintStart_toStartOf="@+id/guideline50"
+                    app:layout_constraintTop_toBottomOf="@+id/txtProtein" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fats"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline75"
+                    app:layout_constraintTop_toBottomOf="@+id/txtFats" />
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nutritionalInfoCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="15dp"
+            android:elevation="15dp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="100"
-                app:layout_constraintTop_toBottomOf="@id/calciumVal"
-                app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="10dp"/>
+                >
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.03"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideLineRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.78"/>
+
+                <TextView
+                    android:id="@+id/nutritionalInfoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Nutritional info"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/carbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carbs"
+                    app:layout_constraintTop_toBottomOf="@id/nutritionalInfoTitle"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/carbsVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/nutritionalInfoTitle" />
+
+                <TextView
+                    android:id="@+id/fibers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fibers"
+                    app:layout_constraintTop_toBottomOf="@id/carbs"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/fibersVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="-"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/carbsVal" />
+
+                <TextView
+                    android:id="@+id/sugars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sugars"
+                    app:layout_constraintTop_toBottomOf="@id/fibers"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/sugarsVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="-"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/fibersVal" />
+
+                <TextView
+                    android:id="@+id/protein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Protein"
+                    app:layout_constraintTop_toBottomOf="@id/sugars"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/proteinVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/sugarsVal" />
+
+                <TextView
+                    android:id="@+id/fats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fats"
+                    app:layout_constraintTop_toBottomOf="@id/protein"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/fatsVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/proteinVal" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/sat_fats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Saturated fats"
+                    app:layout_constraintTop_toBottomOf="@id/fats"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"/>
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/sat_fatsVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="-"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/fatsVal" />
+
+                <TextView
+                    android:id="@+id/polyunsat_fats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Polyunsaturated fats"
+                    app:layout_constraintTop_toBottomOf="@id/sat_fats"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/polyunsat_fatsVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="-"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/sat_fatsVal" />
+
+                <TextView
+                    android:id="@+id/monounsat_fats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monounsaturated fats"
+                    app:layout_constraintTop_toBottomOf="@id/polyunsat_fats"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/monounsat_fatsVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="-"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/polyunsat_fatsVal" />
+
+                <TextView
+                    android:id="@+id/trans_fats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trans fats"
+                    app:layout_constraintTop_toBottomOf="@id/monounsat_fats"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/trans_fatsVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="-"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/monounsat_fatsVal" />
+
+
+                <TextView
+                    android:id="@+id/cholesterol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cholesterol"
+                    app:layout_constraintTop_toBottomOf="@id/trans_fats"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/cholesterolVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/trans_fatsVal" />
+
+                <TextView
+                    android:id="@+id/sodium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sodium"
+                    app:layout_constraintTop_toBottomOf="@id/cholesterol"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/sodiumVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/cholesterolVal" />
+
+                <TextView
+                    android:id="@+id/potassium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Potassium"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine"
+                    app:layout_constraintTop_toBottomOf="@id/sodium"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/potassiumVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight"
+                    app:layout_constraintTop_toBottomOf="@id/sodiumVal" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/vitaminsCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/nutritionalInfoCardView"
+            android:layout_marginTop="10dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideLine1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.03"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideLineRight2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.78"/>
+
+                <TextView
+                    android:id="@+id/otherNutrients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Other Nutrients"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/vitamin_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vitamin A"
+                    app:layout_constraintTop_toBottomOf="@id/otherNutrients"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/vitamin_aVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
+                    app:layout_constraintTop_toBottomOf="@id/otherNutrients" />
+
+                <TextView
+                    android:id="@+id/vitamin_c"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vitamin C"
+                    app:layout_constraintTop_toBottomOf="@id/vitamin_a"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/vitamin_cVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
+                    app:layout_constraintTop_toBottomOf="@id/vitamin_aVal" />
+
+                <TextView
+                    android:id="@+id/calcium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calcium"
+                    app:layout_constraintTop_toBottomOf="@id/vitamin_c"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/calciumVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
+                    app:layout_constraintTop_toBottomOf="@id/vitamin_cVal" />
+
+                <TextView
+                    android:id="@+id/iron"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Iron"
+                    app:layout_constraintTop_toBottomOf="@id/calcium"
+                    app:layout_constraintLeft_toRightOf="@id/guideLine1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/ironVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/guideLineRight2"
+                    app:layout_constraintTop_toBottomOf="@id/calciumVal" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add meal to breakfast"
+            app:layout_constraintTop_toBottomOf="@id/vitaminsCardView"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</ScrollView>
