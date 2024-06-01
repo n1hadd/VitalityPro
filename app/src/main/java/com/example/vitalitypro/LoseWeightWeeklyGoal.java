@@ -3,13 +3,6 @@ package com.example.vitalitypro;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +11,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -113,7 +112,7 @@ public class LoseWeightWeeklyGoal extends Fragment {
                             buttonsChecked = 1;
                             break;
                         case "btnLose05":
-                            editor.putString(WEEKLY_LOSE_GOAL, "-0,5");
+                            editor.putString(WEEKLY_LOSE_GOAL, "-0.5");
                             buttonsChecked = 1;
                             break;
                         case "btnLose08":

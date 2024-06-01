@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.vitalitypro.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoodLoggedListener {
 
     public final static String TAG = "Main Activity";
 
@@ -151,5 +151,10 @@ public class MainActivity extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+    @Override
+    public void onFoodLogged(String mealType) {
+
     }
 }

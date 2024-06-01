@@ -1,5 +1,6 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,17 @@ import java.util.List;
 public class LoggedFoodAdapter extends RecyclerView.Adapter<LoggedFoodAdapter.LoggedFoodViewHolder> {
 
     private List<Food> foodList = new ArrayList<>();
+    private String mealType;
+    private Context context;
+    private FoodAdapter.OnFoodLoggedListener logged_listener;
+
+
+    public LoggedFoodAdapter(List<Food> foodList, String mealType, Context context, FoodAdapter.OnFoodLoggedListener logged_listener) {
+        this.foodList = foodList;
+        this.mealType = mealType;
+        this.context = context;
+        this.logged_listener = logged_listener;
+    }
 
     @NonNull
     @Override
@@ -27,7 +39,6 @@ public class LoggedFoodAdapter extends RecyclerView.Adapter<LoggedFoodAdapter.Lo
     public void onBindViewHolder(@NonNull LoggedFoodViewHolder holder, int position) {
         Food food = foodList.get(position);
         holder.txtFoodName.setText(food.getDescription());
-
     }
 
     @Override

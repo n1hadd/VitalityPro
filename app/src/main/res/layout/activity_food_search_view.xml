@@ -8,6 +8,10 @@
     tools:context=".FoodSearchViewActivity"
     >
 
+    <FrameLayout
+        android:id="@+id/searchviewFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"

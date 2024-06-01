@@ -24,10 +24,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 
 /**
@@ -35,7 +41,7 @@ import com.google.android.material.button.MaterialButton;
  * Use the {@link DiaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DiaryFragment extends Fragment{
+public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -129,6 +135,11 @@ public class DiaryFragment extends Fragment{
     private MaterialButton btnAddDinner;
     private RecyclerView loggedDinnerRecyclerView;
 
+    private LoggedFoodAdapter breakfastAdapter;
+    private LoggedFoodAdapter lunchAdapter;
+    private LoggedFoodAdapter snackAdapter;
+    private LoggedFoodAdapter dinnerAdapter;
+
 
 
 
@@ -153,7 +164,15 @@ public class DiaryFragment extends Fragment{
         txtCaloriesRemainingCount.setText(String.valueOf(dailyCalorieIntake));
         dailyGoalCalories.setText(String.valueOf(dailyCalorieIntake));
 
+        setupRecyclerView(loggedBreakfastRecyclerView);
+        setupRecyclerView(loggedLunchRecyclerView);
+        setupRecyclerView(loggedSnackRecyclerView);
+        setupRecyclerView(loggedDinnerRecyclerView);
 
+        loadDataForMealType("breakfast");
+        loadDataForMealType("lunch");
+        loadDataForMealType("snack");
+        loadDataForMealType("dinner");
 
         return rootView;
     }
@@ -385,4 +404,61 @@ public class DiaryFragment extends Fragment{
         startActivity(intent);
     }
 
+    @Override
+    public void onFoodLogged(String mealType) {
+        loadDataForMealType(mealType);
+    }
+
+
+    private void setupRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void loadDataForMealType(String mealType) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
+        Type type = new TypeToken<List<Food>>() {}.getType();
+        List<Food> selectedFoods = gson.fromJson(existingFoodsJson, type);
+
+        if (selectedFoods != null && !selectedFoods.isEmpty()) {
+            switch (mealType) {
+                case "breakfast":
+                    breakfastAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    loggedBreakfastRecyclerView.setAdapter(breakfastAdapter);
+                    breakfastexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    break;
+                case "lunch":
+                    lunchAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    loggedLunchRecyclerView.setAdapter(lunchAdapter);
+                    lunchexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    break;
+                case "snack":
+                    snackAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    loggedSnackRecyclerView.setAdapter(snackAdapter);
+                    snackexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    break;
+                case "dinner":
+                    dinnerAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    loggedDinnerRecyclerView.setAdapter(dinnerAdapter);
+                    dinnerexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    break;
+            }
+        } else {
+            switch (mealType) {
+                case "breakfast":
+                    breakfastexpandedRelativeLayout.setVisibility(View.GONE);
+                    break;
+                case "lunch":
+                    lunchexpandedRelativeLayout.setVisibility(View.GONE);
+                    break;
+                case "snack":
+                    snackexpandedRelativeLayout.setVisibility(View.GONE);
+                    break;
+                case "dinner":
+                    dinnerexpandedRelativeLayout.setVisibility(View.GONE);
+                    break;
+            }
+        }
+    }
 }
