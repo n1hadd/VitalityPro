@@ -191,13 +191,19 @@ public class RegistrationFragment extends Fragment {
                     case "lose weight":
                         weightChangeGoalLose = Double.parseDouble(sharedPreferences.getString("users_weekly_lose_goal",""));
                         dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, age, gender, activityLevel, weightChangeGoalLose);
+                        editor.putInt("daily_calorie_intake", dailyCalorieIntake);
+                        editor.apply();
                         break;
                     case "gain weight":
                         weightChangeGoalGain = Double.parseDouble(sharedPreferences.getString("users_weekly_gain_goal",""));
                         dailyCalorieIntake = calculateDailyCalorieIntake(weight, height, age, gender, activityLevel, weightChangeGoalGain);
+                        editor.putInt("daily_calorie_intake", dailyCalorieIntake);
+                        editor.apply();
                         break;
                     default:
                         dailyCalorieIntake = calculateDailyCalorieIntakeForMaintenance(weight, height, age, gender, activityLevel);
+                        editor.putInt("daily_calorie_intake", dailyCalorieIntake);
+                        editor.apply();
                         break;
                 }
 
@@ -235,6 +241,7 @@ public class RegistrationFragment extends Fragment {
                             dailyCalorieIntake
                     );
                 }
+
 
                 // Add user to the database
                 addUserToDatabase(user);

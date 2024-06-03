@@ -42,8 +42,10 @@ public class FoodDetailActivity extends AppCompatActivity implements FoodAdapter
         parent = getIntent().getStringExtra("parent");
         mealType = getIntent().getStringExtra("mealType");
 
+        btnAddMeal.setText("Add meal to "+mealType);
+
         if(parent.equals("diary")){
-            btnAddMeal.setEnabled(false);
+            btnAddMeal.setVisibility(View.GONE);
         }
         if(food != null){
             foodTitle.setText(food.getDescription());

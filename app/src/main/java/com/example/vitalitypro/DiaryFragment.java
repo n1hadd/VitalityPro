@@ -3,6 +3,7 @@ package com.example.vitalitypro;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -149,6 +150,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     private int lunchCalories;
     private int snackCalories;
     private int dinnerCalories;
+    private TextView txtOverWarning;
 
 
 
@@ -263,6 +265,10 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
     }*/
 
+    private int carbGrams;
+    private int proteinGrams;
+    private int fatGrams;
+
     private void initProgressBarsNutrients() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
@@ -280,9 +286,9 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         int proteinCalories = (int)(userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key", "")) * Double.valueOf(sharedPreferences.getString("key_proteins_percentage", "")));
         int fatCalories = (int)(userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key", "")) * Double.valueOf(sharedPreferences.getString("key_fats_percentage", "")));
 
-        int carbGrams = carbCalories / 4;
-        int proteinGrams = proteinCalories / 4;
-        int fatGrams = fatCalories / 9;
+        carbGrams = carbCalories / 4;
+        proteinGrams = proteinCalories / 4;
+        fatGrams = fatCalories / 9;
 
         Log.d(TAG, "Carb calories: "+carbCalories+";  Carbs in grams: "+carbGrams+"; Protein calories: "+proteinCalories+"; Proteins in grams: "+proteinGrams+"; Fats calories: "+fatCalories+"; Fats in grams: "+fatGrams);
 
@@ -410,7 +416,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         imgMealDinner = rootView.findViewById(R.id.imgMealDinner);
         btnAddDinner = rootView.findViewById(R.id.btnAddDinner);
         loggedDinnerRecyclerView = rootView.findViewById(R.id.loggedDinnerRecyclerView);
-
+        txtOverWarning = rootView.findViewById(R.id.txtOverWarning);
 
     }
 
@@ -494,15 +500,23 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             switch (mealType) {
                 case "breakfast":
                     txtCalories.setText(caloriesEaten + " / " + breakfastCalories + " kcal");
+                    breakfastCaloriesProgress.setMax(breakfastCalories);
+                    breakfastCaloriesProgress.setProgress(caloriesEaten);
                     break;
                 case "lunch":
                     txtCaloriesLunch.setText(caloriesEaten + " / " + lunchCalories + " kcal");
+                    lunchCaloriesProgress.setMax(lunchCalories);
+                    lunchCaloriesProgress.setProgress(caloriesEaten);
                     break;
                 case "snack":
                     txtCaloriesSnack.setText(caloriesEaten + " / " + snackCalories + " kcal");
+                    snackCaloriesProgress.setMax(snackCalories);
+                    snackCaloriesProgress.setProgress(caloriesEaten);
                     break;
                 case "dinner":
                     txtCaloriesDinner.setText(caloriesEaten + " / " + dinnerCalories + " kcal");
+                    dinnerCaloriesProgress.setMax(dinnerCalories);
+                    dinnerCaloriesProgress.setProgress(caloriesEaten);
                     break;
             }
 
@@ -510,10 +524,228 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             String username = sharedPreferences.getString("username_pref_key", "");
             UserDatabaseHandler databaseHandler = new UserDatabaseHandler(getContext());
             databaseHandler.updateEatenCalories(username, total);
+
+            // MAIN PROGRESS BAR PROGRESS HANDLING
             txtCaloriesCount.setText(String.valueOf(total));
+            int goalIntake = sharedPreferences.getInt("daily_calorie_intake", -1);
+            progressBar.setMax(goalIntake);
+            progressBar.setProgress(total, true);
+            if (total > goalIntake){
+                cardRelativeLayout.setBackgroundColor(Color.parseColor("#f73b31"));
+                txtRemaining.setTextColor(Color.parseColor("#000000"));
+                txtCaloriesRemainingCount.setTextColor(Color.parseColor("#000000"));
+                dailyGoalCalories.setTextColor(Color.parseColor("#000000"));
+                dailyGoal.setTextColor(Color.parseColor("#000000"));
+                txtOverWarning.setVisibility(View.VISIBLE);
+                txtOverWarning.setText(total-goalIntake+" calories over daily goal");
+            }
+            else if(total == goalIntake){
+                cardRelativeLayout.setBackgroundColor(Color.parseColor("#05d3bc"));
+                txtRemaining.setTextColor(Color.parseColor("#008c82"));
+                txtCaloriesRemainingCount.setTextColor(Color.parseColor("#008c82"));
+                dailyGoalCalories.setTextColor(Color.parseColor("#008c82"));
+                dailyGoal.setTextColor(Color.parseColor("#008c82"));
+                txtOverWarning.setVisibility(View.VISIBLE);
+                txtOverWarning.setText("You have met your daily goal.");
+            }
+            else{
+                cardRelativeLayout.setBackgroundColor(Color.parseColor("#05d3bc"));
+                txtRemaining.setTextColor(Color.parseColor("#008c82"));
+                txtCaloriesRemainingCount.setTextColor(Color.parseColor("#008c82"));
+                dailyGoalCalories.setTextColor(Color.parseColor("#008c82"));
+                dailyGoal.setTextColor(Color.parseColor("#008c82"));
+                txtOverWarning.setVisibility(View.GONE);
+            }
+
+            progressCarbs.setMax(carbGrams);
+            progressProteins.setMax(proteinGrams);
+            progressFats.setMax(fatGrams);
+
+            int[] breakfastNutrients = getBreakfastMacronutrients();
+            int[] lunchNutrients = getLunchMacronutrients();
+            int[] snackNutrients = getSnackMacronutrients();
+            int[] dinnerNutrients = getDinnerMacronutrients();
+
+            int totalCarbs = breakfastNutrients[0] + lunchNutrients[0] + snackNutrients[0] + dinnerNutrients[0] ;
+            int totalProteins = breakfastNutrients[1] + lunchNutrients[1] + snackNutrients[1] + dinnerNutrients[1] ;
+            int totalFats = breakfastNutrients[2] + lunchNutrients[2] + snackNutrients[2] + dinnerNutrients[2] ;
+
+            progressCarbs.setProgress(totalCarbs);
+            progressProteins.setProgress(totalProteins);
+            progressFats.setProgress(totalFats);
+
+            txtCarbs.setText(totalCarbs+"\n/"+ carbGrams);
+            txtProteins.setText(totalProteins+"\n/"+ proteinGrams);
+            txtFats.setText(totalFats+"\n/"+ fatGrams);
 
         }
     }
+
+    public int[] getBreakfastMacronutrients() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String breakfastFood = sharedPreferences.getString("breakfast", "[]");
+
+        Type type = new TypeToken<List<Food>>() {
+        }.getType();
+
+        List<Food> breakfast = gson.fromJson(breakfastFood, type);
+
+
+        if (breakfast != null && !breakfast.isEmpty()) {
+            int carbs = 0;
+            int proteins = 0;
+            int fats = 0;
+            for (Food food : breakfast) {
+                if (food != null) {
+                    for (Food.FoodNutrient nutrient : food.getFoodNutrients()) {
+                        switch (nutrient.getNutrientName()) {
+                            case "Carbohydrate, by difference":
+                                carbs += (int) (nutrient.getValue());
+                                break;
+                            case "Protein":
+                                proteins += (int) (nutrient.getValue());
+                                break;
+                            case "Total lipid (fat)":
+                                fats += (int) (nutrient.getValue());
+                                break;
+                        }
+                    }
+                }
+            }
+            int[] nutrients = new int[3];
+            nutrients[0] = carbs;
+            nutrients[1] = proteins;
+            nutrients[2] = fats;
+            return nutrients;
+        }
+        return new int[]{0, 0, 0};
+    }
+
+    public int[] getLunchMacronutrients() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String lunchFood = sharedPreferences.getString("lunch", "[]");
+
+        Type type = new TypeToken<List<Food>>() {
+        }.getType();
+
+        List<Food> lunch = gson.fromJson(lunchFood, type);
+
+
+        if (lunch != null && !lunch.isEmpty()) {
+            int carbs = 0;
+            int proteins = 0;
+            int fats = 0;
+            for (Food food : lunch) {
+                if (food != null) {
+                    for (Food.FoodNutrient nutrient : food.getFoodNutrients()) {
+                        switch (nutrient.getNutrientName()) {
+                            case "Carbohydrate, by difference":
+                                carbs += (int)Math.floor(nutrient.getValue());
+                                break;
+                            case "Protein":
+                                proteins += (int)Math.floor(nutrient.getValue());
+                                break;
+                            case "Total lipid (fat)":
+                                fats += (int)Math.floor(nutrient.getValue());
+                                break;
+                        }
+                    }
+                }
+            }
+            int[] nutrients = new int[3];
+            nutrients[0] = carbs;
+            nutrients[1] = proteins;
+            nutrients[2] = fats;
+            return nutrients;
+        }
+        return new int[]{0, 0, 0};
+    }
+
+    public int[] getSnackMacronutrients() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String snackFood = sharedPreferences.getString("snack", "[]");
+
+        Type type = new TypeToken<List<Food>>() {
+        }.getType();
+
+        List<Food> snack = gson.fromJson(snackFood, type);
+
+
+        if (snack != null && !snack.isEmpty()) {
+            int carbs = 0;
+            int proteins = 0;
+            int fats = 0;
+            for (Food food : snack) {
+                if (food != null) {
+                    for (Food.FoodNutrient nutrient : food.getFoodNutrients()) {
+                        switch (nutrient.getNutrientName()) {
+                            case "Carbohydrate, by difference":
+                                carbs += (int)Math.floor(nutrient.getValue());
+                                break;
+                            case "Protein":
+                                proteins += (int)Math.floor(nutrient.getValue());
+                                break;
+                            case "Total lipid (fat)":
+                                fats += (int)Math.floor(nutrient.getValue());
+                                break;
+                        }
+                    }
+                }
+            }
+            int[] nutrients = new int[3];
+            nutrients[0] = carbs;
+            nutrients[1] = proteins;
+            nutrients[2] = fats;
+            return nutrients;
+        }
+        return new int[]{0, 0, 0};
+    }
+
+    public int[] getDinnerMacronutrients() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String dinnerFood = sharedPreferences.getString("dinner", "[]");
+
+        Type type = new TypeToken<List<Food>>() {
+        }.getType();
+
+        List<Food> dinner = gson.fromJson(dinnerFood, type);
+
+
+        if (dinner != null && !dinner.isEmpty()) {
+            int carbs = 0;
+            int proteins = 0;
+            int fats = 0;
+            for (Food food : dinner) {
+                if (food != null) {
+                    for (Food.FoodNutrient nutrient : food.getFoodNutrients()) {
+                        switch (nutrient.getNutrientName()) {
+                            case "Carbohydrate, by difference":
+                                carbs += (int)Math.floor(nutrient.getValue());
+                                break;
+                            case "Protein":
+                                proteins += (int)Math.floor(nutrient.getValue());
+                                break;
+                            case "Total lipid (fat)":
+                                fats += (int) Math.floor(nutrient.getValue());
+                                break;
+                        }
+                    }
+                }
+            }
+            int[] nutrients = new int[3];
+            nutrients[0] = carbs;
+            nutrients[1] = proteins;
+            nutrients[2] = fats;
+            return nutrients;
+        }
+        return new int[]{0, 0, 0};
+    }
+
+
 
 
     private void setupRecyclerView(RecyclerView recyclerView) {
@@ -541,33 +773,40 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                     lunchAdapter.setOnItemClickListener(this::onItemClick);
                     loggedLunchRecyclerView.setAdapter(lunchAdapter);
                     lunchexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLogLunch.setVisibility(View.GONE);
                     break;
                 case "snack":
                     snackAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this );
                     snackAdapter.setOnItemClickListener(this::onItemClick);
                     loggedSnackRecyclerView.setAdapter(snackAdapter);
                     snackexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLogLunch.setVisibility(View.GONE);
                     break;
                 case "dinner":
                     dinnerAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
                     dinnerAdapter.setOnItemClickListener(this::onItemClick);
                     loggedDinnerRecyclerView.setAdapter(dinnerAdapter);
                     dinnerexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLogLunch.setVisibility(View.GONE);
                     break;
             }
         } else {
             switch (mealType) {
                 case "breakfast":
                     breakfastexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLog.setVisibility(View.VISIBLE);
                     break;
                 case "lunch":
                     lunchexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLogLunch.setVisibility(View.VISIBLE);
                     break;
                 case "snack":
                     snackexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLogSnack.setVisibility(View.VISIBLE);
                     break;
                 case "dinner":
                     dinnerexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLogDinner.setVisibility(View.VISIBLE);
                     break;
             }
         }
