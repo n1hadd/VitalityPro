@@ -48,8 +48,6 @@ public class FoodDetailActivity extends AppCompatActivity implements FoodAdapter
         if(food != null){
             foodTitle.setText(food.getDescription());
             txtKcal.setText(String.valueOf(food.getCalories()));
-
-
             if (food.getFoodNutrients() != null) {
                 for (Food.FoodNutrient nutrient : food.getFoodNutrients()) {
                     switch (nutrient.getNutrientName()) {

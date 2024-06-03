@@ -188,6 +188,22 @@ public class UserDatabaseHandler extends SQLiteOpenHelper {
         return totalCaloriesEaten;
     }
 
+    // Method to update the calories eaten for a user
+    public int updateEatenCalories(String username, int caloriesEaten) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_CALORIES_EATEN, caloriesEaten);
+
+        // Updating row
+        int rowsAffected = db.update(TABLE_USERS, values, KEY_USERNAME + "=?", new String[]{username});
+
+        // Close the database connection
+        db.close();
+
+        return rowsAffected;
+    }
+
 
 
 }

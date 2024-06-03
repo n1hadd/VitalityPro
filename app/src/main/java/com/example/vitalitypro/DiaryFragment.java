@@ -142,6 +142,14 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
     private String mealType;
 
+    private int caloriesEaten;
+
+    private int dailyCalorieIntake;
+    private int breakfastCalories;
+    private int lunchCalories;
+    private int snackCalories;
+    private int dinnerCalories;
+
 
 
 
@@ -176,6 +184,10 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         loadDataForMealType("snack");
         loadDataForMealType("dinner");
 
+        updateMealCalories("breakfast");
+        updateMealCalories("lunch");
+        updateMealCalories("snack");
+        updateMealCalories("dinner");
         return rootView;
     }
 
@@ -187,50 +199,50 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
-        int dailyCalorieIntake = userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""));
-        int breakfastCalories = (int)(dailyCalorieIntake *0.2);
-        int lunchCalories = (int)(dailyCalorieIntake *0.4);
-        int snackCalories = (int)(dailyCalorieIntake *0.1);
-        int dinnerCalories = (int)(dailyCalorieIntake *0.3);
-        int caloriesEaten = userDatabaseHandler.getTotalCaloriesEatenByUsername(sharedPreferences.getString("username_pref_key",""));
+        dailyCalorieIntake = userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""));
+        breakfastCalories = (int)(dailyCalorieIntake *0.2);
+        lunchCalories = (int)(dailyCalorieIntake *0.4);
+        snackCalories = (int)(dailyCalorieIntake *0.1);
+        dinnerCalories = (int)(dailyCalorieIntake *0.3);
+        //caloriesEaten = userDatabaseHandler.getTotalCaloriesEatenByUsername(sharedPreferences.getString("username_pref_key",""));
 
 
-        txtCalories.setText(caloriesEaten+" / "+String.valueOf(breakfastCalories)+" kcal");
-        txtCaloriesLunch.setText(caloriesEaten+" / "+String.valueOf(lunchCalories)+" kcal");
-        txtCaloriesSnack.setText(caloriesEaten+" / "+String.valueOf(snackCalories)+" kcal");
-        txtCaloriesDinner.setText(caloriesEaten+" / "+String.valueOf(dinnerCalories)+" kcal");
+        txtCalories.setText(0+" / "+breakfastCalories+" kcal");
+        txtCaloriesLunch.setText(0+" / "+lunchCalories+" kcal");
+        txtCaloriesSnack.setText(0+" / "+snackCalories+" kcal");
+        txtCaloriesDinner.setText(0+" / "+dinnerCalories+" kcal");
     }
 
     private void initButtonsClicked() {
         btnAddBreakfast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity("breakfast");
                 mealType = "breakfast";
+                startFoodSearchViewActivity("breakfast");
             }
         });
 
         btnAddLunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity("lunch");
                 mealType = "lunch";
+                startFoodSearchViewActivity("lunch");
             }
         });
 
         btnAddSnack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity("snack");
                 mealType = "snack";
+                startFoodSearchViewActivity("snack");
             }
         });
 
         btnAddDinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFoodSearchViewActivity("dinner");
                 mealType = "dinner";
+                startFoodSearchViewActivity("dinner");
             }
         });
     }
@@ -413,6 +425,94 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     @Override
     public void onFoodLogged(String mealType) {
         loadDataForMealType(mealType);
+        updateMealCalories(mealType);
+    }
+
+    private int calculateDailyEatenCalories() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String breakfastFood = sharedPreferences.getString("breakfast", "[]");
+        String lunchFood = sharedPreferences.getString("lunch", "[]");
+        String snackFood = sharedPreferences.getString("snack", "[]");
+        String dinnerFood = sharedPreferences.getString("dinner", "[]");
+        Type type = new TypeToken<List<Food>>() {
+        }.getType();
+
+        List<Food> breakfast = gson.fromJson(breakfastFood, type);
+        List<Food> lunch = gson.fromJson(lunchFood, type);
+        List<Food> snack = gson.fromJson(snackFood, type);
+        List<Food> dinner = gson.fromJson(dinnerFood, type);
+
+        int breakfastCal = 0;
+        int lunchCal = 0;
+        int snackCal = 0;
+        int dinnerCal = 0;
+
+        if(breakfast != null && !breakfast.isEmpty()){
+            for(Food food : breakfast){
+                breakfastCal += food.getCalories();
+            }
+        }
+
+        if(lunch != null && !lunch.isEmpty()){
+            for(Food food : lunch){
+                lunchCal += food.getCalories();
+            }
+        }
+
+        if(snack != null && !snack.isEmpty()){
+            for(Food food : snack){
+                snackCal += food.getCalories();
+            }
+        }
+
+        if(dinner != null && !dinner.isEmpty()){
+            for(Food food : dinner){
+                dinnerCal += food.getCalories();
+            }
+        }
+
+        int totalCal = breakfastCal + lunchCal + snackCal + dinnerCal;
+        return totalCal;
+    }
+
+    private void updateMealCalories(String mealType) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
+        Type type = new TypeToken<List<Food>>() {
+        }.getType();
+        List<Food> selectedFoods = gson.fromJson(existingFoodsJson, type);
+
+        if (selectedFoods != null && !selectedFoods.isEmpty()) {
+            int totalCalories = 0;
+            for (Food food : selectedFoods) {
+                totalCalories += food.getCalories();
+            }
+            caloriesEaten = totalCalories;
+
+            switch (mealType) {
+                case "breakfast":
+                    txtCalories.setText(caloriesEaten + " / " + breakfastCalories + " kcal");
+                    break;
+                case "lunch":
+                    txtCaloriesLunch.setText(caloriesEaten + " / " + lunchCalories + " kcal");
+                    break;
+                case "snack":
+                    txtCaloriesSnack.setText(caloriesEaten + " / " + snackCalories + " kcal");
+                    break;
+                case "dinner":
+                    txtCaloriesDinner.setText(caloriesEaten + " / " + dinnerCalories + " kcal");
+                    break;
+            }
+
+            int total = calculateDailyEatenCalories();
+            String username = sharedPreferences.getString("username_pref_key", "");
+            UserDatabaseHandler databaseHandler = new UserDatabaseHandler(getContext());
+            databaseHandler.updateEatenCalories(username, total);
+            txtCaloriesCount.setText(String.valueOf(total));
+
+        }
     }
 
 
@@ -434,6 +534,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                     breakfastAdapter.setOnItemClickListener(this::onItemClick);
                     loggedBreakfastRecyclerView.setAdapter(breakfastAdapter);
                     breakfastexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLog.setVisibility(View.GONE);
                     break;
                 case "lunch":
                     lunchAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
@@ -449,7 +550,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                     break;
                 case "dinner":
                     dinnerAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
-                    snackAdapter.setOnItemClickListener(this::onItemClick);
+                    dinnerAdapter.setOnItemClickListener(this::onItemClick);
                     loggedDinnerRecyclerView.setAdapter(dinnerAdapter);
                     dinnerexpandedRelativeLayout.setVisibility(View.VISIBLE);
                     break;

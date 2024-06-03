@@ -4,13 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -23,6 +16,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -104,6 +103,8 @@ public class RegistrationFragment extends Fragment {
     private double weightChangeGoalLose;
     private double weightChangeGoalGain;
 
+    private SharedPreferences.Editor editor;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,7 +113,7 @@ public class RegistrationFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_registration, container, false);
         initViews(rootView);
         sharedPreferences = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor = sharedPreferences.edit();
 
         initToolBar(rootView);
         initGetUserName();
@@ -363,6 +364,7 @@ public class RegistrationFragment extends Fragment {
                             }
                             else{
                                 usernameInputLayout.setError(null);
+
                             }
 
                         }
