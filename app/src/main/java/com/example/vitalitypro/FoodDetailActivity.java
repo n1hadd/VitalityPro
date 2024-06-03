@@ -1,20 +1,36 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class FoodDetailActivity extends AppCompatActivity {
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
+public class FoodDetailActivity extends AppCompatActivity implements FoodAdapter.OnFoodLoggedListener {
+    private final static String TAG = "FoodDetailActivity";
     private TextView foodTitle, txtKcal, txtCarb, txtProtein,
             txtFats, carbsVal, fibersVal, sugarsVal, proteinVal, fatsVal,
             sat_fatsVal, polyunsat_fatsVal, monounsat_fatsVal, trans_fatsVal,
             cholesterolVal, sodiumVal, potassiumVal, vitamin_aVal, vitamin_cVal,
             calciumVal, ironVal;
     private MaterialButton btnAddMeal;
+    private Food food;
+    private FoodAdapter.OnFoodLoggedListener logged_listener;
+    private String parent;
+    private String mealType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +38,13 @@ public class FoodDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_detail);
         initViews();
 
-        Food food = getIntent().getParcelableExtra("food");
+        food = getIntent().getParcelableExtra("food");
+        parent = getIntent().getStringExtra("parent");
+        mealType = getIntent().getStringExtra("mealType");
+
+        if(parent.equals("diary")){
+            btnAddMeal.setEnabled(false);
+        }
         if(food != null){
             foodTitle.setText(food.getDescription());
             txtKcal.setText(String.valueOf(food.getCalories()));
@@ -87,6 +109,7 @@ public class FoodDetailActivity extends AppCompatActivity {
                 }
             }
         }
+        handleBtnAddMeal();
 
     }
 
@@ -113,5 +136,50 @@ public class FoodDetailActivity extends AppCompatActivity {
         calciumVal = findViewById(R.id.calciumVal);
         ironVal = findViewById(R.id.ironVal);
         btnAddMeal = findViewById(R.id.btnAddMeal);
+    }
+
+    private void handleBtnAddMeal(){
+        btnAddMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Logging to: "+mealType);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+
+                // Retrieve the current list of foods for this mealType
+                String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
+                Type type = new TypeToken<List<Food>>() {}.getType();
+                List<Food> selectedFoods = gson.fromJson(existingFoodsJson, type);
+
+                if (selectedFoods == null) {
+                    selectedFoods = new ArrayList<>();
+                }
+
+                // Add the new food item
+                selectedFoods.add(food);
+
+                // Save the updated list back to SharedPreferences
+                String updatedFoodsJson = gson.toJson(selectedFoods);
+                editor.putString(mealType, updatedFoodsJson);
+                editor.apply();
+
+                Toast.makeText(btnAddMeal.getContext(), "Food added to " + mealType, Toast.LENGTH_SHORT).show();
+
+                if(logged_listener != null){
+                    logged_listener.onFoodLogged(mealType);
+                }
+
+                Intent intent = new Intent(btnAddMeal.getContext(), MainActivity.class);
+                btnAddMeal.getContext().startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onFoodLogged(String mealType) {
+        DiaryFragment diaryFragment = new DiaryFragment();
+        diaryFragment.loadDataForMealType(mealType);
     }
 }

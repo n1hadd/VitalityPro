@@ -29,16 +29,17 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
     private List<Food> foodList = new ArrayList<>();
     private LoggedFoodAdapter loggedFoodAdapter;
     private List<Food> loggedFoodList = new ArrayList<>();
+    private String mealType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_search_view);
-
+        mealType = getIntent().getStringExtra("meal_type");
         searchView = findViewById(R.id.searchView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        foodAdapter = new FoodAdapter(foodList, getIntent().getStringExtra("meal_type"), this, null, getSupportFragmentManager(), this);
+        foodAdapter = new FoodAdapter(foodList, mealType, this, null, getSupportFragmentManager(), this);
         recyclerView.setAdapter(foodAdapter);
 
         foodAdapter.setOnItemClickListener(this);
@@ -107,6 +108,8 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
         // Start a new activity or fragment to display detailed nutritive values
         Intent intent = new Intent(this, FoodDetailActivity.class);
         intent.putExtra("food", food);
+        intent.putExtra("parent", "FoodSearchView");
+        intent.putExtra("mealType", mealType);
         startActivity(intent);
     }
 

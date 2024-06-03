@@ -41,7 +41,7 @@ import java.util.List;
  * Use the {@link DiaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener {
+public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener, FoodAdapter.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -140,6 +140,8 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     private LoggedFoodAdapter snackAdapter;
     private LoggedFoodAdapter dinnerAdapter;
 
+    private String mealType;
+
 
 
 
@@ -204,6 +206,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             @Override
             public void onClick(View v) {
                 startFoodSearchViewActivity("breakfast");
+                mealType = "breakfast";
             }
         });
 
@@ -211,6 +214,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             @Override
             public void onClick(View v) {
                 startFoodSearchViewActivity("lunch");
+                mealType = "lunch";
             }
         });
 
@@ -218,6 +222,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             @Override
             public void onClick(View v) {
                 startFoodSearchViewActivity("snack");
+                mealType = "snack";
             }
         });
 
@@ -225,6 +230,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             @Override
             public void onClick(View v) {
                 startFoodSearchViewActivity("dinner");
+                mealType = "dinner";
             }
         });
     }
@@ -414,7 +420,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void loadDataForMealType(String mealType) {
+    public void loadDataForMealType(String mealType) {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
@@ -425,21 +431,25 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             switch (mealType) {
                 case "breakfast":
                     breakfastAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    breakfastAdapter.setOnItemClickListener(this::onItemClick);
                     loggedBreakfastRecyclerView.setAdapter(breakfastAdapter);
                     breakfastexpandedRelativeLayout.setVisibility(View.VISIBLE);
                     break;
                 case "lunch":
                     lunchAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    lunchAdapter.setOnItemClickListener(this::onItemClick);
                     loggedLunchRecyclerView.setAdapter(lunchAdapter);
                     lunchexpandedRelativeLayout.setVisibility(View.VISIBLE);
                     break;
                 case "snack":
-                    snackAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    snackAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this );
+                    snackAdapter.setOnItemClickListener(this::onItemClick);
                     loggedSnackRecyclerView.setAdapter(snackAdapter);
                     snackexpandedRelativeLayout.setVisibility(View.VISIBLE);
                     break;
                 case "dinner":
                     dinnerAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    snackAdapter.setOnItemClickListener(this::onItemClick);
                     loggedDinnerRecyclerView.setAdapter(dinnerAdapter);
                     dinnerexpandedRelativeLayout.setVisibility(View.VISIBLE);
                     break;
@@ -460,5 +470,14 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                     break;
             }
         }
+    }
+
+    @Override
+    public void onItemClick(Food food) {
+        Intent intent = new Intent(getContext(), FoodDetailActivity.class);
+        intent.putExtra("food", food);
+        intent.putExtra("parent", "diary");
+        intent.putExtra("mealType", mealType);
+        startActivity(intent);
     }
 }

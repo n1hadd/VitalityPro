@@ -2,6 +2,7 @@ package com.example.vitalitypro;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -109,10 +110,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
                     logged_listener.onFoodLogged(mealType);
                 }
 
-
-
-
-
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
 
             }
         });

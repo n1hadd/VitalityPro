@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ public class LoggedFoodAdapter extends RecyclerView.Adapter<LoggedFoodAdapter.Lo
     private String mealType;
     private Context context;
     private FoodAdapter.OnFoodLoggedListener logged_listener;
+    private OnItemClickListener listener;
 
 
     public LoggedFoodAdapter(List<Food> foodList, String mealType, Context context, FoodAdapter.OnFoodLoggedListener logged_listener) {
@@ -39,6 +41,24 @@ public class LoggedFoodAdapter extends RecyclerView.Adapter<LoggedFoodAdapter.Lo
     public void onBindViewHolder(@NonNull LoggedFoodViewHolder holder, int position) {
         Food food = foodList.get(position);
         holder.txtFoodName.setText(food.getDescription());
+
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null){
+                    listener.onItemClick(food);
+                }
+            }
+        });
+
+        holder.imgRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -54,12 +74,22 @@ public class LoggedFoodAdapter extends RecyclerView.Adapter<LoggedFoodAdapter.Lo
     public class LoggedFoodViewHolder extends RecyclerView.ViewHolder {
         TextView txtFoodName;
         ImageView imgRemove;
+        RelativeLayout relativeLayout;
 
         public LoggedFoodViewHolder(@NonNull View itemView) {
             super(itemView);
+            relativeLayout = itemView.findViewById(R.id.relativeLayout);
             txtFoodName = itemView.findViewById(R.id.txtFoodName);
             imgRemove = itemView.findViewById(R.id.imgRemove);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Food food);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
 
