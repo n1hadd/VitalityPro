@@ -152,6 +152,13 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     private int dinnerCalories;
     private TextView txtOverWarning;
 
+    // CARD VIEW ACTIVITY
+    private CardView activityCardView;
+    private RelativeLayout activityRelativeLayout, activityCollapsedRelativeLayout, activityExpandedRelativeLayout;
+    private TextView txtActivity, activityCalories, emptyLogActivity;
+    private ImageView imgView;
+    private MaterialButton btnAddActivity;
+    private RecyclerView loggedActivitiesRecyclerView;
 
 
 
@@ -190,6 +197,8 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         updateMealCalories("lunch");
         updateMealCalories("snack");
         updateMealCalories("dinner");
+
+
         return rootView;
     }
 
@@ -245,6 +254,14 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             public void onClick(View v) {
                 mealType = "dinner";
                 startFoodSearchViewActivity("dinner");
+            }
+        });
+
+        btnAddActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ExerciseActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -418,8 +435,24 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         loggedDinnerRecyclerView = rootView.findViewById(R.id.loggedDinnerRecyclerView);
         txtOverWarning = rootView.findViewById(R.id.txtOverWarning);
 
+        // activity card view
+        activityCardView = rootView.findViewById(R.id.activityCardView);
+        activityRelativeLayout = rootView.findViewById(R.id.activityRelativeLayout);
+        activityCollapsedRelativeLayout = rootView.findViewById(R.id.activityCollapsedRelativeLayout);
+        txtActivity = rootView.findViewById(R.id.txtActivity);
+        activityCalories = rootView.findViewById(R.id.activityCalories);
+        emptyLogActivity = rootView.findViewById(R.id.emptyLogActivity);
+        imgView = rootView.findViewById(R.id.imgView);
+        btnAddActivity = rootView.findViewById(R.id.btnAddActivity);
+        activityExpandedRelativeLayout = rootView.findViewById(R.id.activityExpandedRelativeLayout);
+        loggedActivitiesRecyclerView = rootView.findViewById(R.id.loggedActivitiesRecyclerView);
     }
 
+
+    // start ExerciseActivity
+    private void startExerciseActivity(){
+
+    }
 
     // start FoodSearchViewActivity
     private void startFoodSearchViewActivity(String mealType) {

@@ -788,7 +788,7 @@
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
-                    android:id="@+id/collapsedRelativeLayout"
+                    android:id="@+id/activityCollapsedRelativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
@@ -811,6 +811,7 @@
                         android:text="0 kcal"
                         />
                     <TextView
+                        android:id="@+id/emptyLogActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txtActivity"
@@ -827,7 +828,7 @@
                         android:layout_marginLeft="20dp"/>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAddMeal"
+                        android:id="@+id/btnAddActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add activity"
@@ -844,12 +845,16 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/expandedRelativeLayout"
+                    android:id="@+id/activityExpandedRelativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/collapsedRelativeLayout"
+                    android:layout_below="@id/activityCollapsedRelativeLayout"
                     android:visibility="gone">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loggedActivitiesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                 </RelativeLayout>
             </RelativeLayout>
