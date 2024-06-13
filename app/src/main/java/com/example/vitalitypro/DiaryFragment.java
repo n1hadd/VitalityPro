@@ -37,12 +37,13 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DiaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener, FoodAdapter.OnItemClickListener, LoggedFoodAdapter.OnFoodDeletedListener {
+public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener, FoodAdapter.OnItemClickListener, LoggedFoodAdapter.OnFoodDeletedListener, ExerciseActivity.onExerciseLogged {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -189,6 +190,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         setupRecyclerView(loggedLunchRecyclerView);
         setupRecyclerView(loggedSnackRecyclerView);
         setupRecyclerView(loggedDinnerRecyclerView);
+        setupRecyclerView(loggedActivitiesRecyclerView);
 
         loadDataForMealType("breakfast");
         loadDataForMealType("lunch");
@@ -883,6 +885,25 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     public void onFoodDeleted(String mealType) {
         loadDataForMealType(mealType);
         updateMealCalories(mealType);
+    }
+
+    @Override
+    public void onExerciseLogged() {
+        handleExerciseRecyclerView();
+    }
+
+    private void handleExerciseRecyclerView() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String existingExercises = sharedPreferences.getString("exercises", null);
+        Type type = new TypeToken<List<Exercise>>(){}.getType();
+
+        List<Exercise> exercises = gson.fromJson(existingExercises, type);
+
+        ExerciseRecyclerViewAdapter exerciseAdapter = new ExerciseRecyclerViewAdapter(getContext(), exercises);
+        loggedActivitiesRecyclerView.setAdapter(exerciseAdapter);
+        activityExpandedRelativeLayout.setVisibility(View.VISIBLE);
+        emptyLogActivity.setVisibility(View.GONE);
     }
 
     /*private void updateMealDataAfterDelete(String mealType) {

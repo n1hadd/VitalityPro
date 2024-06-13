@@ -3,50 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <EditText
-        android:id="@+id/activityEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter activity"
-        />
-
-    <EditText
-        android:id="@+id/minutesEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter duration in minutes"
-        android:inputType="number"
-        android:layout_below="@id/activityEditText"/>
-    <Button
-        android:id="@+id/calculateButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calculate Calories Burned"
-        android:layout_below="@id/minutesEditText"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/main"/>
-
-    <TextView
-        android:id="@+id/txtNoResults"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/red"
-        android:layout_below="@+id/calculateButton"
-        android:layout_marginTop="5dp"
-        android:text="No results found."
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
-
+    android:padding="10dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cwActivity"
-        android:layout_below="@+id/txtNoResults"
-        android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
         android:elevation="15dp">
 
@@ -81,12 +43,4 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btnLogActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="LOG ACTIVITY"
-        android:backgroundTint="@color/main"
-        />
 </RelativeLayout>
