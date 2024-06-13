@@ -26,7 +26,8 @@
             app:cardCornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <RelativeLayout
                 android:id="@+id/cardRelativeLayout"
@@ -50,12 +51,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtEaten"
-                    android:text="Over"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
                     android:textSize="15sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     />
 
                 <TextView
@@ -151,8 +152,8 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/macronutrients"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="40dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline5"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
@@ -299,36 +300,36 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/carbsMacros"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/relativeLayout2"
                     android:text="Carbs"
-                    app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
-                    app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
                     app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/guideline33"
                     android:layout_marginTop="5dp"
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/proteinsMacros"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/relativeLayout3"
                     android:text="Proteins"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/relativeLayout3"
-                    app:layout_constraintStart_toStartOf="@+id/relativeLayout3"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
+                    app:layout_constraintTop_toBottomOf="@id/relativeLayout3"
+                    app:layout_constraintStart_toEndOf="@id/guideline33"
+                    app:layout_constraintEnd_toStartOf="@id/guideline66"
                     android:layout_marginTop="5dp"/>
 
                 <TextView
+                    android:id="@+id/fatsMacros"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/relativeLayout4"
                     android:text="Fats"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/relativeLayout4"
-                    app:layout_constraintStart_toStartOf="@+id/relativeLayout4"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout4"
+                    app:layout_constraintTop_toBottomOf="@id/relativeLayout4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/guideline66"
                     android:layout_marginTop="5dp"/>
 
 

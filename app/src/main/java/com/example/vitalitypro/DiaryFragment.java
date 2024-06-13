@@ -42,7 +42,7 @@ import java.util.List;
  * Use the {@link DiaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener, FoodAdapter.OnItemClickListener {
+public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener, FoodAdapter.OnItemClickListener, LoggedFoodAdapter.OnFoodDeletedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -160,6 +160,8 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     private MaterialButton btnAddActivity;
     private RecyclerView loggedActivitiesRecyclerView;
 
+    private TextView carbsMacros, proteinsMacros, FatsMacros;
+
 
 
 
@@ -198,6 +200,10 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         updateMealCalories("snack");
         updateMealCalories("dinner");
 
+        /*updateMealDataAfterDelete("breakfast");
+        updateMealDataAfterDelete("lunch");
+        updateMealDataAfterDelete("snack");
+        updateMealDataAfterDelete("dinner");*/
 
         return rootView;
     }
@@ -449,11 +455,6 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     }
 
 
-    // start ExerciseActivity
-    private void startExerciseActivity(){
-
-    }
-
     // start FoodSearchViewActivity
     private void startFoodSearchViewActivity(String mealType) {
         Intent intent = new Intent(getActivity(), FoodSearchViewActivity.class);
@@ -578,7 +579,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                 txtCaloriesRemainingCount.setTextColor(Color.parseColor("#008c82"));
                 dailyGoalCalories.setTextColor(Color.parseColor("#008c82"));
                 dailyGoal.setTextColor(Color.parseColor("#008c82"));
-                txtOverWarning.setVisibility(View.VISIBLE);
+                //txtOverWarning.setVisibility(View.VISIBLE);
                 txtOverWarning.setText("You have met your daily goal.");
             }
             else{
@@ -587,7 +588,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                 txtCaloriesRemainingCount.setTextColor(Color.parseColor("#008c82"));
                 dailyGoalCalories.setTextColor(Color.parseColor("#008c82"));
                 dailyGoal.setTextColor(Color.parseColor("#008c82"));
-                txtOverWarning.setVisibility(View.GONE);
+                //txtOverWarning.setVisibility(View.GONE);
             }
 
             progressCarbs.setMax(carbGrams);
@@ -607,9 +608,31 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             progressProteins.setProgress(totalProteins);
             progressFats.setProgress(totalFats);
 
-            txtCarbs.setText(totalCarbs+"\n/"+ carbGrams);
-            txtProteins.setText(totalProteins+"\n/"+ proteinGrams);
-            txtFats.setText(totalFats+"\n/"+ fatGrams);
+            //txtCarbs.setText(totalCarbs+"\n/"+ carbGrams);
+
+
+            String text = totalCarbs + "\n/" + carbGrams;
+            SpannableString spannableString = new SpannableString(text);
+            spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, String.valueOf(totalCarbs).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new RelativeSizeSpan(1.2f), 0, String.valueOf(totalCarbs).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Adjust the size as per requirement
+            txtCarbs.setText(spannableString);
+
+            //txtProteins.setText(totalProteins+"\n/"+ proteinGrams);
+
+            String textP = totalProteins + "\n/" + proteinGrams;
+            SpannableString spannableStringP = new SpannableString(textP);
+            spannableStringP.setSpan(new StyleSpan(Typeface.BOLD), 0, String.valueOf(totalProteins).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableStringP.setSpan(new RelativeSizeSpan(1.2f), 0, String.valueOf(totalProteins).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Adjust the size as per requirement
+            txtProteins.setText(spannableStringP);
+
+
+            //txtFats.setText(totalFats+"\n/"+ fatGrams);
+
+            String textF = totalFats + "\n/" + fatGrams;
+            SpannableString spannableStringF = new SpannableString(textF);
+            spannableStringF.setSpan(new StyleSpan(Typeface.BOLD), 0, String.valueOf(totalFats).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableStringF.setSpan(new RelativeSizeSpan(1.2f), 0, String.valueOf(totalFats).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Adjust the size as per requirement
+            txtFats.setText(spannableStringF);
 
         }
     }
@@ -786,41 +809,42 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     }
 
     public void loadDataForMealType(String mealType) {
+        Log.d(TAG, "MealType: "+mealType);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
+        String existingFoodsJson = sharedPreferences.getString(mealType, null);
         Type type = new TypeToken<List<Food>>() {}.getType();
         List<Food> selectedFoods = gson.fromJson(existingFoodsJson, type);
 
-        if (selectedFoods != null && !selectedFoods.isEmpty()) {
+        if (selectedFoods != null) {
             switch (mealType) {
                 case "breakfast":
-                    breakfastAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    breakfastAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this, this);
                     breakfastAdapter.setOnItemClickListener(this::onItemClick);
                     loggedBreakfastRecyclerView.setAdapter(breakfastAdapter);
                     breakfastexpandedRelativeLayout.setVisibility(View.VISIBLE);
                     emptyLog.setVisibility(View.GONE);
                     break;
                 case "lunch":
-                    lunchAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    lunchAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this, this);
                     lunchAdapter.setOnItemClickListener(this::onItemClick);
                     loggedLunchRecyclerView.setAdapter(lunchAdapter);
                     lunchexpandedRelativeLayout.setVisibility(View.VISIBLE);
                     emptyLogLunch.setVisibility(View.GONE);
                     break;
                 case "snack":
-                    snackAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this );
+                    snackAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this, this);
                     snackAdapter.setOnItemClickListener(this::onItemClick);
                     loggedSnackRecyclerView.setAdapter(snackAdapter);
                     snackexpandedRelativeLayout.setVisibility(View.VISIBLE);
-                    emptyLogLunch.setVisibility(View.GONE);
+                    emptyLogSnack.setVisibility(View.GONE);
                     break;
                 case "dinner":
-                    dinnerAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this);
+                    dinnerAdapter = new LoggedFoodAdapter(selectedFoods, mealType, getContext(), this, this);
                     dinnerAdapter.setOnItemClickListener(this::onItemClick);
                     loggedDinnerRecyclerView.setAdapter(dinnerAdapter);
                     dinnerexpandedRelativeLayout.setVisibility(View.VISIBLE);
-                    emptyLogLunch.setVisibility(View.GONE);
+                    emptyLogDinner.setVisibility(View.GONE);
                     break;
             }
         } else {
@@ -843,6 +867,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                     break;
             }
         }
+
     }
 
     @Override
@@ -853,4 +878,71 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         intent.putExtra("mealType", mealType);
         startActivity(intent);
     }
+
+    @Override
+    public void onFoodDeleted(String mealType) {
+        loadDataForMealType(mealType);
+        updateMealCalories(mealType);
+    }
+
+    /*private void updateMealDataAfterDelete(String mealType) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
+        Type type = new TypeToken<List<Food>>() {
+        }.getType();
+        List<Food> selectedFoods = gson.fromJson(existingFoodsJson, type);
+
+        if (selectedFoods != null && !selectedFoods.isEmpty()) {
+            switch (mealType) {
+                case "breakfast":
+                    breakfastAdapter = new LoggedFoodAdapter(selectedFoods, "breakfast", getContext(), this, this);
+                    breakfastAdapter.setOnItemClickListener(this::onItemClick);
+                    loggedBreakfastRecyclerView.setAdapter(breakfastAdapter);
+                    breakfastexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLog.setVisibility(View.GONE);
+                    break;
+                case "lunch":
+                    lunchAdapter = new LoggedFoodAdapter(selectedFoods, "lunch", getContext(), this, this);
+                    lunchAdapter.setOnItemClickListener(this::onItemClick);
+                    loggedLunchRecyclerView.setAdapter(lunchAdapter);
+                    lunchexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLogLunch.setVisibility(View.GONE);
+                    break;
+                case "snack":
+                    snackAdapter = new LoggedFoodAdapter(selectedFoods, "snack", getContext(), this, this);
+                    snackAdapter.setOnItemClickListener(this::onItemClick);
+                    loggedSnackRecyclerView.setAdapter(snackAdapter);
+                    snackexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLogSnack.setVisibility(View.GONE);
+                    break;
+                case "dinner":
+                    dinnerAdapter = new LoggedFoodAdapter(selectedFoods, "dinner", getContext(), this, this);
+                    dinnerAdapter.setOnItemClickListener(this::onItemClick);
+                    loggedDinnerRecyclerView.setAdapter(dinnerAdapter);
+                    dinnerexpandedRelativeLayout.setVisibility(View.VISIBLE);
+                    emptyLogDinner.setVisibility(View.GONE);
+                    break;
+            }
+        } else {
+            switch (mealType) {
+                case "breakfast":
+                    breakfastexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLog.setVisibility(View.VISIBLE);
+                    break;
+                case "lunch":
+                    lunchexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLogLunch.setVisibility(View.VISIBLE);
+                    break;
+                case "snack":
+                    snackexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLogSnack.setVisibility(View.VISIBLE);
+                    break;
+                case "dinner":
+                    dinnerexpandedRelativeLayout.setVisibility(View.GONE);
+                    emptyLogDinner.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+    }*/
 }

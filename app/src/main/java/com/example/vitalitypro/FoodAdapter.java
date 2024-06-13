@@ -88,7 +88,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
                 Gson gson = new Gson();
 
                 // Retrieve the current list of foods for this mealType
-                String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
+                String existingFoodsJson = sharedPreferences.getString(mealType, null);
                 Type type = new TypeToken<List<Food>>() {}.getType();
                 List<Food> selectedFoods = gson.fromJson(existingFoodsJson, type);
 
