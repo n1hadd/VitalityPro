@@ -1,10 +1,12 @@
 package com.example.vitalitypro;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,14 +32,18 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
     @Override
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         Exercise exercise = exerciseList.get(position);
-        holder.txtExerciseName.setText("Activity: "+exercise.getName());
-        holder.txtDuration.setText("Duration: "+exercise.getDuration());
-        holder.txtCaloriesBurned.setText("Calories Burned: "+exercise.getCalories_burned());
+        // Set text with HTML formatting for bold and larger font size
+        holder.txtExerciseName.setText(Html.fromHtml("<b><font size='6'>Activity:</font></b> " + exercise.getName()));
+        holder.txtDuration.setText(Html.fromHtml("<b><font size='6'>Duration:</font></b> " + exercise.getDuration())+" min");
+        holder.txtCaloriesBurned.setText(Html.fromHtml("<b><font size='6'>Calories Burned:</font></b> " + exercise.getCalories_burned())+" kcal");
     }
 
     @Override
     public int getItemCount() {
-        return exerciseList.size();
+        if(exerciseList != null){
+            return exerciseList.size();
+        }
+        return 0;
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {

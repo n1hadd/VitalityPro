@@ -99,6 +99,10 @@ public class ExerciseActivity extends AppCompatActivity {
                                     loggedExercises.add(new Exercise(exercise.getName(), exercise.getDurationMin(), exercise.getNfCalories()));
                                     String updatedExercises = gson.toJson(loggedExercises);
                                     editor.putString("exercises", updatedExercises);
+
+                                    int daily_intake = getIntent().getIntExtra("daily_calorie_intake",-1);
+                                    editor.remove("daily_calorie_intake");
+                                    editor.putInt("daily_calorie_intake", daily_intake + (int)exercise.getNfCalories());
                                     editor.apply();
 
                                     Toast.makeText(btnLogActivity.getContext(), "Exercise "+exercise.getName()+" logged.", Toast.LENGTH_SHORT).show();

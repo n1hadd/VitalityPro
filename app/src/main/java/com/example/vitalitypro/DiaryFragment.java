@@ -23,8 +23,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -182,9 +180,9 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
 
         UserDatabaseHandler userDatabaseHandler = new UserDatabaseHandler(getContext());
-        int dailyCalorieIntake = userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""));
+        int dailyCalorieIntake = sharedPreferences.getInt("daily_calorie_intake", -1);
         txtCaloriesRemainingCount.setText(String.valueOf(dailyCalorieIntake));
-        dailyGoalCalories.setText(String.valueOf(dailyCalorieIntake));
+        dailyGoalCalories.setText(String.valueOf(userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key",""))));
 
         setupRecyclerView(loggedBreakfastRecyclerView);
         setupRecyclerView(loggedLunchRecyclerView);
@@ -206,6 +204,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         updateMealDataAfterDelete("lunch");
         updateMealDataAfterDelete("snack");
         updateMealDataAfterDelete("dinner");*/
+        handleExerciseRecyclerView();
 
         return rootView;
     }
@@ -269,6 +268,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ExerciseActivity.class);
+                intent.putExtra("daily_calorie_intake", sharedPreferences.getInt("daily_calorie_intake",-1));
                 startActivity(intent);
             }
         });
@@ -307,9 +307,12 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
         editor.apply();
 
-        int carbCalories = (int)(userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key", "")) * Double.valueOf(sharedPreferences.getString("key_carbs_percentage", "")));
-        int proteinCalories = (int)(userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key", "")) * Double.valueOf(sharedPreferences.getString("key_proteins_percentage", "")));
-        int fatCalories = (int)(userDatabaseHandler.getDailyCalorieIntake(sharedPreferences.getString("username_pref_key", "")) * Double.valueOf(sharedPreferences.getString("key_fats_percentage", "")));
+        /*int goalCalories = sharedPreferences.getInt("daily_calorie_intake", -1);
+        Log.d("GOAL CALORIES", "GOAL CALORIES: "+goalCalories);*/
+
+        int carbCalories = (int)(sharedPreferences.getInt("daily_calorie_intake", -1) * Double.valueOf(sharedPreferences.getString("key_carbs_percentage", "")));
+        int proteinCalories = (int)(sharedPreferences.getInt("daily_calorie_intake", -1) * Double.valueOf(sharedPreferences.getString("key_proteins_percentage", "")));
+        int fatCalories = (int)(sharedPreferences.getInt("daily_calorie_intake", -1) * Double.valueOf(sharedPreferences.getString("key_fats_percentage", "")));
 
         carbGrams = carbCalories / 4;
         proteinGrams = proteinCalories / 4;
@@ -342,16 +345,11 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
         txtFats.setText(spannableFats);
 
-        imgOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMacroNutrientsFragment();
-            }
-        });
+
 
     }
 
-    public void openMacroNutrientsFragment(){
+    /*public void openMacroNutrientsFragment(){
         // Create an instance of the FourthFragment
         MacroNutrientsFragment macroNutrientsFragment = new MacroNutrientsFragment();
 
@@ -366,7 +364,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
         // Commit the transaction
         fragmentTransaction.commit();
-    }
+    }*/
 
 
     private void updateProgressBar(int currentProgress) {
@@ -388,7 +386,6 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         dailyGoalCalories = rootView.findViewById(R.id.dailyGoalCalories);
         macronutrients = rootView.findViewById(R.id.macronutrients);
         macronutrientsConsLayout = rootView.findViewById(R.id.macronutrientsConsLayout);
-        imgOptions = rootView.findViewById(R.id.imgOptions);
         relativeLayout2 = rootView.findViewById(R.id.relativeLayout2);
         progressCarbs = rootView.findViewById(R.id.progressCarbs);
         txtCarbs = rootView.findViewById(R.id.txtCarbs);
@@ -563,6 +560,8 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
             // MAIN PROGRESS BAR PROGRESS HANDLING
             txtCaloriesCount.setText(String.valueOf(total));
+
+            txtCaloriesRemainingCount.setText(String.valueOf(sharedPreferences.getInt("daily_calorie_intake",-1)));
             int goalIntake = sharedPreferences.getInt("daily_calorie_intake", -1);
             progressBar.setMax(goalIntake);
             progressBar.setProgress(total, true);
@@ -890,12 +889,15 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     @Override
     public void onExerciseLogged() {
         handleExerciseRecyclerView();
+
     }
 
+    private int caloriesBurned;
     private void handleExerciseRecyclerView() {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String existingExercises = sharedPreferences.getString("exercises", null);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         Type type = new TypeToken<List<Exercise>>(){}.getType();
 
         List<Exercise> exercises = gson.fromJson(existingExercises, type);
@@ -904,6 +906,41 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         loggedActivitiesRecyclerView.setAdapter(exerciseAdapter);
         activityExpandedRelativeLayout.setVisibility(View.VISIBLE);
         emptyLogActivity.setVisibility(View.GONE);
+
+        caloriesBurned = 0;
+        if(exercises !=null){
+            for(Exercise e : exercises){
+                caloriesBurned += (int) e.getCalories_burned();
+            }
+        }
+        activityCalories.setText(caloriesBurned+" kcal");
+
+        /*int remainingCalories = sharedPreferences.getInt("daily_calorie_intake", -1) + caloriesBurned;
+
+        editor.remove("daily_calorie_intake");
+        editor.putInt("daily_calorie_intake", remainingCalories);
+        editor.apply();*/
+
+        /*int currKcal = sharedPreferences.getInt("daily_calorie_intake", -1);
+        int totalKcal =  currKcal + (int) caloriesBurned;
+        txtCaloriesRemainingCount.setText(String.valueOf(totalKcal));
+
+        editor.remove("daily_calorie_intake");
+        editor.putInt("daily_calorie_intake", totalKcal);
+        editor.apply();
+        progressBar.setMax(totalKcal);
+
+        // changing color of toolbar
+        int caloriesEaten = Integer.parseInt(txtCaloriesCount.getText().toString());
+
+        if(caloriesEaten < totalKcal){
+            cardRelativeLayout.setBackgroundColor(Color.parseColor("#05d3bc"));
+            txtRemaining.setTextColor(Color.parseColor("#008c82"));
+            txtCaloriesRemainingCount.setTextColor(Color.parseColor("#008c82"));
+            dailyGoalCalories.setTextColor(Color.parseColor("#008c82"));
+            dailyGoal.setTextColor(Color.parseColor("#008c82"));
+            txtOverWarning.setText("");
+        }*/
     }
 
     /*private void updateMealDataAfterDelete(String mealType) {

@@ -1,16 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp">
-
-    <androidx.cardview.widget.CardView
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cwActivity"
-        app:cardCornerRadius="10dp"
-        android:elevation="15dp">
+        >
 
         <RelativeLayout
             android:id="@+id/activityRelativeLayout"
@@ -38,9 +31,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:text="Calories Burned: " />
-
-
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>
 
-</RelativeLayout>
