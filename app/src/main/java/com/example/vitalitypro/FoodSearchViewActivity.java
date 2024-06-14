@@ -3,12 +3,16 @@ package com.example.vitalitypro;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.vitalitypro.Food.FoodNutrient;
 import com.google.gson.Gson;
 
@@ -30,6 +34,7 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
     private LoggedFoodAdapter loggedFoodAdapter;
     private List<Food> loggedFoodList = new ArrayList<>();
     private String mealType;
+    private ImageView imgSearchFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +43,20 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
         mealType = getIntent().getStringExtra("meal_type");
         searchView = findViewById(R.id.searchView);
         recyclerView = findViewById(R.id.recyclerView);
+        imgSearchFood = findViewById(R.id.imgSearchFood);
+
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.looking)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imgSearchFood);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         foodAdapter = new FoodAdapter(foodList, mealType, this, null, getSupportFragmentManager(), this);
         recyclerView.setAdapter(foodAdapter);
 
         foodAdapter.setOnItemClickListener(this);
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -87,6 +101,7 @@ public class FoodSearchViewActivity extends AppCompatActivity implements FoodAda
                         }
                         if (hasEnergy) {
                             foodList.add(food);
+                            imgSearchFood.setVisibility(View.GONE);
                         }
                     }
 
