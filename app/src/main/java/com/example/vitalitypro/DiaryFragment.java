@@ -950,9 +950,41 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     private void handleWaterIntake() {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        waterIntakeGoal = (sharedPreferences.getInt("weight_pref_key", -1) * 0.03);
-        waterDrunk = 0.0;
-        txtWaterIntake.setText(waterDrunk+" / "+waterIntakeGoal+" l");
+        waterIntakeGoal = sharedPreferences.getFloat("water_goal_intake",-1);
+        waterDrunk = sharedPreferences.getFloat("water_drunk",-1);
+
+        txtWaterIntake.setText(waterDrunk + " / " + String.format("%.2f", waterIntakeGoal) + " l");
+
+
+        imgAdd1.setVisibility(sharedPreferences.getInt("imgAdd1_visibility", View.VISIBLE));
+        glass1.setVisibility(sharedPreferences.getInt("glass1_visibility", View.GONE));
+
+        imgAdd2.setVisibility(sharedPreferences.getInt("imgAdd2_visibility", View.GONE));
+        glass2.setVisibility(sharedPreferences.getInt("glass2_visibility", View.GONE));
+
+        imgAdd3.setVisibility(sharedPreferences.getInt("imgAdd3_visibility", View.GONE));
+        glass3.setVisibility(sharedPreferences.getInt("glass3_visibility", View.GONE));
+
+        imgAdd4.setVisibility(sharedPreferences.getInt("imgAdd4_visibility", View.GONE));
+        glass4.setVisibility(sharedPreferences.getInt("glass4_visibility", View.GONE));
+
+        imgAdd5.setVisibility(sharedPreferences.getInt("imgAdd5_visibility", View.GONE));
+        glass5.setVisibility(sharedPreferences.getInt("glass5_visibility", View.GONE));
+
+        imgAdd6.setVisibility(sharedPreferences.getInt("imgAdd6_visibility", View.GONE));
+        glass6.setVisibility(sharedPreferences.getInt("glass6_visibility", View.GONE));
+
+        imgAdd7.setVisibility(sharedPreferences.getInt("imgAdd7_visibility", View.GONE));
+        glass7.setVisibility(sharedPreferences.getInt("glass7_visibility", View.GONE));
+
+        imgAdd8.setVisibility(sharedPreferences.getInt("imgAdd8_visibility", View.GONE));
+        glass8.setVisibility(sharedPreferences.getInt("glass8_visibility", View.GONE));
+
+        imgAdd9.setVisibility(sharedPreferences.getInt("imgAdd9_visibility", View.GONE));
+        glass9.setVisibility(sharedPreferences.getInt("glass9_visibility", View.GONE));
+
+        imgAdd10.setVisibility(sharedPreferences.getInt("imgAdd10_visibility", View.GONE));
+        glass10.setVisibility(sharedPreferences.getInt("glass10_visibility", View.GONE));
 
         imgAdd1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -960,8 +992,182 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
                 imgAdd1.setVisibility(View.GONE);
                 glass1.setVisibility(View.VISIBLE);
                 imgAdd2.setVisibility(View.VISIBLE);
-                waterDrunk+=0.25;
-                txtWaterIntake.setText(waterDrunk+" / "+waterIntakeGoal+" l");
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd1_visibility", View.GONE);
+                editor.putInt("glass1_visibility", View.VISIBLE);
+                editor.putInt("imgAdd2_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+
+        imgAdd2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd2.setVisibility(View.GONE);
+                glass2.setVisibility(View.VISIBLE);
+                imgAdd3.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd2_visibility", View.GONE);
+                editor.putInt("glass2_visibility", View.VISIBLE);
+                editor.putInt("imgAdd3_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+        imgAdd3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd3.setVisibility(View.GONE);
+                glass3.setVisibility(View.VISIBLE);
+                imgAdd4.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd3_visibility", View.GONE);
+                editor.putInt("glass3_visibility", View.VISIBLE);
+                editor.putInt("imgAdd4_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+        imgAdd4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd4.setVisibility(View.GONE);
+                glass4.setVisibility(View.VISIBLE);
+                imgAdd5.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd4_visibility", View.GONE);
+                editor.putInt("glass4_visibility", View.VISIBLE);
+                editor.putInt("imgAdd5_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+        imgAdd5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd5.setVisibility(View.GONE);
+                glass5.setVisibility(View.VISIBLE);
+                imgAdd6.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd5_visibility", View.GONE);
+                editor.putInt("glass5_visibility", View.VISIBLE);
+                editor.putInt("imgAdd6_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+        imgAdd6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd6.setVisibility(View.GONE);
+                glass6.setVisibility(View.VISIBLE);
+                imgAdd7.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd6_visibility", View.GONE);
+                editor.putInt("glass6_visibility", View.VISIBLE);
+                editor.putInt("imgAdd7_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+        imgAdd7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd7.setVisibility(View.GONE);
+                glass7.setVisibility(View.VISIBLE);
+                imgAdd8.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd7_visibility", View.GONE);
+                editor.putInt("glass7_visibility", View.VISIBLE);
+                editor.putInt("imgAdd8_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+        imgAdd8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd8.setVisibility(View.GONE);
+                glass8.setVisibility(View.VISIBLE);
+                imgAdd9.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd8_visibility", View.GONE);
+                editor.putInt("glass8_visibility", View.VISIBLE);
+                editor.putInt("imgAdd9_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+        imgAdd9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd9.setVisibility(View.GONE);
+                glass9.setVisibility(View.VISIBLE);
+                imgAdd10.setVisibility(View.VISIBLE);
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd9_visibility", View.GONE);
+                editor.putInt("glass9_visibility", View.VISIBLE);
+                editor.putInt("imgAdd10_visibility", View.VISIBLE);
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
+            }
+        });
+
+        imgAdd10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd10.setVisibility(View.GONE);
+                glass10.setVisibility(View.VISIBLE);
+
+                glass1.setVisibility(View.GONE);
+                glass2.setVisibility(View.GONE);
+                glass3.setVisibility(View.GONE);
+                glass4.setVisibility(View.GONE);
+                glass5.setVisibility(View.GONE);
+                glass6.setVisibility(View.GONE);
+                glass7.setVisibility(View.GONE);
+                glass8.setVisibility(View.GONE);
+                glass9.setVisibility(View.GONE);
+                glass10.setVisibility(View.GONE);
+                imgAdd1.setVisibility(View.VISIBLE);
+
+
+                waterDrunk += 0.25;
+                editor.putFloat("water_drunk", (float) waterDrunk);
+                editor.putInt("imgAdd10_visibility", View.GONE);
+                editor.putInt("glass10_visibility", View.VISIBLE);
+                editor.putInt("imgAdd1_visibility", View.VISIBLE);
+
+                editor.putInt("glass1_visibility", View.GONE);
+                editor.putInt("glass2_visibility", View.GONE);
+                editor.putInt("glass3_visibility", View.GONE);
+                editor.putInt("glass4_visibility", View.GONE);
+                editor.putInt("glass5_visibility", View.GONE);
+                editor.putInt("glass6_visibility", View.GONE);
+                editor.putInt("glass7_visibility", View.GONE);
+                editor.putInt("glass8_visibility", View.GONE);
+                editor.putInt("glass9_visibility", View.GONE);
+                editor.putInt("glass10_visibility", View.GONE);
+
+                editor.apply(); // Use apply() for asynchronous saving
+                txtWaterIntake.setText(String.format("%.2f / %.2f l", waterDrunk, waterIntakeGoal));
             }
         });
 

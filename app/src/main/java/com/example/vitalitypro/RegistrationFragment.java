@@ -227,6 +227,10 @@ public class RegistrationFragment extends Fragment {
                             0,
                             dailyCalorieIntake
                     );
+                    double waterIntake = sharedPreferences.getInt("weight_pref_key", -1) *0.03;
+                    editor.putFloat("water_goal_intake", (float) waterIntake);
+                    editor.putFloat("water_drunk", (float)0.0);
+                    editor.apply();
                 } else {
                     user = new User(
                             sharedPreferences.getString(USERNAME_PREF_KEY, ""),
@@ -240,6 +244,10 @@ public class RegistrationFragment extends Fragment {
                             0,
                             dailyCalorieIntake
                     );
+                    double waterIntake = sharedPreferences.getInt("weight_pref_key", -1) *0.03;
+                    editor.putFloat("water_goal_intake", (float) waterIntake);
+                    editor.putFloat("water_drunk", (float)0.0);
+                    editor.apply();
                 }
 
 
@@ -250,7 +258,6 @@ public class RegistrationFragment extends Fragment {
                 editor.apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
-
             }
         });
     }
