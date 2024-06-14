@@ -161,7 +161,11 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
     private TextView carbsMacros, proteinsMacros, FatsMacros;
 
+    // water intake cw
+    private ImageView imgAdd1,imgAdd2,imgAdd3,imgAdd4,imgAdd5,imgAdd6,imgAdd7,imgAdd8,imgAdd9,imgAdd10,
+                      glass1,glass2,glass3,glass4,glass5,glass6,glass7,glass8,glass9,glass10;
 
+    private TextView txtWaterIntake;
 
 
     @Override
@@ -205,11 +209,10 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         updateMealDataAfterDelete("snack");
         updateMealDataAfterDelete("dinner");*/
         handleExerciseRecyclerView();
+        handleWaterIntake();
 
         return rootView;
     }
-
-
 
 
     private void initDailyCaloriesSplit() {
@@ -451,6 +454,30 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         btnAddActivity = rootView.findViewById(R.id.btnAddActivity);
         activityExpandedRelativeLayout = rootView.findViewById(R.id.activityExpandedRelativeLayout);
         loggedActivitiesRecyclerView = rootView.findViewById(R.id.loggedActivitiesRecyclerView);
+
+
+        // water cardview
+        imgAdd1 = rootView.findViewById(R.id.imgAdd1);
+        imgAdd2 = rootView.findViewById(R.id.imgAdd2);
+        imgAdd3 = rootView.findViewById(R.id.imgAdd3);
+        imgAdd4 = rootView.findViewById(R.id.imgAdd4);
+        imgAdd5 = rootView.findViewById(R.id.imgAdd5);
+        imgAdd6 = rootView.findViewById(R.id.imgAdd6);
+        imgAdd7 = rootView.findViewById(R.id.imgAdd7);
+        imgAdd8 = rootView.findViewById(R.id.imgAdd8);
+        imgAdd9 = rootView.findViewById(R.id.imgAdd9);
+        imgAdd10 = rootView.findViewById(R.id.imgAdd10);
+        glass1 = rootView.findViewById(R.id.glass1);
+        glass2 = rootView.findViewById(R.id.glass2);
+        glass3 = rootView.findViewById(R.id.glass3);
+        glass4 = rootView.findViewById(R.id.glass4);
+        glass5 = rootView.findViewById(R.id.glass5);
+        glass6 = rootView.findViewById(R.id.glass6);
+        glass7 = rootView.findViewById(R.id.glass7);
+        glass8 = rootView.findViewById(R.id.glass8);
+        glass9 = rootView.findViewById(R.id.glass9);
+        glass10 = rootView.findViewById(R.id.glass10);
+        txtWaterIntake = rootView.findViewById(R.id.txtWaterIntake);
     }
 
 
@@ -915,92 +942,32 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         }
         activityCalories.setText(caloriesBurned+" kcal");
 
-        /*int remainingCalories = sharedPreferences.getInt("daily_calorie_intake", -1) + caloriesBurned;
 
-        editor.remove("daily_calorie_intake");
-        editor.putInt("daily_calorie_intake", remainingCalories);
-        editor.apply();*/
+    }
+    private double waterIntakeGoal;
+    private double waterDrunk;
 
-        /*int currKcal = sharedPreferences.getInt("daily_calorie_intake", -1);
-        int totalKcal =  currKcal + (int) caloriesBurned;
-        txtCaloriesRemainingCount.setText(String.valueOf(totalKcal));
+    private void handleWaterIntake() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        waterIntakeGoal = (sharedPreferences.getInt("weight_pref_key", -1) * 0.03);
+        waterDrunk = 0.0;
+        txtWaterIntake.setText(waterDrunk+" / "+waterIntakeGoal+" l");
 
-        editor.remove("daily_calorie_intake");
-        editor.putInt("daily_calorie_intake", totalKcal);
-        editor.apply();
-        progressBar.setMax(totalKcal);
+        imgAdd1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAdd1.setVisibility(View.GONE);
+                glass1.setVisibility(View.VISIBLE);
+                imgAdd2.setVisibility(View.VISIBLE);
+                waterDrunk+=0.25;
+                txtWaterIntake.setText(waterDrunk+" / "+waterIntakeGoal+" l");
+            }
+        });
 
-        // changing color of toolbar
-        int caloriesEaten = Integer.parseInt(txtCaloriesCount.getText().toString());
-
-        if(caloriesEaten < totalKcal){
-            cardRelativeLayout.setBackgroundColor(Color.parseColor("#05d3bc"));
-            txtRemaining.setTextColor(Color.parseColor("#008c82"));
-            txtCaloriesRemainingCount.setTextColor(Color.parseColor("#008c82"));
-            dailyGoalCalories.setTextColor(Color.parseColor("#008c82"));
-            dailyGoal.setTextColor(Color.parseColor("#008c82"));
-            txtOverWarning.setText("");
-        }*/
     }
 
-    /*private void updateMealDataAfterDelete(String mealType) {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String existingFoodsJson = sharedPreferences.getString(mealType, "[]");
-        Type type = new TypeToken<List<Food>>() {
-        }.getType();
-        List<Food> selectedFoods = gson.fromJson(existingFoodsJson, type);
 
-        if (selectedFoods != null && !selectedFoods.isEmpty()) {
-            switch (mealType) {
-                case "breakfast":
-                    breakfastAdapter = new LoggedFoodAdapter(selectedFoods, "breakfast", getContext(), this, this);
-                    breakfastAdapter.setOnItemClickListener(this::onItemClick);
-                    loggedBreakfastRecyclerView.setAdapter(breakfastAdapter);
-                    breakfastexpandedRelativeLayout.setVisibility(View.VISIBLE);
-                    emptyLog.setVisibility(View.GONE);
-                    break;
-                case "lunch":
-                    lunchAdapter = new LoggedFoodAdapter(selectedFoods, "lunch", getContext(), this, this);
-                    lunchAdapter.setOnItemClickListener(this::onItemClick);
-                    loggedLunchRecyclerView.setAdapter(lunchAdapter);
-                    lunchexpandedRelativeLayout.setVisibility(View.VISIBLE);
-                    emptyLogLunch.setVisibility(View.GONE);
-                    break;
-                case "snack":
-                    snackAdapter = new LoggedFoodAdapter(selectedFoods, "snack", getContext(), this, this);
-                    snackAdapter.setOnItemClickListener(this::onItemClick);
-                    loggedSnackRecyclerView.setAdapter(snackAdapter);
-                    snackexpandedRelativeLayout.setVisibility(View.VISIBLE);
-                    emptyLogSnack.setVisibility(View.GONE);
-                    break;
-                case "dinner":
-                    dinnerAdapter = new LoggedFoodAdapter(selectedFoods, "dinner", getContext(), this, this);
-                    dinnerAdapter.setOnItemClickListener(this::onItemClick);
-                    loggedDinnerRecyclerView.setAdapter(dinnerAdapter);
-                    dinnerexpandedRelativeLayout.setVisibility(View.VISIBLE);
-                    emptyLogDinner.setVisibility(View.GONE);
-                    break;
-            }
-        } else {
-            switch (mealType) {
-                case "breakfast":
-                    breakfastexpandedRelativeLayout.setVisibility(View.GONE);
-                    emptyLog.setVisibility(View.VISIBLE);
-                    break;
-                case "lunch":
-                    lunchexpandedRelativeLayout.setVisibility(View.GONE);
-                    emptyLogLunch.setVisibility(View.VISIBLE);
-                    break;
-                case "snack":
-                    snackexpandedRelativeLayout.setVisibility(View.GONE);
-                    emptyLogSnack.setVisibility(View.VISIBLE);
-                    break;
-                case "dinner":
-                    dinnerexpandedRelativeLayout.setVisibility(View.GONE);
-                    emptyLogDinner.setVisibility(View.VISIBLE);
-                    break;
-            }
-        }
-    }*/
+
+
 }
