@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment implements MainActivity.ScrollListener {
+public class ProfileFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,8 +61,7 @@ public class ProfileFragment extends Fragment implements MainActivity.ScrollList
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    @Override
-    public void onScrollToWater() {
+    /*public void onScrollToWater() {
         openDiaryFragment();
     }
 
@@ -75,5 +74,5 @@ public class ProfileFragment extends Fragment implements MainActivity.ScrollList
                     .addToBackStack(null)  // Optional: Add transaction to back stack
                     .commit();
         }
-    }
+    }*/
 }

@@ -27,8 +27,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@id/guidelineLogLayout"
         android:background="#FFFFFF"
-        android:visibility="visible"
-        android:padding="16dp">
+        android:visibility="gone"
+        android:padding="16dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutFirst"

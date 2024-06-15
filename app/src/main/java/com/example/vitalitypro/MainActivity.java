@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
             // Enable the clicked item
             item.setEnabled(false);
 
+
             // Store the clicked item as the last clicked item
             lastClickedItem = item;
 
