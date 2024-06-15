@@ -34,8 +34,8 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
         Exercise exercise = exerciseList.get(position);
         // Set text with HTML formatting for bold and larger font size
         holder.txtExerciseName.setText(Html.fromHtml("<b><font size='6'>Activity:</font></b> " + exercise.getName()));
-        holder.txtDuration.setText(Html.fromHtml("<b><font size='6'>Duration:</font></b> " + exercise.getDuration())+" min");
-        holder.txtCaloriesBurned.setText(Html.fromHtml("<b><font size='6'>Calories Burned:</font></b> " + exercise.getCalories_burned())+" kcal");
+        holder.txtDuration.setText(Html.fromHtml("<b><font size='6'>Duration:</font></b> " + exercise.getDuration()+" min"));
+        holder.txtCaloriesBurned.setText(Html.fromHtml("<b><font size='6'>Calories Burned:</font></b> " + exercise.getCalories_burned()+" kcal"));
     }
 
     @Override

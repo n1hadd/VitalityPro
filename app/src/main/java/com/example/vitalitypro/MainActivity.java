@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
     private void handleQuickLog() {
         SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+
         imgBtnActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
             @Override
             public void onClick(View v) {
                 openProfileFragment();
+
             }
         });
 
@@ -196,9 +200,23 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
                 if (!isLogLayoutVisible) {
                     isLogLayoutVisible = true;
                     animateLogLayout(isLogLayoutVisible); // Animate the layout to show from bottom to top
+                    imgBtnActivity.setClickable(true);
+                    imgBtnWeight.setClickable(true);
+                    imgBtnWater.setClickable(true);
+                    imgBtnBreakfast.setClickable(true);
+                    imgBtnLunch.setClickable(true);
+                    imgBtnSnack.setClickable(true);
+                    imgBtnDinner.setClickable(true);
                 } else {
                     isLogLayoutVisible = false;
                     animateLogLayout(isLogLayoutVisible); // Animate the layout to hide from top to bottom
+                    imgBtnActivity.setClickable(false);
+                    imgBtnWeight.setClickable(false);
+                    imgBtnWater.setClickable(false);
+                    imgBtnBreakfast.setClickable(false);
+                    imgBtnLunch.setClickable(false);
+                    imgBtnSnack.setClickable(false);
+                    imgBtnDinner.setClickable(false);
                 }
             }
         });

@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     tools:context=".FoodDetailActivity"
     android:padding="16dp"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="#F5F5F5">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -506,7 +507,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/nutritionalInfoCardView"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="10dp"
+            android:elevation="16dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
