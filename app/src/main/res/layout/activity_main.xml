@@ -26,8 +26,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@id/guidelineLogLayout"
-        android:background="@color/white"
-        android:visibility="gone"
+        android:background="#FFFFFF"
+        android:visibility="visible"
         android:padding="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,26 +60,30 @@
             <ImageButton
                 android:id="@+id/imgBtnActivity"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
+                android:layout_height="90dp"
+                android:src="@drawable/activity64"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline"
+                android:background="@android:color/transparent"
                 />
             <ImageButton
                 android:id="@+id/imgBtnWeight"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
+                android:layout_height="90dp"
+                android:src="@drawable/weight64"
                 app:layout_constraintStart_toStartOf="@id/guideline"
                 app:layout_constraintEnd_toStartOf="@id/guideline2"
+                android:background="@android:color/transparent"
                 />
             <ImageButton
                 android:id="@+id/imgBtnWater"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
+                android:layout_height="90dp"
+                android:src="@drawable/log_water64"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
-                app:layout_constraintEnd_toStartOf="@id/guideline3"/>
+                app:layout_constraintEnd_toStartOf="@id/guideline3"
+                android:background="@android:color/transparent"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,31 +148,36 @@
             <ImageButton
                 android:id="@+id/imgBtnBreakfast"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
+                android:layout_height="90dp"
+                android:src="@drawable/breakfast64"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/foodGuideLine1"/>
+                app:layout_constraintEnd_toStartOf="@id/foodGuideLine1"
+                android:background="@android:color/transparent"/>
             <ImageButton
                 android:id="@+id/imgBtnLunch"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
+                android:layout_height="90dp"
+                android:src="@drawable/lunch64"
                 app:layout_constraintStart_toStartOf="@id/foodGuideLine1"
-                app:layout_constraintEnd_toStartOf="@id/foodGuideLine2"/>
+                app:layout_constraintEnd_toStartOf="@id/foodGuideLine2"
+                android:background="@android:color/transparent"/>
             <ImageButton
                 android:id="@+id/imgBtnSnack"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
+                android:layout_height="90dp"
+                android:src="@drawable/snack64"
                 app:layout_constraintStart_toStartOf="@id/foodGuideLine2"
-                app:layout_constraintEnd_toStartOf="@id/foodGuideLine3"/>
+                app:layout_constraintEnd_toStartOf="@id/foodGuideLine3"
+                android:background="@android:color/transparent"/>
+
             <ImageButton
                 android:id="@+id/imgBtnDinner"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintStart_toStartOf="@id/foodGuideLine3"
-                app:layout_constraintEnd_toStartOf="@id/parent"/>
+                android:layout_height="90dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/dinner64"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/foodGuideLine3" />
 
             <TextView
                 android:layout_width="wrap_content"

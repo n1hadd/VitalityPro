@@ -41,7 +41,7 @@ import java.util.List;
  * Use the {@link DiaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener, FoodAdapter.OnItemClickListener, LoggedFoodAdapter.OnFoodDeletedListener, ExerciseActivity.onExerciseLogged {
+public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedListener, FoodAdapter.OnItemClickListener, LoggedFoodAdapter.OnFoodDeletedListener, ExerciseActivity.onExerciseLogged, MainActivity.ScrollListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -162,6 +162,7 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     private TextView carbsMacros, proteinsMacros, FatsMacros;
 
     // water intake cw
+    private CardView cwWater;
     private ImageView imgAdd1,imgAdd2,imgAdd3,imgAdd4,imgAdd5,imgAdd6,imgAdd7,imgAdd8,imgAdd9,imgAdd10,
                       glass1,glass2,glass3,glass4,glass5,glass6,glass7,glass8,glass9,glass10;
 
@@ -457,6 +458,8 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
 
         // water cardview
+        cwWater = rootView.findViewById(R.id.cwWater);
+
         imgAdd1 = rootView.findViewById(R.id.imgAdd1);
         imgAdd2 = rootView.findViewById(R.id.imgAdd2);
         imgAdd3 = rootView.findViewById(R.id.imgAdd3);
@@ -1174,6 +1177,15 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
     }
 
 
+    @Override
+    public void onScrollToWater() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                int y = cwWater.getTop();
 
-
+                scrollView.smoothScrollTo(0, y);
+            }
+        });
+    }
 }

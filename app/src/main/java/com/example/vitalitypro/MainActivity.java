@@ -1,16 +1,21 @@
 package com.example.vitalitypro;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.vitalitypro.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,11 +26,17 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
 
     ActivityMainBinding binding;
     private FrameLayout frameLayout;
+
+
+
     private FrameLayout halfScreenFrameLayout;
     private FloatingActionButton logButton;
 
     private ConstraintLayout logLayout;
     private MenuItem lastClickedItem = null;
+
+    // QUICK LOG LAYOUT
+    private ImageButton imgBtnActivity, imgBtnWeight, imgBtnWater, imgBtnBreakfast, imgBtnLunch, imgBtnSnack, imgBtnDinner;
 
 
 
@@ -37,12 +48,87 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
 
         initViews();
         initBottomNavigationBar();
+        handleQuickLog();
         initFloatingActionButton();
         openDiaryFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        DiaryFragment diaryFragment = (DiaryFragment) fragmentManager.findFragmentById(R.id.frameLayout);
+
+        if (diaryFragment != null) {
+            scrollListener = diaryFragment;
+        } else {
+            diaryFragment = new DiaryFragment();
+            fragmentManager.beginTransaction().add(R.id.frameLayout, diaryFragment).commit();
+            fragmentManager.executePendingTransactions();
+            scrollListener = diaryFragment;
+        }
     }
 
+    private void handleQuickLog() {
+        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        imgBtnActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ExerciseActivity.class);
+                intent.putExtra("daily_calorie_intake", sharedPreferences.getInt("daily_calorie_intake",-1));
+                startActivity(intent);
+            }
+        });
 
+        imgBtnWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProfileFragment();
+            }
+        });
 
+        imgBtnWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(scrollListener!=null){
+                    scrollListener.onScrollToWater();
+                }
+            }
+        });
+
+        imgBtnBreakfast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FoodSearchViewActivity.class);
+                intent.putExtra("meal_type", "breakfast");
+                startActivity(intent);
+            }
+        });
+
+        imgBtnLunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FoodSearchViewActivity.class);
+                intent.putExtra("meal_type", "lunch");
+                startActivity(intent);
+            }
+        });
+
+        imgBtnSnack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FoodSearchViewActivity.class);
+                intent.putExtra("meal_type", "snack");
+                startActivity(intent);
+            }
+        });
+
+        imgBtnDinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FoodSearchViewActivity.class);
+                intent.putExtra("meal_type", "dinner");
+                startActivity(intent);
+            }
+        });
+    }
 
 
     private void initBottomNavigationBar() {
@@ -73,6 +159,30 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
     private void initViews() {
         logButton = findViewById(R.id.logButton);
         logLayout = findViewById(R.id.logLayout);
+
+        // QUCIK LOG LAYOUT
+        imgBtnActivity = findViewById(R.id.imgBtnActivity);
+        imgBtnWeight = findViewById(R.id.imgBtnWeight);
+        imgBtnWater = findViewById(R.id.imgBtnWater);
+        imgBtnBreakfast = findViewById(R.id.imgBtnBreakfast);
+        imgBtnLunch = findViewById(R.id.imgBtnLunch);
+        imgBtnSnack = findViewById(R.id.imgBtnSnack);
+        imgBtnDinner = findViewById(R.id.imgBtnDinner);
+
+
+
+
+        logLayout.setVisibility(View.INVISIBLE);
+
+        // Ensure logLayout is properly measured before starting any animation
+        logLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                logLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                // Now that the layout has been measured, set the initial state correctly
+                isLogLayoutVisible = false;
+            }
+        });
     }
 
 
@@ -157,4 +267,21 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
     public void onFoodLogged(String mealType) {
 
     }
+    private ScrollListener scrollListener;
+    public interface ScrollListener{
+        void onScrollToWater();
+    }
+    private FragmentManager fragmentManager;
+    /*private void switchToDiaryFragment() {
+        fragmentManager = getSupportFragmentManager();
+
+
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frameLayout);
+        if (!(currentFragment instanceof DiaryFragment)) {
+            fragmentManager.beginTransaction()
+                    .hide(currentFragment)
+                    .show(diaryFragment)
+                    .commit();
+        }
+    }*/
 }
