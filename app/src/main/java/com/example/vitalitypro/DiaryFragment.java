@@ -226,7 +226,12 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         lunchCalories = (int)(dailyCalorieIntake *0.4);
         snackCalories = (int)(dailyCalorieIntake *0.1);
         dinnerCalories = (int)(dailyCalorieIntake *0.3);
-        //caloriesEaten = userDatabaseHandler.getTotalCaloriesEatenByUsername(sharedPreferences.getString("username_pref_key",""));
+
+        editor.putInt("breakfastCalories", breakfastCalories);
+        editor.putInt("lunchCalories", lunchCalories);
+        editor.putInt("snackCalories", snackCalories);
+        editor.putInt("dinnerCalories", dinnerCalories);
+
 
 
         txtCalories.setText(0+" / "+breakfastCalories+" kcal");
@@ -321,6 +326,12 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
         carbGrams = carbCalories / 4;
         proteinGrams = proteinCalories / 4;
         fatGrams = fatCalories / 9;
+
+        editor.putInt("carb_grams", carbGrams);
+        editor.putInt("protein_grams", proteinGrams);
+        editor.putInt("fat_grams", fatGrams);
+        editor.apply();
+
 
         Log.d(TAG, "Carb calories: "+carbCalories+";  Carbs in grams: "+carbGrams+"; Protein calories: "+proteinCalories+"; Proteins in grams: "+proteinGrams+"; Fats calories: "+fatCalories+"; Fats in grams: "+fatGrams);
 
