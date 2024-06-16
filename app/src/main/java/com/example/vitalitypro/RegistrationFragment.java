@@ -230,6 +230,8 @@ public class RegistrationFragment extends Fragment {
                     double waterIntake = sharedPreferences.getInt("weight_pref_key", -1) *0.03;
                     editor.putFloat("water_goal_intake", (float) waterIntake);
                     editor.putFloat("water_drunk", (float)0.0);
+                    String date = DateUtils.getCurrentDate();
+                    editor.putString("date", date);
                     editor.apply();
                 } else {
                     user = new User(
@@ -247,6 +249,8 @@ public class RegistrationFragment extends Fragment {
                     double waterIntake = sharedPreferences.getInt("weight_pref_key", -1) *0.03;
                     editor.putFloat("water_goal_intake", (float) waterIntake);
                     editor.putFloat("water_drunk", (float)0.0);
+                    String date = DateUtils.getCurrentDate();
+                    editor.putString("date", date);
                     editor.apply();
                 }
 

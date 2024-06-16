@@ -19,6 +19,11 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.vitalitypro.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoodLoggedListener {
 
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
         initBottomNavigationBar();
         handleQuickLog();
         initFloatingActionButton();
+        handleDayChange();
         openDiaryFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -64,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
             scrollListener = diaryFragment;
         }
     }
+
+
 
     private void handleQuickLog() {
         SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
@@ -303,4 +311,44 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
                     .commit();
         }
     }*/
+
+    private void handleDayChange() {
+        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Food>>() {}.getType();
+
+        String currentDate = "2024-06-17";//DateUtils.getCurrentDate();
+        String lastDate = sharedPreferences.getString("date", null);
+        if(lastDate != null){
+            if(currentDate.equals(lastDate)){
+
+            }
+            else{
+                // store all logged meals for previous day (lastdate)
+                List<Food> breakfast = gson.fromJson(sharedPreferences.getString("breakfast", null),type);
+                List<Food> lunch = gson.fromJson(sharedPreferences.getString("lunch", null),type);
+                List<Food> snack = gson.fromJson(sharedPreferences.getString("snack", null),type);
+                List<Food> dinner = gson.fromJson(sharedPreferences.getString("dinner", null),type);
+                FoodDatabaseHelper foodDatabaseHelper = new FoodDatabaseHelper(this);
+                foodDatabaseHelper.saveFoodLog(lastDate, breakfast, lunch, snack, dinner);
+
+                // store all activities
+                List<Exercise> exercises = gson.fromJson(sharedPreferences.getString("exercises", null), type);
+                ExerciseDatabaseHelper exerciseDatabaseHelper = new ExerciseDatabaseHelper(this);
+                exerciseDatabaseHelper.saveExerciseLog(lastDate, exercises);
+                // store waterintake and weight for last date
+                HealthDatabaseHelper healthDatabaseHelper = new HealthDatabaseHelper(this);
+                double water_drinked = sharedPreferences.getFloat("water_drunk", -1);
+                int lastWeight = sharedPreferences.getInt("weight_pref_key", -1);
+                if(water_drinked != -1 && lastWeight != -1){
+                    healthDatabaseHelper.saveHealthLog(lastDate, water_drinked, lastWeight);
+                }
+                editor.clear();
+                editor.apply();
+
+            }
+        }
+
+    }
 }
