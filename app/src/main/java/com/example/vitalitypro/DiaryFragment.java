@@ -601,6 +601,9 @@ public class DiaryFragment extends Fragment implements FoodAdapter.OnFoodLoggedL
 
             // MAIN PROGRESS BAR PROGRESS HANDLING
             txtCaloriesCount.setText(String.valueOf(total));
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("calories_eaten", total);
+            editor.commit();
 
             txtCaloriesRemainingCount.setText(String.valueOf(sharedPreferences.getInt("daily_calorie_intake",-1)));
             int goalIntake = sharedPreferences.getInt("daily_calorie_intake", -1);

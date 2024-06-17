@@ -6,4 +6,5 @@
     <color name="btnStrokeColor">#757575</color>
     <color name="btnPressed">#132FCC</color>
     <color name="main">#197CCC</color>
+    <color name="background">#F5F5F5</color>
 </resources>

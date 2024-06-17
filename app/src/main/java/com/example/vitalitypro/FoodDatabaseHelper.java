@@ -84,6 +84,122 @@ public class FoodDatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public List<Food> getBreakfastForDate(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        List<Food> breakfastList = null;
+
+        try {
+            cursor = db.query(TABLE_NAME,
+                    new String[]{COLUMN_BREAKFAST},
+                    COLUMN_DATE + "=?",
+                    new String[]{date},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String breakfastJson = cursor.getString(0);
+                breakfastList = gson.fromJson(breakfastJson, new com.google.gson.reflect.TypeToken<List<Food>>(){}.getType());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return breakfastList;
+    }
+
+    public List<Food> getLunchForDate(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        List<Food> lunchList = null;
+
+        try {
+            cursor = db.query(TABLE_NAME,
+                    new String[]{COLUMN_LUNCH},
+                    COLUMN_DATE + "=?",
+                    new String[]{date},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String lunchJson = cursor.getString(0);
+                lunchList = gson.fromJson(lunchJson, new com.google.gson.reflect.TypeToken<List<Food>>(){}.getType());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return lunchList;
+    }
+
+    public List<Food> getSnackForDate(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        List<Food> snackList = null;
+
+        try {
+            cursor = db.query(TABLE_NAME,
+                    new String[]{COLUMN_SNACK},
+                    COLUMN_DATE + "=?",
+                    new String[]{date},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String snackJson = cursor.getString(0);
+                snackList = gson.fromJson(snackJson, new com.google.gson.reflect.TypeToken<List<Food>>(){}.getType());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return snackList;
+    }
+
+    public List<Food> getDinnerForDate(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        List<Food> dinnerList = null;
+
+        try {
+            cursor = db.query(TABLE_NAME,
+                    new String[]{COLUMN_DINNER},
+                    COLUMN_DATE + "=?",
+                    new String[]{date},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String dinnerJson = cursor.getString(0);
+                dinnerList = gson.fromJson(dinnerJson, new com.google.gson.reflect.TypeToken<List<Food>>(){}.getType());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return dinnerList;
+    }
+
+
+
+
+
     public static class FoodLog {
         public List<Food> breakfast;
         public List<Food> lunch;

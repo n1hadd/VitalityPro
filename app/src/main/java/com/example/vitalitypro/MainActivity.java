@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -23,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoodLoggedListener {
@@ -319,7 +321,8 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
         Gson gson = new Gson();
         Type type = new TypeToken<List<Food>>() {}.getType();
         Type typeE = new TypeToken<List<Exercise>>() {}.getType();
-        String currentDate = "2024-06-22"; //DateUtils.getCurrentDate();//"2024-06-19";//
+        Type typeD = new TypeToken<List<DietEntry>>() {}.getType();
+        String currentDate = "2024-06-19";//DateUtils.getCurrentDate();//"2024-06-23"; ////"2024-06-19";//
         String lastDate = sharedPreferences.getString("date", null);
         if(lastDate != null){
             if(currentDate.equals(lastDate)){
@@ -333,6 +336,20 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
                 List<Food> dinner = gson.fromJson(sharedPreferences.getString("dinner", null),type);
                 FoodDatabaseHelper foodDatabaseHelper = new FoodDatabaseHelper(this);
                 foodDatabaseHelper.saveFoodLog(lastDate, breakfast, lunch, snack, dinner);
+
+                // handle diet enteries
+                String formated_date = formatDate(lastDate);
+                int calories_eaten = calculateDailyEatenCalories(breakfast, lunch, snack, dinner);
+
+                List<DietEntry> dietEntries = gson.fromJson(sharedPreferences.getString("diet_entry", null), typeD);
+                if(dietEntries == null){
+                    dietEntries = new ArrayList<>();
+                }
+                dietEntries.add(new DietEntry(formated_date, calories_eaten));
+                Log.d("MainActivity", "Diet enteries: "+gson.toJson(dietEntries));
+                editor.putString("diet_entry", gson.toJson(dietEntries));
+                editor.commit();
+                //
 
                 // store all activities
                 List<Exercise> exercises = gson.fromJson(sharedPreferences.getString("exercises", null), typeE);
@@ -367,10 +384,14 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
                 String user_goal = sharedPreferences.getString("user_goal", null);
                 int weight = sharedPreferences.getInt("weight_pref_key", -1);
                 int goal_weight = sharedPreferences.getInt("goal_weight_pref_key", -1);
+
+                List<DietEntry> diet_entries2 = gson.fromJson(sharedPreferences.getString("diet_entry", null), typeD);
+
                 lastDate = currentDate;
 
                 editor.clear();
 
+                editor.putString("diet_entry", gson.toJson(diet_entries2));
 
                 // put all default values in shared preference
                 editor.putString("date", currentDate);
@@ -407,5 +428,90 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
             }
         }
 
+    }
+
+    private int calculateDailyEatenCalories(List<Food> breakfast, List<Food> lunch, List<Food> snack, List<Food> dinner ) {
+        int breakfastCal = 0;
+        int lunchCal = 0;
+        int snackCal = 0;
+        int dinnerCal = 0;
+
+        if(breakfast != null && !breakfast.isEmpty()){
+            for(Food food : breakfast){
+                breakfastCal += food.getCalories();
+            }
+        }
+
+        if(lunch != null && !lunch.isEmpty()){
+            for(Food food : lunch){
+                lunchCal += food.getCalories();
+            }
+        }
+
+        if(snack != null && !snack.isEmpty()){
+            for(Food food : snack){
+                snackCal += food.getCalories();
+            }
+        }
+
+        if(dinner != null && !dinner.isEmpty()){
+            for(Food food : dinner){
+                dinnerCal += food.getCalories();
+            }
+        }
+
+        int totalCal = breakfastCal + lunchCal + snackCal + dinnerCal;
+        return totalCal;
+    }
+
+    private String formatDate(String currentDate) {
+        String[] tab = currentDate.split("-");
+        String year = tab[0];
+        String day = tab[2];
+        String month = "";
+
+        switch(Integer.parseInt(tab[1])) {
+            case 1:
+                month = "January";
+                break;
+            case 2:
+                month = "February";
+                break;
+            case 3:
+                month = "March";
+                break;
+            case 4:
+                month = "April";
+                break;
+            case 5:
+                month = "May";
+                break;
+            case 6:
+                month = "June";
+                break;
+            case 7:
+                month = "July";
+                break;
+            case 8:
+                month = "August";
+                break;
+            case 9:
+                month = "September";
+                break;
+            case 10:
+                month = "October";
+                break;
+            case 11:
+                month = "November";
+                break;
+            case 12:
+                month = "December";
+                break;
+            default:
+                month = "Invalid month";
+                break;
+        }
+
+        return day + " " + month + " " + year;
     }
 }

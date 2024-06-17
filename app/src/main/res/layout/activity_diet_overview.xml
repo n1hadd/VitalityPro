@@ -1,10 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DietOverviewActivity">
+    tools:context=".DietOverviewActivity"
+    android:padding="16dp"
+    android:background="@color/background">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Diet Overview"
+        android:fontFamily="@font/acme"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        />
+
+    <TextView
+        android:id="@+id/txtEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entries"
+        android:layout_below="@id/title"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cwToday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtEntry"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="10dp">
+
+        <RelativeLayout
+            android:id="@+id/dietEntryRL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/caloriesEaten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories eaten: "
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dietEntryRW"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cwToday"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+</RelativeLayout>
