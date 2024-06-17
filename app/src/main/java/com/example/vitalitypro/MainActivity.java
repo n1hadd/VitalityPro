@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
         imgBtnWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openProfileFragment();
+                Intent intent = new Intent(MainActivity.this, LogWeightActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -317,8 +318,8 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         Type type = new TypeToken<List<Food>>() {}.getType();
-
-        String currentDate = "2024-06-18"; //DateUtils.getCurrentDate();//"2024-06-19";//
+        Type typeE = new TypeToken<List<Exercise>>() {}.getType();
+        String currentDate = "2024-06-22"; //DateUtils.getCurrentDate();//"2024-06-19";//
         String lastDate = sharedPreferences.getString("date", null);
         if(lastDate != null){
             if(currentDate.equals(lastDate)){
@@ -334,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
                 foodDatabaseHelper.saveFoodLog(lastDate, breakfast, lunch, snack, dinner);
 
                 // store all activities
-                List<Exercise> exercises = gson.fromJson(sharedPreferences.getString("exercises", null), type);
+                List<Exercise> exercises = gson.fromJson(sharedPreferences.getString("exercises", null), typeE);
                 ExerciseDatabaseHelper exerciseDatabaseHelper = new ExerciseDatabaseHelper(this);
                 exerciseDatabaseHelper.saveExerciseLog(lastDate, exercises);
                 // store waterintake and weight for last date
@@ -372,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
 
 
                 // put all default values in shared preference
-                editor.putString("date", lastDate);
+                editor.putString("date", currentDate);
                 editor.putBoolean("isSignedUp", true);
 
                 editor.putString("key_carbs_percentage", "0.4");

@@ -196,10 +196,12 @@
                     android:fontFamily="@font/acme"
                     android:text="Macronutrients"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toStartOf="@+id/guideline33"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="3dp"/>
 
 
 

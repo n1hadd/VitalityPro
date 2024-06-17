@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
 
     private TextView txtUsername, txtGoal, currentWeight, goalWeight;
     private ImageView imgLogWeight;
-    private RelativeLayout rlWeightProgress, rlDietOverview;
+    private RelativeLayout rlWeightProgress, rlDietOverview, rlActivityOverview, rlHydrationOverview;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,6 +104,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), LogWeightActivity.class);
+                int weight = sharedPreferences.getInt("weight_pref_key", -1);
+                intent.putExtra("weight", weight);
                 startActivity(intent);
             }
         });
@@ -126,6 +128,22 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        rlActivityOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ActivityOverview.class);
+                startActivity(intent);
+            }
+        });
+
+        rlHydrationOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HydrationOverview.class);
+                startActivity(intent);
+            }
+        });
+
         return rootView;
 
     }
@@ -138,6 +156,10 @@ public class ProfileFragment extends Fragment {
         imgLogWeight = rootView.findViewById(R.id.imgLogWeight);
         rlWeightProgress = rootView.findViewById(R.id.rlWeightProgress);
         rlDietOverview = rootView.findViewById(R.id.rlDietOverview);
+        rlActivityOverview = rootView.findViewById(R.id.rlActivityOverview);
+        rlHydrationOverview = rootView.findViewById(R.id.rlHydrationOverview);
+
+
     }
 
     /*public void onScrollToWater() {

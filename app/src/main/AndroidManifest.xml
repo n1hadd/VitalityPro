@@ -16,6 +16,12 @@
         android:theme="@style/Theme.VitalityPro"
         tools:targetApi="31">
         <activity
+            android:name=".HydrationOverview"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityOverview"
+            android:exported="false" />
+        <activity
             android:name=".DietOverviewActivity"
             android:exported="false" />
         <activity
