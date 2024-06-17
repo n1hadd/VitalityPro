@@ -1,0 +1,36 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="10dp"
+    android:elevation="10dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/weightEntryRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        >
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 kg"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

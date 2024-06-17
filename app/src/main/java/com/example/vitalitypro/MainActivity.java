@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LogWeightActivity.class);
+                intent.putExtra("weight", sharedPreferences.getInt("weight_pref_key", 0));
                 startActivity(intent);
 
             }
@@ -322,7 +323,8 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
         Type type = new TypeToken<List<Food>>() {}.getType();
         Type typeE = new TypeToken<List<Exercise>>() {}.getType();
         Type typeD = new TypeToken<List<DietEntry>>() {}.getType();
-        String currentDate = "2024-06-19";//DateUtils.getCurrentDate();//"2024-06-23"; ////"2024-06-19";//
+        Type typeW = new TypeToken<List<WeightEntry>>() {}.getType();
+        String currentDate = "2024-06-22";//DateUtils.getCurrentDate();//"2024-06-23"; ////"2024-06-19";//
         String lastDate = sharedPreferences.getString("date", null);
         if(lastDate != null){
             if(currentDate.equals(lastDate)){
@@ -350,6 +352,17 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
                 editor.putString("diet_entry", gson.toJson(dietEntries));
                 editor.commit();
                 //
+
+                /*HANDLE WEIGHT ENTERIES*/
+                int weight_entry = sharedPreferences.getInt("weight_pref_key", -1);
+                List<WeightEntry> weightEntries = gson.fromJson(sharedPreferences.getString("weight_entry", null), typeW);
+                if(weightEntries == null){
+                    weightEntries = new ArrayList<>();
+                }
+                weightEntries.add(new WeightEntry(formated_date, weight_entry));
+                editor.putString("weight_entry", gson.toJson(weightEntries));
+                editor.commit();
+
 
                 // store all activities
                 List<Exercise> exercises = gson.fromJson(sharedPreferences.getString("exercises", null), typeE);
@@ -386,12 +399,14 @@ public class MainActivity extends AppCompatActivity implements FoodAdapter.OnFoo
                 int goal_weight = sharedPreferences.getInt("goal_weight_pref_key", -1);
 
                 List<DietEntry> diet_entries2 = gson.fromJson(sharedPreferences.getString("diet_entry", null), typeD);
+                List<WeightEntry> weightEntries2= gson.fromJson(sharedPreferences.getString("weight_entry", null), typeW);
 
                 lastDate = currentDate;
 
                 editor.clear();
 
                 editor.putString("diet_entry", gson.toJson(diet_entries2));
+                editor.putString("weight_entry", gson.toJson(weightEntries2));
 
                 // put all default values in shared preference
                 editor.putString("date", currentDate);
